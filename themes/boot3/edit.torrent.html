@@ -1,0 +1,147 @@
+{include file="header.html" title="Edit torrent"}
+{include file="sidebar.html"} 
+ 
+
+<div class="summernote col-md-8">
+	<div class="row">
+	
+	{if $setError ne 'false'}<br />
+	<div class="alert alert-danger" role="alert">  
+	  	<a class="close" data-dismiss="alert">×</a>  
+	  	<strong>{$lang.Error}:</strong> 
+	  	{$setError}
+	</div> 	
+	{else}	
+       					<div class="base-block">          
+ 							<div class="title">{$lang.editTorrent}</div>  	
+				<form class="form-horizontal" method="post" enctype="multipart/form-data">
+				<fieldset>
+
+				{if $errorUpdateTorrent neq 'false'}
+					<div class="alert alert-error">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}!</strong> {$errorUpdateTorrent}
+					</div>	
+				{/if}
+				
+				{if $succesUpdateTorrent neq 'false'}
+	 			<div class="alert alert-success">  
+				  <a class="close" data-dismiss="alert">×</a>  
+				  <strong>{$lang.Success}!</strong> {$lang.ttUpdate} <a href="{$getConfigs.baseurl}/{$torrentUrl}" target="_BLANK">{$lang.seeUTorrent}</a> {$lang.now}
+				</div>  
+				{/if}
+				
+				<legend>{$lang.editTorrent}</legend> 
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.Uttitle}</label>
+				  <div class="controls">
+					<input name="torrentTitle" id="torrentTitle" value="{$getDetail.title}" class="form-control" type="text">
+				  </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtUtitle}</label>
+				  <div class="controls">
+					<input name="torrentUrlTitle" id="torrentUrlTitle" class="form-control" value="{$getDetail.url_title}" type="text">
+				  </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtCategories}</label>
+				  <div class="controls">
+					<select name="categories" id="categories" style="width:300px">
+ 								{foreach $getAllCat as $value}
+							<option value="{$value.id}">{$value.prefix} {if isset($value.subCat.c_name)} {$value.c_name} {else} {$value.c_name} {/if}
+					 		</option> 
+								{/foreach}
+
+ 
+				  	</select>	
+ 
+				  </div>
+				</div>
+	 
+				<!-- Textarea -->
+				<div class="form-group">
+				  <label class="control-label">{$lang.Utdesc}</label>
+				  <div class="controls">                     
+					 <textarea class="input-block-level" id="torrentDesc" name="torrentDesc" style="display: none;" rows="18">{$getDetail.torrent_desc}</textarea> 
+				  </div>
+				</div>
+
+				<!-- Image upload -->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtTorrentimg}</label>
+				  <div class="controls">                     
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+					  <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;"> 
+							{if empty($getDetail.imgUrl)}
+								<img src="{$getConfigs.baseurl}/themes/default/img/no-photo.jpg" />
+							{else}
+								<img src="{$getConfigs.baseurl}/uploads/images/{$getDetail.imgUrl}" />
+							{/if}
+					  </div>
+						  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+						  <div>
+							<span class="btn btn-default btn-file"><span class="fileinput-new">{$lang.UtSelectimg}</span><span class="fileinput-exists">{$lang.UtChange}</span><input type="file" name="image"></span>
+							<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">{$lang.UtRemove}</a>
+						  </div>
+						</div> 
+				  </div>
+				</div>
+	
+				<!-- Button -->
+				<div class="form-group">				   
+				  <div class="controls">
+				  	<input id="torrentId" name="torrentId" value="{$getDetail.id}" type="hidden">
+					<button id="updateTorrent" name="updateTorrent" class="btn btn-primary">{$lang.editthisTorrent}</button>
+				  </div>
+				</div>
+
+				</fieldset>
+				</form>			
+ {/if}
+ 
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+<script>
+$("#categories").select2(); 
+$("#torrentTitle").bind("keyup", changed).bind("change", changed);
+$('#torrentTitle').bind("change", changed); 
+	 
+function changed() {
+	var v = this.value.replace(/\W+/g, '-')
+	    .replace(/-+$/, '')
+	    .replace(/^-+/, '');
+	$("#torrentUrlTitle").val(v.toLowerCase());
+}
+ 
+ 
+ 
+ 
+$('#torrentDesc').summernote({
+  height: 300,                 // set editor height
+
+  minHeight: null,             // set minimum height of editor
+  maxHeight: null,             // set maximum height of editor
+  focus: true,                 // set focus to editable area after initializing summernote
+  toolbar: [
+    //[groupname, [button list]]     
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['video', ['video']],    
+  ]
+}); 
+ 
+</script> 
+{include file="footer.html"}

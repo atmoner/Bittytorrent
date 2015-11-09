@@ -1,0 +1,189 @@
+{include file="header.html" title="Detail torrent"}
+{include file="sidebar.html"} 
+ 
+<div class="col-md-8">
+	<div class="row">
+	
+	
+ {if $torrentNotfound}
+ 
+      		 <div class="base-block">          
+ 				<div class="title">{$lang.torrentDetail}</div> 
+					<div id="torrentimage" >
+						<div>
+							<h3>{$lang.404}</h3>
+							<p>{$lang.tnotFound}</p>
+						</div>
+					</div>			
+			</div><!--/base-block-->
+ {else} 
+
+	{if $setError ne 'false'}<br />
+	<div class="alert alert-danger" role="alert">  
+	  	<a class="close" data-dismiss="alert">×</a>  
+	  	<strong>{$lang.error}:</strong> {$setError}
+	</div> 	
+	{else}
+	{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+		{if $i.id eq 'defaultUpload'}   
+      		 <div class="base-block">          
+ 				<div class="title">{$lang.torrentDetail}</div> 
+					<div id="torrentimage" >
+					{if $imgExist eq 'true'}
+						<a data-title="{$lang.torrent}: {$getDetail.title}" data-toggle="lightbox" href="{$getConfigs.baseurl}/uploads/images/{$getDetail.imgUrl}">
+							<img class="img-rounded" src="{$getConfigs.baseurl}/uploads/images/{$getDetail.imgUrl}">
+						</a>
+ 
+					{else}
+						<img src="{$getConfigs.baseurl}/themes/asset/img/no-photo.jpg" align="top" class="img-rounded " />
+					{/if}
+						<div>
+							<h3>{$getDetail.title}</h3>
+							<p>{$getDetail.torrent_desc}</p>
+						</div>
+					</div>			
+			</div><!--/base-block-->	
+		{elseif $i.id eq 'torrentInfo'}
+ 			
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				  1. {$lang.torrentInfo} 
+				</a>
+			  </h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse in">
+			  <div class="panel-body">
+			  <table class="table borderless">			 
+				<tbody>
+				  <tr>
+					<td>{$lang.Tname}:</td>
+					<td><strong>{$getDetail.title}</strong></td> 
+				  </tr>
+				  <tr>
+					<td>{$lang.fileSize}:</td>
+					<td><strong>{$getDetail.size}</strong></td> 
+				  </tr>
+				  <tr>
+					<td>{$lang.Seeds}:</td>
+					<td><strong><font color="green" id="retourSeeds"> {$getDetail.seeds} </font></strong></td> 
+				  </tr>
+				  <tr>
+					<td>{$lang.Leechs}:</td>
+					<td><strong><font color="red" id="retourLeechers">{$getDetail.leechers}</font></strong></td> 
+				  </tr>
+				  <tr>
+					<td>{$lang.UtCategories}:</td>
+					<td><strong>{$getDetail.c_name}</strong></td> 
+				  </tr>      
+				{if $getConfigs.see_uploader eq 'true'}
+				  <tr>
+					<td>{$lang.Uploader}:</td>
+					<td><strong><a href="{$getDetail.uname_url}">{$getDetail.uname}</a></strong></td> 
+				  </tr>   
+				{/if}      
+				</tbody>
+			  </table> 
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+				  2. {$lang.trackersList} 
+				</a>
+			  </h4>
+			</div>
+			<div id="collapseTwo" class="panel-collapse collapse">
+			  <div class="panel-body">
+									<div id="trackList">
+										<ul>
+										 {foreach name=outer item=contact from=$getDetail.announce}	 
+											{foreach key=key item=item from=$contact}
+												- {$item}<br />
+											{/foreach}
+										 {/foreach}
+										</ul> 
+									</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		{elseif $i.id eq 'torrentDownload'}
+      		 <div class="base-block"> 
+ 				<div class="title">Download {$getDetail.title}</div>
+ 				{if $userData->can_download eq 'true'} 
+					{foreach item=i from=$hooks->addcontent|@sortby:"#prio"}
+					{if $i.id eq 'defaultButton'}
+					<a href="{$getConfigs.baseurl}/download/{$getDetail.info_hash}" class="btn btn-primary"><i class="icon-circle-arrow-down"></i> {$lang.dlTorrent}</a>
+					{else}
+						{$i.content}
+					{/if}
+					{/foreach} 
+				{else}
+				{$lang.canNotdl}
+				{/if}
+				 
+			</div><!--/base-block-->		
+		{elseif $i.id eq 'torrentTools'}	
+			{if $canViewtools eq 'true'}
+      		 <div class="base-block"> 
+ 				<div class="title">{$lang.tools}</div> 
+				<form id="formScrape">
+					<input name="info_hash" type="hidden" id="info_hash" value="{$getDetail.info_hash}" />
+					{if $userData->edit_torrents eq 'true' || $userData->admin_access eq 'true'}
+					<a href="{$getConfigs.baseurl}/torrent-edit/{$getDetail.id}/{$getDetail.url_title}" class="btn btn-primary"> {$lang.editTorrent}</a>
+					{/if}
+					{if $userData->delete_torrents eq 'true' || $userData->admin_access eq 'true'}
+					<button class="btn btn-danger" data-toggle="modal" data-target="#deleteTorrent"> {$lang.deleteTorrent}</button>
+					{/if} 
+					{if $userData->can_scrape eq 'true' || $userData->admin_access eq 'true'}
+					<button type="submit" class="btn btn-info" value="Envoyer" id="handle"> {$lang.scrapeTorrent}</button>
+					{/if}
+				</form>
+				<div id="lastScrape">{$lang.lastScrape}: {$getDetail.last_scrape|date_format:" %e %B %Y %H:%M:%S"}</div><br /> 
+				<div id="retour"></div>	 
+			</div><!--/base-block-->
+			
+				{if $userData->delete_torrents eq 'true' || $userData->admin_access eq 'true'}
+				<!-- Modal delete torrent-->
+				<div class="modal fade" id="deleteTorrent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{$lang.close}</span></button>
+						<h4 class="modal-title" id="myModalLabel">{$lang.deleteTorrent}: {$getDetail.title}</h4>
+					  </div>
+					  <div class="modal-body">
+						<p>{$lang.verifDeleteTorrent}</p>
+					  </div>
+					  <div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">{$lang.closeIt}</button>
+						<a href="{$getConfigs.baseurl}/torrent-delete/{$getDetail.id}/{$getDetail.info_hash}" class="btn btn-danger" > {$lang.deleteIt}</a>
+					  </div>
+					</div>
+				  </div>
+				</div>		
+ 
+				{/if}  
+			{/if} 			
+ 		{else}
+            <div class="base-block {$i.size}">
+              <div class="title">{$i.title}</div>
+              <p>{$i.content}</p>
+            </div><!--/span-->
+ 
+		{/if}
+		{/foreach} 	 
+		{/if}
+	{/if}				
+ 
+		  </div><!--/row-->
+        </div><!--/span-->
+ 
+
+   
+{include file="footer.html"}

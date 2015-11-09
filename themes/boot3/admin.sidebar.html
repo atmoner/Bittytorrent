@@ -1,0 +1,63 @@
+<div class="col-md-2 col-md-offset-1">
+         <div class="base-block">         
+ 		  <div class="title">Admin cp</div>
+ 
+            <div id="sidemenu">
+            	<ul class="nav nav-list">
+
+ 	            <li>
+	 	            <a href="{$getConfigs.baseurl}/admincp/update/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+	 	            	<i class="fa fa-life-ring"></i> (<font color="red">Beta</font>) Update center 
+	 	            </a>
+ 	            </li>   
+ 
+ 	            <li>
+ 	            	<a href="{$getConfigs.baseurl}/admincp/settings/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+ 	            		<i class="fa fa-cogs"></i> Settings
+ 	           		</a>
+ 	            </li>
+ 	            <li>
+ 	            	<a href="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+ 	            		<i class="fa fa-user"></i> User
+ 	            	</a>
+ 	            </li>                   
+ 	            <li>
+ 	            	<a href="{$getConfigs.baseurl}/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+ 	            		<i class="fa fa-users"></i> User groups
+ 	            	</a>
+ 	            </li>  
+
+ 	            <li>
+	 	            <a href="{$getConfigs.baseurl}/admincp/categories/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+	 	            	<i class="fa fa-sort-amount-asc"></i> Categories
+	 	            </a>
+ 	            </li>  
+ 
+ 	            <li>
+	 	            <a href="{$getConfigs.baseurl}/admincp/themes/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+	 	            	<i class="fa fa-picture-o"></i> Themes
+	 	            </a>
+ 	            </li>   
+ 
+
+ 	            		<li>
+ 	            			<a href="{$getConfigs.baseurl}/admincp/plugins/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+ 	            				 <i class="fa fa-cubes"></i> Plugins
+ 	            			</a>
+ 	            		</li>
+ 	            		{if !empty($hooks->linkplug)}
+	 	            		{foreach item=i from=$hooks->linkplug|@sortby:"#prio"}
+	 	            		<li style="margin-left: 10px;">
+	 	            			<a href="{$getConfigs.baseurl}/{$i.link}/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+	 	            				<img src="http://icons.iconarchive.com/icons/gakuseisean/ivista/16/Synchonize-icon.png" width="16" height="16" alt="icon"/>{$i.title}
+	 	            			</a>
+	 	            		</li> 	            		
+	 	            		{/foreach}
+ 	            		{/if}
+ 	            	</ul>
+ 
+ 
+            </div>   
+        </div>
+        </div>
+ 

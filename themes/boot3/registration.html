@@ -1,0 +1,87 @@
+{include file="header.html" title="Registration"}
+{include file="sidebar.html"} 
+ <div class="col-md-8">
+	<div class="row">        
+		{if $accountCreated}
+			<div class="alert alert-success">  
+			  <a class="close" data-dismiss="alert">×</a>  
+			  <strong>{$lang.Success}!</strong> Your account is now ready! <a href="{$getConfigs.baseurl}/login">Login now.</a>
+			</div>  
+		{else}
+ 				{if $error}
+ 				<br />
+ 					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.error}!</strong> {$error}
+					</div>	
+				{/if}
+      		 <div class="base-block">          
+ 				<div class="title">{$lang.registration}</div> 
+
+
+				<form method="post">
+					<div class="input-group col-xs-4">
+					  <label for="email">{$lang.Email}</label>  <span id="email-result"></span>
+					  <input type="text" name="email"  id="email" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.email|escape:'javascript'}"{/if}>
+					</div>
+					<br />
+					<div class="input-group col-xs-4">
+					  <label for="username">{$lang.userName}</label>  <span id="user-result"></span>
+					  <input type="text" name="username" id="username" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.username|escape:'javascript'}"{/if}>
+					</div> 
+					<br />
+					<div class="input-group col-xs-4">
+					  <label for="password">{$lang.password}</label> <span id="pass-result"></span>
+					  <input type="password" id="password" name="password" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'javascript'}"{/if}>
+					</div>
+					<br />
+					<div class="input-group col-xs-4">
+					  <label for="repeatPassword">{$lang.repeatPassword}</label> <span id="repass-result"></span>
+					  <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'javascript'}"{/if}>
+					</div>
+					<br />
+					<div class="input-group col-xs-4">  
+					  <input type="checkbox" {if isset($smarty.post.terms) && $smarty.post.terms eq 'on'}checked{/if} name="terms">
+					  {$lang.PAgree}
+					</div>
+					<br />
+					<div class="input-group">
+					  <input type="hidden" name="sendForm" value="true">
+					  <input type="submit" value="Sign up" class="btn btn-primary pull-left">
+					</div>
+				</form>
+			</div>
+		{/if}
+
+          </div><!--/row-->
+        </div><!--/span-->
+{literal}
+ <script>
+  $("#username").keyup(function (e) { //user types username on inputfiled
+   var username = $(this).val(); //get the string typed by user
+   $.post('registration', {'checkUsername':username}, function(data) { //make ajax call to check_username.php
+   $("#user-result").html(data); //dump the data received from PHP page
+   });
+  });
+  $("#email").keyup(function (e) {  
+   var email = $(this).val();  
+   $.post('registration', {'checkMail':email}, function(data) {  
+   $("#email-result").html(data); //dump the data received from PHP page
+   });
+  });
+  $("#password").keyup(function (e) {  
+   var password = $(this).val();  
+   $.post('registration', {'checkPass':password}, function(data) {  
+   $("#pass-result").html(data); //dump the data received from PHP page
+   });
+  });
+  $("#repeatPassword").keyup(function (e) {  
+   var password = $("#password").val();  
+   var repassword = $(this).val();  
+   $.post('registration', {'checkRepass':repassword,'checkpassO':password}, function(data) {  
+   $("#repass-result").html(data); //dump the data received from PHP page
+   });
+  });
+ </script>
+{/literal}
+{include file="footer.html"}

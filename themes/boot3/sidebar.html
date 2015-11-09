@@ -1,0 +1,42 @@
+        <!-- sidebar -->
+        <div class="col-md-2 col-md-offset-1">
+
+ 		{foreach item=i from=$hooks->addsideblock|@sortby:"#prio"} 
+					 {if $i.id eq 'defaultBlock_Upload'}
+					  <div class="base-block">
+			 		  <div class="title">Upload torrent</div>
+			 		  		Voici quelques regles simple d'upload de torrent
+					  </div><!--/base-block-->
+					 {elseif $i.id eq 'defaultBlock_Categories'}
+					  <div class="base-block">
+			 		  <div class="title">Categories</div>
+ 
+								 <ul class="nav nav-pills nav-stacked">
+								  {foreach key=key item=item from=$getCategoriescollapsed}	
+								  <li{if $item.url_strip eq $smarty.get.catid} class="active"{/if}><a href="{$item.url}">{$item.prefix} <i class="icon-file"></i>{$item.c_name|capitalize}</a></li>
+								  {/foreach}
+								</ul>   
+					  </div><!--/base-block-->
+					  
+					 {elseif $i.id eq 'defaultBlock_Account'}
+					  <div class="base-block">
+			 		  <div class="title">Account info</div>
+			 		  	Here you can edit information about your account
+					  </div><!--/base-block-->
+					  
+					 {elseif $i.id eq 'defaultBlock_Login'}
+					  <div class="base-block">
+			 		  <div class="title">Login info</div>
+			 		  	Here you can login into the website
+					  </div><!--/base-block-->
+
+		             {else}                 
+						 <div class="base-block">
+								 <div class="title">{$i.title}</div>
+								 {$i.content}
+						 </div>
+		             {/if}
+		{/foreach} 
+ 
+
+        </div>

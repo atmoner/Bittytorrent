@@ -1,0 +1,187 @@
+{include file="header.html" title=Admincp}
+
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+		
+
+    <form class="form-horizontal" id="form2" name="form2" method="post" action="">
+    
+            <div class="base-block">
+              <div class="title">General settings</div>        
+
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="domaine">Domaine:</label>
+				    <div class="col-xs-9">
+				        <input type="text" class="form-control" id="domaine" value="{$getConfigs.baseurl}">
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="title">Website title:</label>
+				    <div class="col-xs-9">
+				        <input type="text" class="form-control" id="title" name="title" value="{$getConfigs.title}">
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="timecache">Cache lifetime:</label>
+				    <div class="col-xs-9">
+				        <input type="text" class="form-control" id="timecache" name="timecache" value="{$getConfigs.timecache}">
+				    </div>
+				</div>
+					<div class="form-group">
+					<label class="control-label col-xs-3" for="lang">Default Language</label>
+		 
+				                           	<select name="lang" id="categories">
+				                   	  		  <option value="en">English</option>
+				                   	  		  <option value="fr">French</option>
+				                   	  		  <option value="ru">Russe</option>
+				                       		</select>
+			 
+					</div> 
+		</div>		
+
+            <div class="base-block">
+              <div class="title">Tracker settings</div>   
+                <legend>General tracker options</legend>		
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="open_tracker">Private annouce:</label>
+				    <div class="col-xs-9">
+					<label class="radio">
+						<input type="radio" name="open_tracker" id="open_tracker1" value="true" {if $getConfigs.open_tracker eq 'true'}checked{/if}>
+						Public announce & external announce (PID not actived)
+					</label>
+					<label class="radio">
+						<input type="radio" name="open_tracker" id="open_tracker2" value="false" {if $getConfigs.open_tracker eq 'false'}checked{/if}>
+						Only private announce (PID actived)
+					</label>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="announce_interval">Announce interval:</label>
+				    <div class="col-xs-9">
+					<input class="form-control" type="text" id="announce_interval" name="announce_interval" value="{$getConfigs.announce_interval}">
+				    </div>
+				</div> 
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="min_interval">Minimum interval:</label>
+				    <div class="col-xs-9">
+					<input class="form-control" type="text" id="min_interval" name="min_interval" value="{$getConfigs.min_interval}">
+				    </div>
+				</div>  		
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="default_peers">Default peers:</label>
+				    <div class="col-xs-9">
+					<input class="form-control" type="text" id="default_peers" name="default_peers" value="{$getConfigs.default_peers}">
+				    </div>
+				</div>  			
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="max_peers">Max peers:</label>
+				    <div class="col-xs-9">
+					<input class="form-control" type="text" id="max_peers" name="max_peers" value="{$getConfigs.max_peers}">
+				    </div>
+				</div>  	
+ </div>  
+
+ 
+             <div class="base-block">
+              <div class="title">Tracker settings</div>  
+
+			<legend>Advanced tracker options</legend>
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="external_ip">External ip:</label>
+				    <div class="col-xs-9">
+					<label class="radio">
+						<input type="radio" name="external_ip" id="external_ip1" value="true" {if $getConfigs.external_ip eq 'true'}checked{/if}>
+						Allow client to specify ip address
+					</label>
+					<label class="radio">
+						<input type="radio" name="external_ip" id="external_ip2" value="false" {if $getConfigs.external_ip eq 'false'}checked{/if}>
+						Do not allow clients to specify the IP address
+					</label>
+				    </div>
+				</div>  
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="force_compact">Force compact:</label>
+				    <div class="col-xs-9">
+					<label class="radio">
+						<input type="radio" name="force_compact" id="force_compact1" value="true" {if $getConfigs.force_compact eq 'true'}checked{/if}>
+						Force compact announces only
+					</label>
+					<label class="radio">
+						<input type="radio" name="force_compact" id="force_compact2" value="false" {if $getConfigs.force_compact eq 'false'}checked{/if}>
+						Do not force compact announces only
+					</label>
+				    </div>
+				</div>   
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="full_scrape">Full scrape:</label>
+				    <div class="col-xs-9">
+					<label class="radio">
+						<input type="radio" name="full_scrape" id="full_scrape1" value="true" {if $getConfigs.full_scrape eq 'true'}checked{/if}>
+						Allow scrapes without info_hash
+					</label>
+					<label class="radio">
+						<input type="radio" name="full_scrape" id="full_scrape2" value="false" {if $getConfigs.full_scrape eq 'false'}checked{/if}>
+						Disallow scrapes without info_hash
+					</label>
+				    </div>
+				</div>   
+ 	</div> 
+
+ 
+
+            <div class="base-block">
+              <div class="title">Seo</div>   
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="rewrite_url">Url's rewriting:</label>
+				    <div class="col-xs-9">
+					<label class="radio">
+						<input type="radio" name="rewrite_url" id="modRewrite1" value="true" {if $getConfigs.rewrite_url eq 'true'}checked{/if}>
+						Active mod rewrite
+					</label>
+					<label class="radio">
+						<input type="radio" name="rewrite_url" id="modRewrite2" value="false" {if $getConfigs.rewrite_url eq 'false'}checked{/if}>
+						Desactive mod rewrite
+					</label>
+				    </div>
+				</div>                   		
+ 
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="metad">Meta description</label>
+				    <div class="col-xs-9">
+					<textarea class="form-control" name="metad" class="st-forminput" id="metad" style="width:510px" rows="3" cols="47">{$getConfigs.metad}</textarea> 
+				    </div>
+				</div>    
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="metak">Meta description</label>
+				    <div class="col-xs-9">
+					<textarea class="form-control" name="metak" class="st-forminput" id="metak" style="width:510px" rows="3" cols="47">{$getConfigs.metak}</textarea> 
+				    </div>
+				</div> 
+			</div>	
+
+
+
+			{if !empty($hooks->addblock)}
+				{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+				<div class="form-group">
+				<label class="control-label">{$i.title}</label>
+					<div class="controls">
+						{$i.content}
+					</div>
+				</div>	
+				{/foreach}
+			{/if}
+
+            <div class="base-block">
+              <div class="title">Submit</div>   
+            	<input type="submit" name="submit" value="Submit" class="btn btn-primary"/>
+				
+			</div>	
+			
+    </form>
+
+     </div>
+</div>
+   
+{include file="footer.html"}

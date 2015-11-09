@@ -1,0 +1,41 @@
+{include file="header.html" title=Plugins} 
+ 
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+ 
+ 
+ 
+             <div class="base-block">
+              <div class="title">{#searchDynamic#}</div>      
+ 		
+
+		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">                          
+				<thead>
+				    				<tr>
+                                        <th>Plugin</th>
+                                        <th>Version</th>
+                                        <th>Description</th>
+                                        <th>Action</th> 
+                                    </tr>
+                               	</thead>
+                                
+                                <tbody>
+                                
+                                {foreach key=key item=item from=$api} 
+                                    <tr class="gradeA">
+                                    	<td class="center">{$item.Name}</td>
+                                    	<td class="center">{$item.Version}</td>
+                                    	<td class="center">{$item.Description}<br /> Version {$item.Version} | Author <a href="{$item.AuthorURI}" title="Visit author homepage" target="_blank">{$item.Author}</a> | <a href="{$item.AuthorURI}" title="Author Website" target="_blank">Visit author homepage</a></td>
+                                    	<td class="center">{$item.linkAdd}</td>
+                                    </tr>
+                                {/foreach}     
+ 
+				</tbody>
+		</table>
+            </div> 
+ 
+        </div><!--/span-->
+   
+{include file="footer.html"}
+

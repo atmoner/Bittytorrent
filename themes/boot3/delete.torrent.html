@@ -1,0 +1,55 @@
+{include file="header.html" title="Delete torrent"}
+{include file="sidebar.html"} 
+
+<div class="col-md-8">
+	<div class="row">
+	<br />
+	
+
+				{if $notAuth eq 'true'}
+					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}</strong> You do not have the required permissions to delete this torrents
+					</div>	
+				{/if}
+				{if $torrentDelete eq 'true'}
+					<div class="alert alert-success">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Success}</strong> {$lang.thisTorrentdelete} 
+					</div>	
+				{/if}
+
+				{if $thisisNotYourtorrent eq 'true'}
+					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}</strong> {$lang.delTorrentbelongU}
+					</div>	
+				{/if}
+				
+				{if $NotrightsTodelete eq 'true'}
+					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}</strong> {$lang.delTorrentRights}
+					</div>	
+				{/if}
+
+				{if $notFound eq 'true'}
+					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}</strong> {$lang.tnotFound} 
+					</div>	
+				{/if} 
+
+				{if $errorHash eq 'true'}
+					<div class="alert alert-danger">  
+					  <a class="close" data-dismiss="alert">×</a>  
+					  <strong>{$lang.Error}</strong> {$lang.hashDoesNotExist} 
+					</div>	
+				{/if} 
+          </div><!--/row-->
+        </div><!--/span-->
+ 
+
+      <hr>
+
+{include file="footer.html"}

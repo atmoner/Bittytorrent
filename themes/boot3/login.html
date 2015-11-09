@@ -1,0 +1,42 @@
+{include file="header.html" title="Detail torrent"}
+{include file="sidebar.html"} 
+ <div class="col-md-8">
+	<div class="row">
+ 
+
+      		 <div class="base-block">          
+ 				<div class="title">{$lang.login}</div> 
+					<form class="form-horizontal" id="formLogin">
+					  <fieldset>
+						<div class="input-group">
+						  <!-- Username -->
+						  <label class="control-label"  for="username">{$lang.username}</label>
+						  <div class="controls">
+							<input type="text" id="user" name="user" placeholder="" class="form-control">
+						  </div>
+						</div>
+
+						<div class="input-group">
+						  <!-- Password-->
+						  <label class="control-label" for="password">{$lang.password}</label>
+						  <div class="controls">
+							<input type="password" id="pass" name="pass" placeholder="" class="form-control">
+						  </div>
+						</div><br />
+						<div id="returnLogin"></div>
+						<br />
+						<div class="input-group">
+						  <!-- Button -->
+						  <div class="controls">
+							<button class="btn btn-primary" name="submit">{$lang.login}</button> <div id="retour"></div>
+						  </div>
+						</div>
+					  </fieldset>
+					</form>
+ 		
+			</div><!--/base-block-->
+			
+		  </div><!--/row-->
+        </div><!--/span-->
+ 
+{include file="footer.html"}

@@ -1,0 +1,287 @@
+{include file="header.html" title=Users} 
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+ 
+    
+ 
+   	{if isset($smarty.get.edit)}
+             <div class="base-block">
+              <div class="title">Edit user: {$getUserdata->name}</div>    
+  
+          <form id="editUser" name="editUser" method="POST">
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="name">User name:</label>
+						<div class="col-xs-9">
+						        <input class="form-control" type="text" id="name" name="name" value="{$getUserdata->name}">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="pass">User pass:</label>
+						<div class="col-xs-9">
+						        <input class="form-control" type="text" id="pass" placeholder="Leave blank to not change the pass" name="pass">
+						</div>
+					</div>						                                  
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="mail">User mail:</label>
+						<div class="col-xs-9">
+						        <input class="form-control" type="text" id="mail" name="mail" value="{$getUserdata->mail}">
+						</div>
+					</div>	                                
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="level">User level:</label>
+						<div class="col-xs-9">
+							<select name="level" class="form-control">
+							{foreach key=key item=getStatut from=$getStatuts} 
+								<option value="{$getStatut.id}" {if $getUserdata->level eq $getStatut.id}SELECTED{/if}> {$getStatut.group}</option>
+							{/foreach}	
+							</select>   
+						</div>
+					</div>	 
+
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="location">Location:</label>
+						<div class="col-xs-9">
+						        <input class="form-control" type="text" id="location" name="location" value="{$getUserdata->location}">
+						</div>
+					</div> 
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="website">Website:</label>
+						<div class="col-xs-9">
+						        <input class="form-control" type="text" id="website" name="website" value="{$getUserdata->website}">
+						</div>
+					</div>  
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="signature">Signature:</label>
+						<div class="col-xs-9">
+						        <textarea class="form-control" rows="3" id="signature" name="signature">{$getUserdata->signature}</textarea>
+						</div>
+					</div> 
+ 
+			
+            <input type="submit" name="button" id="button" value="Submit" class="btn btn-primary"/>
+            <input type="hidden" name="editUser" id="editUser" value="1" />
+                                    </div>
+                                    
+                                  </form>
+  
+                            </div>
+                        <!-- END FORM ELEMENT STYLES --> 	
+   	{else}  
+   	  
+   	  	{if $forbidden}
+               	 	<br />
+            <div class="alert alert-danger" role="alert">
+                   	<b>{$lang.error} :</b> prohibited action! You can not delete this user....
+                   	<a href="#" class="close" data-dismiss="alert">&times;</a>
+            </div>
+	 	{/if}	   	
+ 	
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#list" role="tab" data-toggle="tab">Users list</a></li>
+  <li><a href="#add" role="tab" data-toggle="tab">Add user</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="list">
+  
+             <div class="base-block">
+              <div class="title">All users</div>  
+        {foreach key=key item=info from=$getUsers} 
+             {if $info.id}
+        <div class="row user-row">
+            <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                <img class="img-circle"
+                     src="{$info.gravatarS}"
+                     alt="User Pic">
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                <strong>{$info.name}</strong><br>
+                <span class="text-muted">User level: {$info.group}</span>
+            </div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".{$info.id}">
+                <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+            </div>
+        </div>
+        <div class="row user-infos {$info.id}">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                <img class="img-circle"
+                                     src="{$info.gravatarL}"
+                                     alt="User Pic">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                <img class="img-circle"
+                                     src="{$info.gravatarS}"
+                                     alt="User Pic">
+                            </div>
+   
+                            <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
+                                <strong>{$info.name}</strong><br>
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>User level:</td>
+                                        <td>{$info.group}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>User mail:</td>
+                                        <td>{mailto address=$info.mail encode="hex"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Registered since:</td>
+                                        <td>{$info.joined|date_format}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Upload</td>
+                                        <td>{$info.upload}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Download</td>
+                                        <td>{$info.download}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ratio</td>
+                                        <td>{math equation="x / y" x=$info.Hupload y=$info.Hdownload format="%.2f"}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+		                    <a class="btn btn-sm btn-primary"
+		                       data-toggle="tooltip"
+		                       data-original-title="View {$info.name} profil"
+		                       href="{$info.unameUrl}" target="_BLANK">
+                           		<i class="glyphicon glyphicon-share"></i>
+		                    </a>
+                        <span class="pull-right">
+							<a class="btn btn-sm btn-warning" 
+							   data-toggle="tooltip"
+                               data-original-title="Edit this user"
+							   href="?edit={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <i class="glyphicon glyphicon-edit"></i></a> 
+		                    <a class="btn btn-sm btn-danger"
+		                       data-toggle="tooltip"
+		                       data-original-title="Remove this user"
+		                       href="?del={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin}">
+                           		<i class="glyphicon glyphicon-remove"></i>
+		                    </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            {/if}
+       {/foreach} 
+
+			<ul class="pagination">
+			   <li>{paginate_first text="Fist page" rewrite="torrents/@@@"}</li>
+			   <li>{paginate_prev text="Previous page" rewrite="torrents/@@@"}</li>
+			   {paginate_middle page_limit="5" rewrite="torrents/@@@"}
+			   <li>{paginate_next text="Next page" rewrite="torrents/@@@"}</li>
+			   <li>{paginate_last text="Last page" rewrite="torrents/@@@"}</li>   
+			</ul> 
+ 
+</div>  
+  
+  </div>
+  <div class="tab-pane" id="add">
+  
+  <div class="base-block">
+       <div class="title">All users</div>  
+
+    <form class="form-horizontal" method="post" action="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+        <div class="form-group">
+            <label for="name" class="control-label col-xs-2">User name</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Username">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="mail" class="control-label col-xs-2">Email</label>
+            <div class="col-xs-10">
+                <input type="email" class="form-control" id="mail" name="mail" placeholder="Email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pass" class="control-label col-xs-2">Password</label>
+            <div class="col-xs-10">
+                <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="sendmail"> Send mail?</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <button type="submit" name="submitadd" class="btn btn-primary">Add user</button>
+            </div>
+        </div>
+    </form>
+
+
+  </div>
+  </div>
+</div>
+
+	
+
+
+
+{/if}
+          
+            
+	</div>
+   </div>
+<script>
+$(document).ready(function() {
+    var panels = $('.user-infos');
+    var panelsButton = $('.dropdown-user');
+    panels.hide();
+
+    //Click dropdown
+    panelsButton.click(function() {
+        //get data-for attribute
+        var dataFor = $(this).attr('data-for');
+        var idFor = $(dataFor);
+
+        //current button
+        var currentButton = $(this);
+        idFor.slideToggle(400, function() {
+            //Completed slidetoggle
+            if(idFor.is(':visible'))
+            {
+                currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+            }
+            else
+            {
+                currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+            }
+        })
+    });
+
+
+    $('[data-toggle="tooltip"]').tooltip();
+ 
+});
+</script> 
+{include file="footer.html"}
+

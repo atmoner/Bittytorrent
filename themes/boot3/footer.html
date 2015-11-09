@@ -1,0 +1,150 @@
+</div>
+ 
+  <div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+      <p class="navbar-text pull-left">© {$smarty.now|date_format:"%Y"} - <a href="{$getConfigs.baseurl}">{$getConfigs.title}</a>
+           <a href="http://validator.w3.org/check?uri={$getConfigs.baseurl}" target="_blank" >HTML 5 Validation</a>
+      </p>
+      
+      <p class="navbar-text pull-right">
+      	   {$lang.Proudly}<a href="http://bittytorrent.com/"> Bittytorrent.com</a>
+      </p>
+    </div>
+    
+    
+  </div>
+</div><!--/.fluid-container-->
+ 
+
+
+ 
+{literal}
+<script>
+jQuery(document).ready(function($){
+
+ 
+$("[rel=tooltip]").tooltip();
+$("#categories").select2(); 
+
+//$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) { event.preventDefault(); $(this).ekkoLightbox(); }); 
+
+ $('#formScrape').submit(function(e){
+        // On désactive le comportement par défaut du navigateur
+        // (qui consiste à appeler la page action du formulaire)
+        e.preventDefault();
+         $('#retour').html('<img src="../../themes/asset/img/ajax-bar.gif">'); 
+        // On envoi la requête AJAX
+        $.getJSON(
+            '/index.php?page=externalscrape',
+            {info_hash: $('#info_hash').val()},
+            function(data){
+ 
+            	// Scrape
+                $('#retour').hide();                
+                $('#retour').html('')
+                    .append('<b>Seeds</b> : '+data.chaine.seeds+'<br />')
+                    .append('<b>Leech</b> : '+data.chaine.leechers+'<br />')
+                    .append('<b>Finished</b> : '+data.chaine.finished+'<br />')
+                    .append('<b>More info</b> : '+data.errorScrape+'<br />');
+                $('#retour').fadeIn();
+                
+                // last scrape
+                $('#lastScrape').hide();                
+                $('#lastScrape').html('')
+                    .append('Last scrape: '+data.lastScrape+'<br />')
+                $('#lastScrape').fadeIn(); 
+
+                // retourSeeds
+                $('#retourSeeds').hide();                
+                $('#retourSeeds').html('')
+                    .append(''+data.chaine.seeds+'')
+                $('#retourSeeds').fadeIn();    
+ 
+                 // retourLeechers
+                $('#retourLeechers').hide();                
+                $('#retourLeechers').html('')
+                    .append(''+data.chaine.leechers+'')
+                $('#retourLeechers').fadeIn();                 
+                                       
+            }
+        );
+    });
+  
+ 
+    $('#formLogin').submit(function(e){
+        // On désactive le comportement par défaut du navigateur
+        // (qui consiste à appeler la page action du formulaire)
+        e.preventDefault();
+		$.post( "/login", { user: $('#user').val(), pass:$('#pass').val(), submit:"submit" })
+		.done(function( data ) {
+                $("#returnLogin").html(data.errorLogin);
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+		});
+
+ 
+    });
+ 
+    $('#TopformLogin').submit(function(e){
+        // On désactive le comportement par défaut du navigateur
+        // (qui consiste à appeler la page action du formulaire)
+        e.preventDefault();
+		$.post( "/login", { user: $('#topuser').val(), pass:$('#toppass').val(), submit:"submit" })
+		.done(function( data ) {
+                $("#returnTopLogin").html(data.errorLogin);
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+		}); 
+    }); 
+	
+$('[data-toggle="modal"]').click(function(e) {
+		 e.preventDefault();
+		 var href = $(this).attr('href');
+		 if (href.indexOf('#') == 0) {
+			  $(href).modal('open');
+		 } else {
+			  $.get(href, function(data) {
+			  $('<div class="modal">' + data + '</div>').modal();
+		 }); 
+ 
+	 }
+});
+ 
+$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) { event.preventDefault(); $(this).ekkoLightbox(); }); 
+
+    $(window).bind("load", function() {
+    // IMAGE RESIZE
+    $('#torrentimage img').each(function() {
+    var maxWidth = 150;
+    var maxHeight = 150;
+    var ratio = 0;
+    var width = $(this).width();
+    var height = $(this).height();
+     
+    if(width > maxWidth){
+    ratio = maxWidth / width;
+    $(this).css("width", maxWidth);
+    $(this).css("height", height * ratio);
+    height = height * ratio;
+    }
+    var width = $(this).width();
+    var height = $(this).height();
+    if(height > maxHeight){
+    ratio = maxHeight / height;
+    $(this).css("height", maxHeight);
+    $(this).css("width", width * ratio);
+    width = width * ratio;
+    }
+    });
+    //$("#contentpage img").show();
+    // IMAGE RESIZE
+    });
+ 
+}); 
+</script>
+{/literal}
+  </body>
+</html>
+

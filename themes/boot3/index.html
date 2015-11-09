@@ -1,0 +1,73 @@
+{include file="header.html" title=Index}
+
+ {include file="sidebar.html"}
+
+<div class="col-md-8">
+	<div class="row">
+{if $errorInstallFile}
+<br />
+	<div class="alert alert-danger" role="alert">  
+	  	<a class="close" data-dismiss="alert">×</a>  
+	  	<strong>{$lang.error}:</strong> 
+	  	{$lang.attentionInstall}
+	</div> 	
+{/if}  
+   
+	{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+		{if $i.id eq 'defaultIndex'}
+
+      		 <div class="base-block">          
+ 				<div class="title">Top torrent</div> 
+					{foreach $getAllMainCat as $c}
+					<div class="listing-torrent">
+					<h4><a href="{$getConfigs.baseurl}/rss/{$c.url_strip}"><img src="{$getConfigs.baseurl}/themes/asset/img/rss.png"></a> {$c.c_name}</h4>
+					<table class="table table-striped">
+					<tbody>
+						{if isset($c.files)}
+							{foreach $c.files as $i}
+						<tr>
+							<td> <img src="{$i.c_icon}" title="{$i.c_name}" width="32" height="32"> </td>
+							<td>
+							  <a href="{$i.torrentUrl}"><img src="{$getConfigs.baseurl}/themes/asset/img/i_download.jpg" alt=""> {$i.title}</a><br />
+							  {if $getConfigs.see_uploader eq 'true'}{$lang.Uploader}: <small><a href="{$i.uname_url}">{$i.uname}</a></small>{/if}
+							</td>
+							<td> {$i.size}</td>
+							<td><img src="{$getConfigs.baseurl}/themes/asset/img/i_uploader.gif" alt=""> {$i.seeds}</td>
+							<td><img src="{$getConfigs.baseurl}/themes/asset/img/i_downloader.gif" alt=""> {$i.leechers}</td>
+ 
+ 
+						</tr>
+							{/foreach}
+						{else}
+						<tr>
+							<td>{$lang.noResult}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+ 
+ 
+						</tr>						
+						{/if}
+					</tbody>
+					</table>
+					</div>
+					{/foreach}
+    			</div>
+    
+ 		{else}
+            <div class="base-block {$i.size}">
+              <div class="title">{$i.title}</div>
+              <p>{$i.content}</p>
+            </div><!--/span-->
+ 
+		{/if}
+
+{/foreach} 
+
+
+	</div>
+</div><!--/row-->
+
+ 
+{include file="footer.html"}

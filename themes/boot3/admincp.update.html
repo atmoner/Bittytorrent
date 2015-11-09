@@ -1,0 +1,66 @@
+{include file="header.html" title='Updates'} 
+  
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+ 
+ {if $returnUpdate neq false}
+ 
+             <div class="base-block">
+              <div class="title">Update center return </div>    
+				<div class="row">
+					{$returnUpdate}	
+               </div>   
+	         </div> 
+ 
+ {else}
+             <div class="base-block">
+              <div class="title">Update center </div>    
+				<div class="row">
+				
+				
+						<div class="col-md-3" align="center">
+								<div id="gauge" style="width:200px; height:150px"></div> 			
+						</div>
+						<div class="col-md-4">
+								<h5><font color="#9B9999">Current information</font> </h5>
+							  	 Current version:  <span class="badge">{$currentV}</span><br /> 
+							  	 Current commit:  <span class="badge">{$currentC}</span><br /><br />		 
+						</div>
+						
+							 
+							
+						<div class="col-md-4">
+							  <h5><font color="#9B9999"> Check updates </font></h5>
+							  {if $currentV lt $lasteV}
+							  	Check for last version.<br />
+							  	New commit has found: {$lasteV}<br />     
+							  {else}
+								{if $currentC lt $lasteC}
+							  		New revison found!<br />
+							  		Commit: {$lasteC}<br /><br />
+							  		<a class="btn" href="#navbar">Manuel update</a> 
+							  		<a class="btn btn-primary" href="?updateNow&tokenAdmin={$smarty.get.tokenAdmin}">Update now!</a>       		
+							  	{else}
+							  	  	No update find   
+							  	{/if} 
+							  {/if}	
+						</div>			
+               </div>   
+	         </div>
+  {/if}         
+	</div>
+   </div>
+ <script>
+var g = new JustGage({
+	label: "{$updateMessage}",
+	id: "gauge",
+	value: {$updateValue},
+	min: 0,
+	max: 100,
+	startAnimationTime: 2000,
+	startAnimationType: 'bounce',
+	title: "Importance of last update"
+}); 
+</script>
+{include file="footer.html"}

@@ -1,0 +1,39 @@
+{include file="header.html" title="Scrape torrent"}
+{include file="sidebar.html"} 
+<style type="text/css">
+form{
+	margin-bottom: 0;
+}
+#retour{
+	background: whitesmoke;
+	padding: 10px;
+	margin: 10px 0;
+}
+</style>
+
+       <div class="span8"> 
+          <div class="row-fluid">
+		{if $notFound} 
+				<div class="alert alert-error">  
+				  <a class="close" data-dismiss="alert">×</a>  
+				  <strong>Error! Torrent not found...</strong>  
+				</div>		
+		{else}
+		        
+			{if $returnScrape}
+				<div class="alert alert-info">  
+				  <a class="close" data-dismiss="alert">×</a>  
+				  <strong>Info!</strong> {$returnScrape|@var_dump} 
+				</div>
+			{else}					
+				<div class="alert alert-error">  
+				  <a class="close" data-dismiss="alert">×</a>  
+				  <strong>Probleme!</strong>  
+				</div>
+			{/if}	
+		{/if}	
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+			
+{include file="footer.html"}			

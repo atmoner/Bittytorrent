@@ -1,0 +1,112 @@
+ 
+				<form class="form-horizontal" method="post" action="upload/save" enctype="multipart/form-data">
+				<fieldset>
+
+				<!-- Form Name -->
+				<legend>{$lang.Utinfo}</legend>
+				<i class="icon-file"></i> {$lang.Utname}: {$resultTorrent.info.name}<br />
+				<i class="icon-download-alt"></i> {$lang.Uthash}: {$torrentHash}<br />
+				<i class="icon-resize-small"></i> {$lang.Utsize}: {$torrentBytestoSize}<br /><br />
+				
+				
+
+				<legend>{$lang.Utdesc}</legend> 
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.Uttitle}</label>
+				  <div class="controls">
+					<input name="torrentTitle" id="torrentTitle" value="{$resultTorrent.info.name}" class="form-control" required="" type="text">
+				  </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtUtitle}</label>
+				  <div class="controls">
+					<input name="torrentUrlTitle" id="torrentUrlTitle" class="form-control" value="{$torrentUrlname}" required="" type="text">
+				  </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtCategories}</label>
+				  <div class="controls">
+					<select name="categories" id="categories" style="width:300px">
+ 								{foreach $getAllCat as $value}
+								<option value="{$value.id}">
+									{$value.prefix} {if isset($value.subCat.c_name)} {$value.c_name} {else} {$value.c_name} {/if}
+						 		</option> 
+								{/foreach}
+				  	</select>	
+				  </div>
+				</div>
+	 
+				<!-- Textarea -->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtDescription}</label>
+				  <div class="controls">                     
+ 					 <textarea class="input-block-level" id="torrentDesc" name="torrentDesc" rows="18"> </textarea>
+				  </div>
+				</div>
+
+				<!-- Image upload -->
+				<div class="form-group">
+				  <label class="control-label">{$lang.UtTorrentimg}</label>
+				  <div class="controls">                     
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+					  <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+						<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="No image">
+					  </div>
+					  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+					  <div>
+						<span class="btn btn-default btn-file"><span class="fileinput-new">{$lang.UtSelectimg}</span><span class="fileinput-exists">{$lang.UtChange}</span><input type="file" name="image"></span>
+						<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">{$lang.UtRemove}</a>
+					  </div>
+					</div>
+				  </div>
+				</div>
+
+
+				<!-- Button -->
+				<div class="form-group">				   
+				  <div class="controls">
+				  	<input name="torrentHash" value="{$torrentHash}" type="hidden">
+				  	<input name="torrentSize" value="{$torrentSize}" type="hidden">
+					<button id="send" name="sendInfo" class="btn btn-primary">{$lang.UtUpload}</button>
+				  </div>
+				</div>
+
+				</fieldset>
+				</form>			
+
+	
+<script>
+$("#categories").select2(); 
+$("#torrentTitle").bind("keyup", changed).bind("change", changed);
+$('#torrentTitle').bind("change", changed); 
+	 
+function changed() {
+	var v = this.value.replace(/\W+/g, '-')
+	    .replace(/-+$/, '')
+	    .replace(/^-+/, '');
+	$("#torrentUrlTitle").val(v.toLowerCase());
+}
+ 
+$('#torrentDesc').summernote({
+  height: 300,                 // set editor height
+  minHeight: null,             // set minimum height of editor
+  maxHeight: null,             // set maximum height of editor
+  focus: true,                 // set focus to editable area after initializing summernote
+  toolbar: [
+    //[groupname, [button list]]     
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['video', ['video']],    
+  ]
+}); 
+ 
+</script> 

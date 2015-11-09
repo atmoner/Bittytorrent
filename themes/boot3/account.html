@@ -1,0 +1,205 @@
+{include file="header.html" title=$hooks->title->title_account}
+{include file="sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+
+		 {foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+	 	 	{if $i.id eq 'infoUser'} 
+	 	 	
+      					<div class="base-block">          
+ 							<div class="title">{$lang.userdetailof} {$getUserdata->name}</div>  				
+						<div class="row">
+						<div class="col-md-2" align="center">
+								<img src='{$getGravatar}' class="img-rounded" /> 
+								<br /><br />
+								<a href="{$getConfigs.baseurl}/edit-account?token={$smarty.cookies.token}" class="btn btn-primary">{$lang.editProfile}</a>
+						</div>
+						<div class="col-md-4">
+							<h5>{$lang.userInfo}</h5>
+								<ul>
+									<li>{$lang.userName}: {$getUserdata->name}</li> 
+									{if $getUserdata->seemail eq 'true'}
+									<li>{$lang.mail}: {mailto address=$getUserdata->mail encode="hex"} </li>
+									{/if}
+									<li>{$lang.Level}: {$getUserdata->level}</li>
+									{if !empty($getUserdata->location)}
+									<li>{$lang.userloc}: {$getUserdata->location}</li>
+									{/if}
+									{if !empty($getUserdata->website)}
+									<li>{$lang.userweb}: <a href="{$getUserdata->website}" target="_BLANK">{$getUserdata->website}</a></li>
+									{/if}
+									{if $getConfigs.open_tracker eq 'false' } 
+									<li>{$lang.privateId}: {$getUserdata->private_id}</li>
+									{/if}
+								</ul>    
+						</div>
+ 
+						<div class="col-md-4">
+							<h5>{$lang.userSigna}</h5>
+							<div class="thumbnails">{$getUserdata->signature}</div>		
+						</div>
+						
+						</div>
+						
+					</div>	
+							{elseif $i.id eq 'getMytorrent'}
+      					<div class="base-block">          
+ 							<div class="title">{$lang.allpasteof} {$getUserdata->name}</div>  				
+    {* display pagination header *}
+    {$lang.items} {$paginate.first}-{$paginate.last} {$lang.outof} {$paginate.total} {$lang.displayed}. 
+	<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+			 
+		<thead> 
+			<tr> 
+				<th>
+					{$lang.categories}  
+				</th>
+				<th>
+					<a href="?sortedBy=title&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					{$lang.torrentName}  
+					{if $smarty.get.sortedBy eq 'title'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}
+					</a>
+				</th>
+				<th>
+					<a href="?sortedBy=date&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					{$lang.torrentDate}  
+					{if $smarty.get.sortedBy eq 'date'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+						{elseif empty($smarty.get.sortedBy)}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+					{/if}
+					</a>
+				</th>
+				<th>
+					<a href="?sortedBy=size&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					{$lang.torrentSize}
+					{if $smarty.get.sortedBy eq 'size'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}					
+					</a>
+				</th>
+				<th>
+					<a href="?sortedBy=seeds&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}">
+					{$lang.torrentSeed}
+					{if $smarty.get.sortedBy eq 'seeds'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}	
+					</a>
+				</th>
+				<th>
+					<a href="?sortedBy=leechers&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					{$lang.torrentLeech}
+					{if $smarty.get.sortedBy eq 'leechers'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}
+					</a>
+				</th>
+				<th>Last scrape</th>
+				<th>Action</th>
+			</tr> 
+		</thead>												        
+		<tbody>
+		
+
+ 											   
+		{if $getMyTorrents neq false}
+		    {foreach key=key item=t from=$getMyTorrents} 
+				<tr> 
+					<td><a href="{$getConfigs.baseurl}/{$t.c_url}"><img src="{$t.c_icon}" title="{$t.c_name}" width="32" height="32">{$t.c_name}</a></td>
+					<td><a href="{$getConfigs.baseurl}/{$t.torrentUrl}"><i class="icon-file"></i> {$t.title}</a></td>
+					<td><i class="icon-calendar"></i> {date('Y-m-d H:s',$t.date)}</td>	
+					<td>{$t.size}</td>											            	
+					<td>{$t.seeds}</td>
+					<td>{$t.leechers}</td>
+					<td><i class="icon-eye-open"></i> {$t.last_scrape} </td>
+					<td>
+						<a href="{$getConfigs.baseurl}/{$t.torrentEdit}"> <i class="fa fa-pencil-square-o"></i> </a>
+						<a href="#" data-toggle="modal" data-target="#deleteTorrent_{$t.id}"><i class="fa fa-ban"></i></a>
+ 
+					</td>
+				</tr>
+
+				 <div class="modal fade" id="deleteTorrent_{$t.id}" tabindex="-1" role="dialog" aria-labelledby="deleteTorrent_{$t.id}" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">{$lang.deleteTorrent}: {$t.title}</h4>
+							</div>
+							<div class="modal-body">
+								<p>{$lang.verifDeleteTorrent}</p>
+							</div>
+							<div class="modal-footer">
+										<button class="btn" data-dismiss="modal" aria-hidden="true"> {$lang.closeIt}</button>
+										<a href="{$getConfigs.baseurl}/{$t.torrentDelete}" class="btn btn-danger" > {$lang.deleteIt}</a>
+						</div>
+					</div>
+				  </div>
+				</div>
+			{/foreach}  
+			 {else}
+				<tr>
+					<td>{$lang.noResult}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+												            	 
+				</tr>
+												        
+			 {/if}   
+						 
+						 
+		</tbody>
+</table>
+  
+ 
+			<ul class="pagination">
+			   <li>{paginate_first text=$lang.firstPage rewrite="torrents/@@@"}</li>
+			   <li>{paginate_prev text=$lang.previousPage rewrite="torrents/@@@"}</li>
+			   {paginate_middle page_limit="5" rewrite="torrents/@@@"}
+			   <li>{paginate_next text=$lang.nextPage rewrite="torrents/@@@"}</li>
+			   <li>{paginate_last text=$lang.lastPage rewrite="torrents/@@@"}</li>   
+			</ul>  
+	 	</div>	 
+ 				{else}
+            <div class="base-block">
+              <div class="title">{$i.title}</div>
+	 						{$i.content}
+		       </div> 
+				</div>
+	 		{/if}  	
+	 		
+	 	{/foreach} 	
+	 	
+        </div><!--/span-->
+      </div><!--/row-->
+
+
+
+
+{include file="footer.html"}
+

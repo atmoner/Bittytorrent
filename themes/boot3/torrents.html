@@ -1,0 +1,136 @@
+{include file="header.html" title="All Torrents"}
+{include file="sidebar.html"} 
+ 
+<div class="col-md-8">
+	<div class="row">
+
+ 	{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+		{if $i.id eq 'defaultTorrents'}
+
+      		 <div class="base-block">          
+ 				<div class="title">{$lang.allTorrents}</div> 
+ 
+    {* display pagination header *}
+    {$lang.items} {$paginate.first}-{$paginate.last} {$lang.outof} {$paginate.total} {$lang.displayed}. 
+
+    <table class="table table-hover">
+		<thead> 
+			<tr> 
+				<th>
+					{$lang.categories}  
+				</th>
+				<th>
+					<a href="{$getConfigs.baseurl}/{$sortedList.title.url}">
+					{$lang.torrentName}  
+					{if $smarty.get.sortedBy eq 'title'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}
+					</a>
+				</th>
+				<th>
+					<a href="{$getConfigs.baseurl}/{$sortedList.date.url}">
+					{$lang.torrentDate}  
+					{if $smarty.get.sortedBy eq 'date'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+						{elseif empty($smarty.get.sortedBy)}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+					{/if}
+					</a>
+				</th>
+				<th>
+					<a href="{$getConfigs.baseurl}/{$sortedList.size.url}">
+					{$lang.torrentSize}
+					{if $smarty.get.sortedBy eq 'size'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}					
+					</a>
+				</th>
+				<th>
+					<a href="{$getConfigs.baseurl}/{$sortedList.seeds.url}">
+					{$lang.torrentSeed}
+					{if $smarty.get.sortedBy eq 'seeds'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}	
+					</a>
+				</th>
+				<th>
+					<a href="{$getConfigs.baseurl}/{$sortedList.leechers.url}">
+					{$lang.torrentLeech}
+					{if $smarty.get.sortedBy eq 'leechers'}
+						{if $smarty.get.axis eq 'asc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/desc.gif">
+						{elseif $smarty.get.axis eq 'desc'}
+							<img src="{$getConfigs.baseurl}/themes/asset/img/asc.gif">
+						{/if}
+					{/if}
+					</a>
+				</th>
+			</tr> 
+		</thead>
+		<tbody>
+ 
+ 		{if !$results}
+			<tr>			
+				<td>{$lang.noResult}</td>
+			</tr> 
+		{else} 
+
+		 {foreach from=$results key=myId item=i}
+			<tr>			
+				<td><a href="{$getConfigs.baseurl}/{$i.c_url}"><img src="{$i.c_icon}" title="{$i.c_name}" width="32" height="32"></a></td>
+				<td><a href="{$getConfigs.baseurl}/{$i.torrentUrl}">{$i.title}</a></td>
+				<td>{$i.date}</td>
+				<td>{$i.size}</td>
+				<td>{$i.seeds}</td>
+				<td>{$i.leechers}</td>
+			</tr>
+		 {/foreach}
+		{/if}
+		</tbody>
+    </table>
+    
+  		{if $results}
+ 
+			<ul class="pagination">
+			   <li>{paginate_first text=$lang.firstPage rewrite="torrents/@@@"}</li>
+			   <li>{paginate_prev text=$lang.previousPage rewrite="torrents/@@@"}</li>
+			   {paginate_middle page_limit="5" rewrite="torrents/@@@"}
+			   <li>{paginate_next text=$lang.nextPage rewrite="torrents/@@@"}</li>
+			   <li>{paginate_last text=$lang.lastPage rewrite="torrents/@@@"}</li>   
+			</ul>     
+  
+		{/if} 
+   
+
+ 				
+ 				</div><!--/base-block-->
+
+ 		{else}
+            <div class="base-block {$i.size}">
+              <div class="title">{$i.title}</div>
+              <p>{$i.content}</p>
+            </div><!--/span-->
+ 
+		{/if}
+
+{/foreach} 
+		  </div><!--/row-->
+        </div><!--/span-->
+ 			
+{include file="footer.html"}

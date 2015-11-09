@@ -1,0 +1,152 @@
+{include file="header.html" title=Categories}
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+ 
+        
+            <div class="base-block">
+              <div class="title">All categories</div>        
+ 
+            {$outputHtmlCat}
+ 
+ 
+		</div>		
+ 
+            <div class="base-block">
+            	<div class="title">Add categories</div> 
+<form name="form1" method="post" action="">
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="parent">Child Of</label>
+				    <div class="col-xs-9">
+					<select name="parent" id="parent" style="width:300px">
+							<option value="0">ROOT</option>
+								{foreach $getAllCat as $value}
+							<option value="{$value.id}" {if isset($getParent) and $value.id eq $getParent}selected="selected"{/if}>{$value.prefix} {if isset($value.subCat.c_name)} {$value.c_name} {else} {$value.c_name} {/if}
+					 		</option> 
+								{/foreach}
+					 
+					</select>
+					</div>
+				</div> 
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="metad">Title</label>
+				    <div class="col-xs-9">
+						<input name="name" id="name" class="form-control" required="" type="text" value="{$getOne->c_name}"> 
+				    </div>
+				</div>   
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="strip">Url title</label>
+				    <div class="col-xs-9">
+						<input name="strip"  class="form-control" required="" type="text" id="strip" value="{$getOne->url_strip}">
+				    </div>
+				</div>   
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="icon">Icon</label>
+				    <div class="col-xs-9">
+						<input name="icon" id="icon" class="form-control" required="" type="text" value="{$getOne->c_icon}">
+				    </div>
+				</div>  
+				<div class="form-group">
+				    <label class="control-label col-xs-3" for="desc">Description</label>
+				    <div class="col-xs-9">
+						<textarea id="catDesc" class="textarea span9" rows="6" name="desc">{$getOne->c_desc}</textarea>	
+				    </div>
+				</div>  
+				<div class="control-group">
+				  <label class="control-label">{if empty($getOne)}Add{else}Update{/if}</label>
+				  <div class="controls">
+					{if !empty($getOne)}
+					<input name="id" type="hidden" value="{$getOne->id}">
+					{/if}								 
+					<input name="act" type="hidden" value="{if empty($getOne)}add{else}update{/if}">
+				    <input type="submit" name="submit" value="{if empty($getOne)}Add{else}Update{/if}" class="btn btn-primary"/>
+				    </form>
+				    {if !isset($getOne)}
+				    <a class="btn btn-danger disabled" data-toggle="modal"> Delete categorie</a>
+				    {else}
+				    <a href="#deleteCategorie" class="btn btn-danger" data-toggle="modal"> Delete categorie</a>
+				    {/if}				  	 
+				  </div>
+				</div>
+ 
+				
+			</div>	
+ 
+ 
+
+<!-- Modal -->
+<div class="modal fade" id="deleteCategorie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<form id="deleteCatform">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete categorie: {$getOne->c_name}</h4>
+      </div>
+      <div class="modal-body">
+						<input name="catFrom" id="catFrom" type="hidden" value="{$getOne->id}">
+						<input type="radio" name="cat_action" value="delete"
+							   onclick="showMe('div_1')"/> Delete all torrents of this categorie<br />
+						<input type="radio" name="cat_action" value="move"
+							   onclick="showMe('div_1')" id="move"/> Move torrent<br />
+
+						<div id="div_1" style="display:none">
+							<label for="paypal">Move torrents to: </label>
+							<select id="catTo" name="catTo">
+								{foreach $getAllCat as $value}
+								{if $value.id neq $getParent} 
+									<option value="{$value.id}" {if isset($getParent) and $value.id eq $getParent}selected="selected"{/if}>{$value.prefix} {if isset($value.subCat.c_name)} {$value.c_name} {else} {$value.c_name} {/if}
+							 		</option> 
+							 	{/if}
+								{/foreach}
+							</select> 
+						</div>
+						<div id="retour"></div>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="token" value="{$smarty.cookies.tokenAdmin}">	
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, close it</button>
+        <input type="submit" name="submit" value="Yes, delete it" class="btn btn-danger"/>
+ 
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+ 
+
+
+{literal}
+
+	<script type="text/javascript">
+		function showMe (it) {
+		    var box = document.getElementById("move");
+		    var vis = (box.checked) ? "block" : "none";
+		    document.getElementById(it).style.display = vis;
+		}
+		$('#deleteCatform').submit(function(e){
+		    // On désactive le comportement par défaut du navigateur
+		    // (qui consiste à appeler la page action du formulaire)
+		    e.preventDefault();
+		     $('#retour').html('<img src="../../themes/asset/img/ajax-bar.gif">'); 
+		    // On envoi la requête AJAX
+		$.ajax({
+			url: '/admincp/categories/',
+            type: 'GET',
+            data: {cat_action: $( "input:checked" ).val(), catTo: $('#catTo').val(), catFrom: $('#catFrom').val(), delCat: 'true',tokenAdmin: $('#token').val()},
+            cache: false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR)
+            {
+                 
+                $('#modal-body').hide();
+                $('#deleteButton').hide();  
+                $('#retour').html('')
+                    .append('<br /><b>'+data.chaine+'</b><br />');
+     
+             } 
+		});
+		}); 
+	</script>   {/literal}
+{include file="footer.html"}

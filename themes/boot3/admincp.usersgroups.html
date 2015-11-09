@@ -1,0 +1,78 @@
+{include file="header.html" title='Users groups'} 
+    <link href="{$getConfigs.baseurl}/themes/asset/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script src="{$getConfigs.baseurl}/themes/asset/bootstrap-editable/js/bootstrap-editable.js"></script>  
+{include file="admin.sidebar.html"} 
+<div class="col-md-8">
+	<div class="row">
+ 
+             <div class="base-block">
+              <div class="title">User groups </div>    
+ 
+ 		{foreach from=$getAllgroups key=myId item=i}	
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#{$i.group}">
+				  {$i.group}
+				</a>
+			  </h4>
+			  {* {$i|@var_dump} *}
+			</div>
+			<div id="{$i.group}" class="panel-collapse collapse">
+			  <div class="panel-body">
+				
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rights</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $i.auth as $h}
+            <tr>
+                <td>{$h@key|replace:'_':' '|capitalize}</td>
+                <td><a href="#" class="editable editable-click"  id="{$h@key}" data-type="select2" data-pk="{$i.id}" data-url="/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin}" data-title="{$h}"> {$h|capitalize} </a></td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+
+
+ 
+				{*
+				{foreach $i.auth as $h}
+				
+ 				<li>{$h@key|replace:'_':' '|capitalize}: <a href="#" class="editable editable-click"  id="{$h@key}" data-type="select2" data-pk="{$i.id}" data-url="/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin}" data-title="{$h}"> {$h|capitalize} </a></li>
+				 <p>{$h@key|replace:'_':' '|capitalize}: <a href="#" class="editable editable-click"  id="{$h@key}" data-type="select2" data-pk="{$i.id}" data-url="/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin}" data-title="{$h}"> {$h|capitalize} </a></p>
+				
+				{/foreach} *}
+ 
+ 
+			  </div>
+			</div>
+		  </div>
+ 		{/foreach}
+ 
+              </div>           
+            
+	</div>
+   </div>
+ {literal}
+<script>
+$(function(){
+	// $.fn.editable.defaults.mode = 'inline';
+	$("[data-type=select2]").editable({
+	value: false,
+		source: [
+		{value: 'true', text: 'True'}, 
+		{value: 'false', text: 'False'},
+		]
+	});
+});
+</script>
+  {/literal}
+{include file="footer.html"}

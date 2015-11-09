@@ -1,0 +1,57 @@
+{include file="header.html" title="Upload torrent"}
+{include file="sidebar.html"} 
+<div class="summernote col-md-8">
+	<div class="row">
+	{if $setError ne 'false'}<br />
+	<div class="alert alert-danger" role="alert">  
+	  	<a class="close" data-dismiss="alert">×</a>  
+	  	<strong>Error:</strong> 
+	  	{$setError}
+	</div> 	
+	{else}
+
+	
+	{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
+		{if $i.id eq 'defaultUpload'}           
+			{if !isset($smarty.get.act)} 
+      		<div class="base-block">          
+ 			<div class="title">{$lang.UtFile}</div> 
+				<form action="#" id="uploadTorrent" enctype="multipart/form-data" method="post">
+				<div id="defaultForm"> 
+					<fieldset>
+						<legend>{$lang.UnewTorrent}</legend>
+						<div class="col-xs-5">
+							<input type="file" class="filestyle">
+						<br /> 
+						<button id="send" name="sendTorrent" class="btn btn-primary">{$lang.UtFile}</button>
+						</div>
+
+					</fieldset>					 
+				</div>
+				</form>
+
+			<div id="retourForm"></div>
+			<div id="nextForm" style="display: none"></div>
+			</div>
+			{else}<br />
+			<div class="alert alert-success" role="alert">  
+			  	<a class="close" data-dismiss="alert">×</a>  
+			  	<strong>Success!</strong>
+			  	{$lang.Utsave1} <a href="{$getConfigs.baseurl}/{$torrentUrl}" target="_BLANK">{$lang.Utsave2}</a> {$lang.Utsave3}
+			</div> 
+			{/if}
+ 		{else}
+            <div class="base-block {$i.size}">
+              <div class="title">{$i.title}</div>
+              <p>{$i.content}</p>
+            </div><!--/span-->
+ 
+		{/if}
+		{/foreach} 
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+	{/if}
+      <hr>
+ 
+{include file="footer.html"}

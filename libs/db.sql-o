@@ -1,0 +1,491 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Client: localhost
+-- Généré le: Mer 26 Novembre 2014 à 18:56
+-- Version du serveur: 5.5.40-0ubuntu0.14.04.1
+-- Version de PHP: 5.5.9-1ubuntu4.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de données: `testorrent2`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `block`
+--
+
+CREATE TABLE IF NOT EXISTS `block` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `position_v` int(11) NOT NULL,
+  `position_h` varchar(11) NOT NULL,
+  `type` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order` (`position_v`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categories`
+--
+
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `position` varchar(255) NOT NULL,
+  `c_name` varchar(255) NOT NULL,
+  `c_desc` tinytext NOT NULL,
+  `c_icon` varchar(255) NOT NULL,
+  `c_group` varchar(255) NOT NULL DEFAULT '0',
+  `url_strip` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url_strip` (`url_strip`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `categories`
+--
+
+INSERT INTO `categories` (`id`, `position`, `c_name`, `c_desc`, `c_icon`, `c_group`, `url_strip`) VALUES
+(1, '1>', 'Film', 'Film', 'http://localhost/themes/asset/img/cat/4.gif', '0', 'film-test'),
+(2, '2>', 'Logiciel', 'Logiciel', 'http://localhost/themes/asset/img/cat/7.gif', '0', 'Logiciel'),
+(3, '3>', 'Porn', 'Porn', 'http://localhost/themes/asset/img/cat/533.gif', '0', 'Porn'),
+(4, '1>4>', 'test film', 'test film', 'http://localhost/themes/asset/img/cat/4.gif', '0', 'test-film');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `lang`
+--
+
+CREATE TABLE IF NOT EXISTS `lang` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
+
+--
+-- Contenu de la table `lang`
+--
+
+INSERT INTO `lang` (`id`, `code`, `description`) VALUES
+(1, 'c', 'C'),
+(2, 'css', 'CSS'),
+(3, 'cpp', 'C++'),
+(4, 'html4strict', 'HTML (4 Strict)'),
+(5, 'java', 'Java'),
+(6, 'perl', 'Perl'),
+(7, 'php', 'PHP'),
+(8, 'python', 'Python'),
+(9, 'ruby', 'Ruby'),
+(10, 'text', 'Plain Text'),
+(11, 'asm', 'ASM (Nasm Syntax)'),
+(12, 'xhtml', 'XHTML'),
+(13, 'actionscript', 'Actionscript'),
+(14, 'ada', 'ADA'),
+(15, 'apache', 'Apache Log'),
+(16, 'applescript', 'AppleScript'),
+(17, 'autoit', 'AutoIT'),
+(18, 'bash', 'Bash'),
+(19, 'bptzbasic', 'BptzBasic'),
+(20, 'c_mac', 'C for Macs'),
+(21, 'csharp', 'C#'),
+(22, 'ColdFusion', 'coldfusion'),
+(23, 'delphi', 'Delphi'),
+(24, 'eiffel', 'Eiffel'),
+(25, 'fortran', 'Fortran'),
+(26, 'freebasic', 'FreeBasic'),
+(27, 'gml', 'GML'),
+(28, 'groovy', 'Groovy'),
+(29, 'inno', 'Inno'),
+(30, 'java5', 'Java 5'),
+(31, 'javascript', 'Javascript'),
+(32, 'latex', 'LaTeX'),
+(33, 'mirc', 'mIRC'),
+(34, 'mysql', 'MySQL'),
+(35, 'nsis', 'NSIS'),
+(36, 'objc', 'Objective C'),
+(37, 'ocaml', 'OCaml'),
+(38, 'oobas', 'OpenOffice BASIC'),
+(39, 'orcale8', 'Orcale 8 SQL'),
+(40, 'pascal', 'Pascal'),
+(41, 'plsql', 'PL/SQL'),
+(42, 'qbasic', 'Q(uick)BASIC'),
+(43, 'robots', 'robots.txt'),
+(44, 'scheme', 'Scheme'),
+(45, 'sdlbasic', 'SDLBasic'),
+(46, 'smalltalk', 'Smalltalk'),
+(47, 'smarty', 'Smarty'),
+(48, 'sql', 'SQL'),
+(49, 'tcl', 'TCL'),
+(50, 'vbnet', 'VB.NET'),
+(51, 'vb', 'Visual BASIC'),
+(52, 'winbatch', 'Winbatch'),
+(53, 'xml', 'XML'),
+(54, 'z80', 'z80 ASM');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `log`
+--
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `filename` varchar(127) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `action` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`filename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Contenu de la table `plugins`
+--
+
+INSERT INTO `plugins` (`filename`, `action`) VALUES
+('fakerData.plugin.php', 1),
+('homeblock.plugin.php', 0),
+('torrage.plugin.php', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `pt_peers`
+--
+
+CREATE TABLE IF NOT EXISTS `pt_peers` (
+  `info_hash` binary(20) NOT NULL,
+  `peer_id` binary(20) NOT NULL,
+  `compact` binary(6) NOT NULL,
+  `ip` char(15) NOT NULL,
+  `port` smallint(5) unsigned NOT NULL,
+  `state` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `updated` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`info_hash`,`peer_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `pt_tasks`
+--
+
+CREATE TABLE IF NOT EXISTS `pt_tasks` (
+  `name` varchar(5) NOT NULL,
+  `value` int(10) unsigned NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `pt_tasks`
+--
+
+INSERT INTO `pt_tasks` (`name`, `value`) VALUES
+('prune', 1416681394);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `settings`
+--
+
+CREATE TABLE IF NOT EXISTS `settings` (
+  `key` varchar(30) NOT NULL,
+  `value` varchar(3000) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `settings`
+--
+
+INSERT INTO `settings` (`key`, `value`) VALUES
+('baseurl', 'http://localhost'),
+('title', 'Tracker teststttt'),
+('timecache', '0'),
+('lang', 'en'),
+('theme', 'boot3'),
+('open_tracker', 'true'),
+('announce_interval', '1800'),
+('min_interval', '900'),
+('default_peers', '50'),
+('max_peers', '50'),
+('see_uploader', 'true'),
+('external_ip', 'false'),
+('force_compact', 'true'),
+('full_scrape', 'false'),
+('rewrite_url', 'true'),
+('metad', 'Meta descriptionn'),
+('metak', 'Meta keywords'),
+('torrentSize', ''),
+('submit', 'Submit'),
+('version', 'a:2:{s:7:"version";s:1:"1";s:6:"commit";s:1:"3";}'),
+('salt', '0900124461779baebd4e030b813535ac'),
+('sessionName', 'sessionUser');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tasks`
+--
+
+CREATE TABLE IF NOT EXISTS `tasks` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `time` int(10) NOT NULL DEFAULT '0',
+  `last_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `time`, `last_time`) VALUES
+(1, 600, 1417024083),
+(2, 3600, 1417022341),
+(3, 86400, 1416995432),
+(4, 2592000, 1414518987);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `torrents`
+--
+
+CREATE TABLE IF NOT EXISTS `torrents` (
+  `id` int(200) NOT NULL AUTO_INCREMENT,
+  `userid` int(50) NOT NULL,
+  `info_hash` varchar(50) NOT NULL,
+  `title` varchar(100) NOT NULL DEFAULT 'Untitled',
+  `url_title` varchar(100) NOT NULL,
+  `categorie` varchar(50) NOT NULL DEFAULT '0',
+  `torrent_desc` longtext CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `date` varchar(10) NOT NULL,
+  `announce` longtext NOT NULL,
+  `hits` varchar(100) NOT NULL DEFAULT '0',
+  `seeds` int(11) NOT NULL,
+  `leechers` int(11) NOT NULL,
+  `finished` int(11) NOT NULL,
+  `size` int(11) NOT NULL,
+  `last_scrape` int(11) NOT NULL,
+  `images64` longtext NOT NULL,
+  `imgExt` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=120 ;
+
+--
+-- Contenu de la table `torrents`
+--
+
+INSERT INTO `torrents` (`id`, `userid`, `info_hash`, `title`, `url_title`, `categorie`, `torrent_desc`, `date`, `announce`, `hits`, `seeds`, `leechers`, `finished`, `size`, `last_scrape`, `images64`, `imgExt`) VALUES
+(1, 1, '97763cbed6fe603a3185835a8473910bbad26c1d', 'Synchronised encompassing portal', 'self-enabling-web-enabled-alliance', '1', '', '1407608990', 's:46:"http://vandervort.com/commodi-et-sit-enim.html";', '0', 1042, 224, 285, 23273, 0, '', ''),
+(2, 1, '4e1a5a17ed2612068a6ee4f6bd71b81460c7b3e1', 'Centralized local archive', 'distributed-responsive-openarchitecture', '6', '', '1407608990', 's:60:"https://aufderhar.com/autem-delectus-rem-possimus-autem.html";', '0', 761, 115, 494, 15476, 0, '', ''),
+(3, 1, '3fcd71f6dd7b8a2ef48e6c88453481b10065ad51', 'Polarised multimedia adapter', 're-engineered-contextually-based-core', '4', '', '1407608990', 's:62:"http://gerlachsenger.com/in-adipisci-consequuntur-voluptas-qui";', '0', 262, 771, 943, 5208, 0, '', ''),
+(4, 1, 'c2669b417be7f04975998ff8c36a92d83d74f33a', 'Proactive executive toolset', 'public-key-background-knowledgeuser', '5', '', '1407608990', 's:23:"http://www.abbott.info/";', '0', 534, 803, 579, 21467, 0, '', ''),
+(5, 1, '3cbca9ba9422eb387f1d2c63448e82b2ff31f1db', 'Synergized bifurcated leverage', 'distributed-coherent-interface', '5', '', '1407608990', 's:76:"http://www.beerzulauf.com/dolor-assumenda-voluptatem-eos-fuga-sequi-quo.html";', '0', 678, 62, 940, 18058, 0, '', ''),
+(6, 1, 'f4c130038cbe903043551495586e101272bfd2b4', 'Cross-group bandwidth-monitored focusgroup', 'facetoface-6thgeneration-intranet', '3', '', '1407608990', 's:60:"http://www.daniel.net/sed-quia-iusto-accusantium-eum-ducimus";', '0', 247, 1045, 802, 39817, 0, '', ''),
+(7, 1, '8cddea124b58ab9e9b3a867ed44673127c3978e9', 'Enhanced regional help-desk', 'devolved-composite-challenge', '4', '', '1407608990', 's:23:"http://stoltenberg.biz/";', '0', 722, 533, 537, 55698, 0, '', ''),
+(8, 1, '1a9b65f0bb2160b46e41ad35ae2624e2deb063cc', 'Intuitive asynchronous application', 'profound-heuristic-project', '6', '', '1407608990', 's:49:"https://www.erdman.com/libero-dicta-aut-sit-dolor";', '0', 797, 1059, 746, 44204, 0, '', ''),
+(9, 1, 'c55cc29a0d9f7999f0c0a89b4970ef66a16ec885', 'Object-based contextually-based concept', 'focused-mission-critical-hierarchy', '7', '', '1407608990', 's:72:"https://www.greenholtdooley.com/eaque-et-voluptatem-sed-provident-est-et";', '0', 166, 864, 722, 59334, 0, '', ''),
+(10, 1, '2fa150b2ef2d7812d85e8447dac863c1dd985a41', 'Versatile executive knowledgeuser', 'operative-object-oriented-model', '3', '', '1407608990', 's:81:"http://www.treutel.com/sunt-voluptate-nemo-quis-nesciunt-adipisci-voluptate-quasi";', '0', 149, 870, 371, 22883, 0, '', ''),
+(11, 1, 'f4b8b36f9b6cfaa94bda5a7e4f73666e73ac658c', 'Digitized bandwidth-monitored workforce', 'synergized-grid-enabled-knowledgebase', '1', '', '1407608990', 's:61:"http://mckenziewyman.com/iusto-dolor-temporibus-velit-ducimus";', '0', 387, 775, 638, 41183, 0, '', ''),
+(12, 1, 'ec642428e25157ee4998d5d2aea1df5da40a469d', 'Customizable modular initiative', 'business-focused-context-sensitive-archive', '2', '', '1407608990', 's:53:"http://www.dicki.com/omnis-asperiores-sint-ullam.html";', '0', 292, 863, 1065, 46673, 0, '', ''),
+(13, 1, '1189bb0473f5f8ef2f6683213adb0866ac368e04', 'Quality-focused demand-driven artificialintelligence', 'enterprise-wide-encompassing-function', '6', '', '1407608990', 's:72:"http://www.cole.com/voluptatem-distinctio-cum-sint-voluptas-ea-inventore";', '0', 1042, 192, 674, 71334, 0, '', ''),
+(14, 1, 'cc2b5b06d1c4b5a06a184a2da88ebd91e4663ac0', 'Exclusive encompassing array', 'inverse-multimedia-workforce', '1', '', '1407608990', 's:22:"http://feeneyyost.com/";', '0', 750, 813, 621, 53829, 0, '', ''),
+(15, 1, 'e2599736b7354ee83ddb8eff1ae46acf477a8dd7', 'Multi-tiered methodical openarchitecture', 'user-friendly-24hour-forecast', '6', '', '1407608990', 's:47:"http://batz.biz/aut-odit-quibusdam-perspiciatis";', '0', 278, 238, 396, 56126, 0, '', ''),
+(16, 1, 'b7ac3d6458c2c14cd5971a6a0ea7831871cf10ac', 'Open-source mobile success', 'down-sized-nextgeneration-parallelism', '3', '', '1407608990', 's:70:"http://watsica.biz/aut-quia-fugiat-beatae-porro-necessitatibus-et.html";', '0', 1029, 509, 159, 71055, 0, '', ''),
+(17, 1, '2c87c7801620d91f77e6e8ad9d80f43ea62ae9c1', 'Innovative background frame', 'streamlined-systematic-paradigm', '2', '', '1407608990', 's:16:"http://jast.com/";', '0', 726, 619, 563, 14182, 0, '', ''),
+(18, 1, '0ac69bb4cc97bfb9a2b69551c9d44aa6cf580c59', 'Automated coherent synergy', 'up-sized-bottom-line-collaboration', '5', '', '1407608990', 's:74:"https://www.stamm.biz/magni-totam-nihil-maiores-itaque-quia-necessitatibus";', '0', 557, 172, 305, 40259, 0, '', ''),
+(19, 1, '7e4cfe141a9645c3a2641eb608d0a27359c6da54', 'Innovative dynamic extranet', 'fundamental-intermediate-time-frame', '2', '', '1407608990', 's:25:"http://ritchiebailey.biz/";', '0', 140, 313, 267, 67338, 0, '', ''),
+(20, 1, '8284d10ef806cbd4db3c73d927f3178db36edf4b', 'Managed exuding knowledgeuser', 'configurable-multi-tasking-help-desk', '5', '', '1407608990', 's:73:"http://www.halvorsonbarrows.biz/facere-aut-veniam-voluptates-quidem-dolor";', '0', 513, 263, 69, 73813, 0, '', ''),
+(21, 1, 'bc06dbcca3c7f1b69bdf1602778a9225ba950494', 'Compatible bandwidth-monitored algorithm', 'implemented-explicit-complexity', '7', '', '1407608990', 's:63:"https://www.beierlesch.biz/numquam-sapiente-enim-rerum-voluptas";', '0', 663, 1087, 61, 17228, 0, '', ''),
+(22, 1, '956cc26a423eca3f6d06b75e421e0e3bca78d43b', 'Stand-alone bi-directional matrix', 'digitized-real-time-processimprovement', '5', '', '1407608990', 's:83:"http://hudson.info/sapiente-praesentium-possimus-consequatur-et-in-quis-maxime.html";', '0', 1056, 306, 414, 23615, 0, '', ''),
+(23, 1, '240ae9868072e5f57f7e9448c3529e36dbad58e1', 'Innovative logistical collaboration', 'vision-oriented-tangible-budgetarymanagement', '1', '', '1407608990', 's:52:"http://goyette.com/reiciendis-neque-dolorem-quo-nemo";', '0', 106, 382, 68, 81952, 0, '', ''),
+(24, 1, '1ec2cf6f49bf959e528e31ac1dc7a7b9d43feda0', 'Devolved holistic software', 'seamless-full-range-circuit', '1', '', '1407608990', 's:17:"http://bayer.com/";', '0', 826, 633, 313, 55865, 0, '', ''),
+(25, 1, 'a09df10ed56b8231991b0814a8679076d434dd6e', 'Multi-layered foreground migration', 'secured-6thgeneration-standardization', '2', '', '1407608990', 's:25:"http://runolfsdottir.net/";', '0', 559, 1024, 179, 71447, 0, '', ''),
+(26, 1, 'bfffa309216543bbaa703a5a8be56d8c94f4ffad', 'Switchable nextgeneration complexity', 'profound-nextgeneration-workforce', '6', '', '1407608990', 's:87:"http://www.legroshodkiewicz.com/aut-saepe-tempore-facilis-quidem-est-reprehenderit.html";', '0', 53, 235, 886, 83131, 0, '', ''),
+(27, 1, 'fa68ff321b8fa036f2b420e82f3289bc9adafc71', 'Persistent non-volatile artificialintelligence', 'cloned-24hour-moderator', '6', '', '1407608990', 's:19:"http://oconner.com/";', '0', 771, 425, 254, 38822, 0, '', ''),
+(28, 1, 'dd9e10a8c507eca96b5c71a9e29d2fe2f1b1fa30', 'Horizontal demand-driven hierarchy', 'multi-tiered-human-resource-infrastructure', '1', '', '1407608990', 's:88:"http://www.wilkinson.com/dicta-aut-repudiandae-aliquam-voluptatem-earum-iure-dignissimos";', '0', 628, 399, 567, 31376, 0, '', ''),
+(29, 1, '0cc159f3ea8ed2b42168f4e87c8b19613272f457', 'Centralized secondary migration', 're-contextualized-assymetric-adapter', '2', '', '1407608991', 's:69:"http://mueller.org/aliquam-sint-est-deleniti-totam-dignissimos-labore";', '0', 738, 1033, 242, 56600, 0, '', ''),
+(30, 1, 'de9f201765de17481eb4bb9b46ab6de7e3aa98ca', 'Re-engineered grid-enabled project', 'devolved-human-resource-internetsolution', '5', '', '1407608991', 's:20:"http://baumbach.com/";', '0', 397, 885, 934, 84325, 0, '', ''),
+(31, 1, '52ce891d2df46337bd2d5ac1859cf787319456ec', 'Exclusive systemic product', 'upgradable-non-volatile-solution', '4', '', '1407608991', 's:70:"http://www.hilll.com/inventore-eos-ducimus-quae-et-non-blanditiis.html";', '0', 121, 335, 200, 86184, 0, '', ''),
+(32, 1, '2ed6a00e2ebe4c4a32be0f0bd8e3da52c64914d2', 'Universal 4thgeneration paradigm', 'exclusive-national-software', '2', '', '1407608991', 's:20:"http://oconner.info/";', '0', 68, 659, 480, 17191, 0, '', ''),
+(33, 1, '64964235c5dbb63151aea44d39d5f05380edd723', 'Ameliorated asynchronous definition', 'devolved-3rdgeneration-function', '3', '', '1407608991', 's:66:"http://bednaranderson.com/placeat-placeat-sit-in-eum-velit-qui-eum";', '0', 973, 428, 687, 44231, 0, '', ''),
+(34, 1, 'b60ce2496ee95abd8c1bc41c98a04d640c70103f', 'Reactive bandwidth-monitored encoding', 'devolved-non-volatile-conglomeration', '7', '', '1407608991', 's:98:"https://johnston.biz/molestiae-quia-doloribus-exercitationem-voluptatem-perspiciatis-ipsum-et.html";', '0', 416, 222, 368, 67231, 0, '', ''),
+(35, 1, '641de0d899fe77a2d989d8969393336a7fb5430a', 'Multi-tiered user-facing strategy', 'versatile-analyzing-protocol', '7', '', '1407608991', 's:69:"http://kassulke.com/ducimus-minus-at-voluptatem-aliquam-harum-nam-sit";', '0', 983, 532, 854, 31885, 0, '', ''),
+(36, 1, 'b47cb2afedc0d296c397d7017fc44a60e87cd7a5', 'Integrated impactful softwaredsdsdsdsd', 'integrated-impactful-softwaredsdsdsdsd', '1', 'tesssssssssssssssssssssssssssssssssssssssssssssssst!!!!!!!!', '1407608991', 's:85:"https://ledner.com/nisi-iusto-eaque-ducimus-esse-eum-quas-repudiandae-temporibus.html";', '0', 174, 681, 625, 24747, 0, '', ''),
+(37, 1, '0e2229a16a23b93b630cd998e6b0724f49d6576d', 'Quality-focused systematic flexibility', 'function-based-radical-hub', '3', '', '1407608991', 's:70:"http://www.leannon.com/et-impedit-est-et-est-exercitationem-magni.html";', '0', 343, 1064, 89, 18332, 0, '', ''),
+(38, 1, '466e22d51a3845d992d11f1a7270d3db617f8ca9', 'Team-oriented intangible installation', 'multi-tiered-multimedia-hierarchy', '3', '', '1407608991', 's:19:"http://russel.info/";', '0', 797, 1007, 390, 19565, 0, '', ''),
+(39, 1, 'af0ec8e81bcea30373e393825ee9b11555dbe338', 'Organic encompassing website', 'total-grid-enabled-application', '7', '', '1407608991', 's:66:"http://www.oreillylittel.com/ipsum-laudantium-rerum-exercitationem";', '0', 981, 669, 157, 89090, 0, '', ''),
+(40, 1, 'ce5978be0bef750665e0a814317755d5dcce07bf', 'Advanced optimal workforce', 'de-engineered-multimedia-firmware', '3', '', '1407608991', 's:23:"http://www.wuckert.com/";', '0', 547, 1007, 744, 34791, 0, '', ''),
+(41, 1, 'c3e60552e2e951ec28b864df4200c7fba86b68b4', 'Operative didactic superstructure', 'cross-group-clear-thinking-core', '6', '', '1407608991', 's:108:"https://bergstrompacocha.com/laboriosam-libero-occaecati-sequi-nesciunt-sapiente-exercitationem-qui-sit.html";', '0', 619, 1068, 171, 20245, 0, '', ''),
+(42, 1, '95b99630382bb01e853db4ccfcd6f0532fa23bc8', 'Profit-focused zerotolerance policy', 'seamless-tertiary-attitude', '1', '', '1407608991', 's:57:"https://www.conroywuckert.com/alias-vitae-tempore-qui-aut";', '0', 778, 610, 585, 74369, 0, '', ''),
+(43, 1, '102bb1802567f5592ec4ef1fb660289dd5636273', 'Expanded object-oriented support', 'progressive-motivating-processimprovement', '4', '', '1407608991', 's:63:"http://tillmanprohaska.com/vel-et-laudantium-qui-aut-sequi.html";', '0', 1016, 277, 126, 31927, 0, '', ''),
+(44, 1, '3d78a9ba3356b14e1c49d014013f4d35a550a750', 'Integrated stable challenge', 'self-enabling-actuating-toolset', '5', '', '1407608991', 's:75:"https://www.armstrong.com/aut-minima-ut-iusto-porro-sed-aliquid-sit-dolorem";', '0', 800, 860, 719, 66359, 0, '', ''),
+(45, 1, '3ddc97fbcc6166989b8a10528f99728ad2f6ed3f', 'Progressive demand-driven throughput', 'managed-cohesive-opensystem', '2', '', '1407608991', 's:71:"http://www.gislason.biz/sequi-saepe-exercitationem-est-repudiandae.html";', '0', 655, 54, 833, 73417, 0, '', ''),
+(46, 1, '23ea4d7d7aa6600436817b86727ee1e49d77a494', 'Advanced demand-driven frame', 'fully-configurable-coherent-solution', '2', '', '1407608991', 's:20:"http://www.feil.biz/";', '0', 351, 686, 996, 74464, 0, '', ''),
+(47, 1, '6d1afbca7fc2a67a57f2e922bd8035e91279eea7', 'Realigned object-oriented encryption', 'polarised-non-volatile-migration', '7', '', '1407608991', 's:65:"https://www.wisoky.com/totam-et-aliquam-recusandae-itaque-ut-sint";', '0', 196, 563, 261, 18866, 0, '', ''),
+(48, 1, 'b10e03528b6d2598739161525b96e07bd14f67d4', 'Organic leadingedge knowledgebase', 'open-source-3rdgeneration-capacity', '3', '', '1407608991', 's:66:"http://www.hand.net/eos-rerum-consequatur-exercitationem-veritatis";', '0', 292, 817, 1012, 30023, 0, '', ''),
+(49, 1, '4afc304f543cba60c3148ae6ab75c41c5683209b', 'Multi-lateral fault-tolerant matrix', 'managed-radical-matrices', '7', '', '1407608991', 's:63:"http://pollich.biz/incidunt-aut-possimus-quisquam-et-nulla.html";', '0', 141, 377, 970, 12706, 0, '', ''),
+(50, 1, '3c1f99da43848166b63f9a5c035669a69973774e', 'Facetoface multi-state structure', 'integrated-human-resource-support', '2', '', '1407608991', 's:46:"https://mraz.net/placeat-aperiam-nihil-ut.html";', '0', 171, 779, 127, 35580, 0, '', ''),
+(51, 1, 'a2b06a3f6fab00d7992f44d4c5307b2a46a69170', 'Optimized optimizing instructionset', 'fully-configurable-encompassing-concept', '7', '', '1407608991', 's:22:"http://nicolasvon.com/";', '0', 861, 922, 676, 26587, 0, '', ''),
+(52, 1, '0c14a2912318b8c180a6144cc2d1bd0420206913', 'Automated zeroadministration matrices', 'seamless-nextgeneration-neural-net', '6', '', '1407608991', 's:76:"http://www.reichertkuvalis.org/et-numquam-voluptatem-explicabo-qui-accusamus";', '0', 475, 388, 974, 66665, 0, '', ''),
+(53, 1, 'b5411ded58667907b5e0ef52d6d0d8d3144dbe8d', 'Team-oriented background website', 'devolved-disintermediate-archive', '6', '', '1407608991', 's:20:"http://mckenzie.com/";', '0', 331, 142, 166, 74196, 0, '', ''),
+(54, 1, '5fab9d3c4c657febe86dda5ec2bf515268f9492e', 'Multi-channelled fresh-thinking hub', 'advanced-optimizing-solution', '1', '', '1407608991', 's:75:"http://waters.info/quam-consequatur-consequatur-officia-quis-magni-sit.html";', '0', 381, 1089, 110, 88353, 0, '', ''),
+(55, 1, 'd76d78a3408307e0dbc115ed170ed6146212581e', 'Inverse explicit intranet', 'total-asynchronous-workforce', '7', '', '1407608991', 's:58:"https://www.conroyhahn.com/esse-aut-officia-voluptatem-vel";', '0', 333, 511, 983, 36467, 0, '', ''),
+(56, 1, 'f620cb3af8a5dce117e9969646c067fca51b592f', 'Multi-lateral exuding complexity', 'ameliorated-asynchronous-parallelism', '1', '', '1407608991', 's:32:"http://www.leannonbuckridge.com/";', '0', 974, 817, 676, 68474, 0, '', ''),
+(57, 1, '705fed55c6d1e74060bd6f4299ba5af235696c69', 'Organized bottom-line budgetarymanagement', 'profit-focused-bandwidth-monitored-securedline', '7', '', '1407608991', 's:73:"http://blandawilliamson.org/excepturi-totam-quidem-nihil-quod-facere-quas";', '0', 450, 364, 1004, 89183, 0, '', ''),
+(58, 1, '41045c16633e911bf1b6b7ab0d358973f342dd5d', 'Total full-range standardization', 'focused-cohesive-approach', '6', '', '1407608991', 's:54:"http://www.funk.com/modi-accusamus-reiciendis-sed-quia";', '0', 678, 276, 276, 9349, 0, '', ''),
+(59, 1, 'b96f6464913baeeba870ef73991b8996d55e52d0', 'Mandatory dynamic middleware', 'organized-needs-based-application', '1', '', '1407608991', 's:72:"https://erdmancasper.biz/ullam-delectus-velit-sit-non-distinctio-et.html";', '0', 791, 936, 154, 25939, 0, '', ''),
+(60, 1, 'ea627f01869d30f2301322a400c593af9836177c', 'Vision-oriented modular projection', 'reduced-explicit-internetsolution', '1', '', '1407608991', 's:78:"http://www.sporeroconner.com/odio-odio-nulla-nihil-quidem-illum-asperiores-quo";', '0', 524, 915, 942, 17407, 0, '', ''),
+(61, 1, '7a6d2952506a46b2dcd843f1960fb586dd5b22d0', 'Multi-lateral multimedia intranet', 'cross-group-bifurcated-conglomeration', '3', '', '1407608991', 's:65:"http://www.dubuqueokon.com/dolor-repudiandae-maiores-nemo-non-eum";', '0', 314, 254, 294, 63139, 0, '', ''),
+(62, 1, 'ee935b31e47efa8ce974495e443515872958ab5c', 'Assimilated discrete utilisation', 'balanced-systemic-time-frame', '4', '', '1407608991', 's:77:"https://www.nader.org/accusamus-dolores-sit-sunt-omnis-ullam-in-et-laboriosam";', '0', 456, 76, 247, 36498, 0, '', ''),
+(63, 1, '519af03ecb04320e643c70e3c772a908c9083e39', 'Reactive national archive', 'polarised-analyzing-localareanetwork', '2', '', '1407608991', 's:55:"http://hoppe.org/autem-dolores-provident-et-repudiandae";', '0', 553, 908, 103, 38975, 0, '', ''),
+(64, 1, '73c3cbafeaa817d83ce33a7b3c86af36be0fefea', 'Horizontal client-driven adapter', 'robust-logistical-parallelism', '6', '', '1407608991', 's:28:"http://www.rippinrussel.com/";', '0', 112, 437, 513, 37422, 0, '', ''),
+(65, 1, '7659ba8d70c097b9367916f3f8b019490579b560', 'Realigned dedicated collaboration', 'universal-leadingedge-alliance', '4', '', '1407608991', 's:51:"http://www.pollich.net/natus-accusamus-at-molestiae";', '0', 472, 561, 232, 70017, 0, '', ''),
+(66, 1, 'ff91e9cdf6415bf3266b117d30a100599dbc56c9', 'Self-enabling optimal capability', 'synergized-object-oriented-extranet', '2', '', '1407608991', 's:18:"http://brakus.net/";', '0', 619, 183, 51, 84493, 0, '', ''),
+(67, 1, '7678aaa31f2c8cc7e36955e6789b5b69eacc0639', 'Fully-configurable web-enabled time-frame', 'ergonomic-assymetric-initiative', '7', '', '1407608991', 's:83:"http://www.connelly.com/maxime-necessitatibus-voluptatem-deserunt-accusamus-sit-aut";', '0', 483, 886, 1009, 61878, 0, '', ''),
+(68, 1, 'c5feff78da04e406013e2bada1cf790d0b0b23aa', 'Switchable actuating analyzer', 'integrated-maximized-architecture', '7', '', '1407608991', 's:26:"http://www.aufderhar.info/";', '0', 845, 360, 832, 76679, 0, '', ''),
+(69, 1, 'c763ee449ea84413f555559168f6136db24646e1', 'Distributed composite core', 'optional-discrete-productivity', '4', '', '1407608991', 's:44:"https://www.jerde.com/qui-blanditiis-vel-aut";', '0', 461, 1048, 127, 28406, 0, '', ''),
+(70, 1, '5c861a3e4795e0774427bf5542b738c8ca7edee2', 'Multi-lateral content-based openarchitecture', 'digitized-uniform-website', '6', '', '1407608991', 's:20:"http://www.rath.net/";', '0', 688, 303, 235, 18303, 0, '', ''),
+(71, 1, '5ee89e98d18fe42015f0683b212fd0299df288b8', 'Managed static parallelism', 'persistent-fault-tolerant-hardware', '2', '', '1407608991', 's:51:"http://ernser.com/harum-ducimus-reiciendis-voluptas";', '0', 682, 488, 204, 89725, 0, '', ''),
+(72, 1, '12f0f8a17492997b79c0c44767217beb7a2fd2ae', 'Down-sized radical portal', 'intuitive-systemic-toolset', '3', '', '1407608991', 's:32:"http://www.collierschroeder.com/";', '0', 425, 834, 832, 64933, 0, '', ''),
+(73, 1, 'bd0b00a069d7cbe76c71b8c2d9d0c13bf83dfca9', 'Centralized holistic implementation', 'inverse-non-volatile-flexibility', '6', '', '1407608991', 's:70:"http://www.ernser.com/qui-asperiores-recusandae-eum-ad-aut-tenetur-aut";', '0', 263, 817, 97, 39584, 0, '', ''),
+(74, 1, 'e6ede0d41ac044e5ec6ccc3f619332bc686a0bcb', 'Upgradable zerodefect superstructure', 'ergonomic-national-challenge', '5', '', '1407608991', 's:79:"http://altenwerthrowe.org/dignissimos-ut-blanditiis-rem-in-et-vitae-repellendus";', '0', 531, 362, 273, 85757, 0, '', ''),
+(75, 1, '35906af8c8e6dc2eade6b832524a6529f79b58b0', 'Function-based directional strategy', 'synchronised-disintermediate-function', '7', '', '1407608991', 's:25:"http://lindgrenortiz.net/";', '0', 634, 50, 143, 61083, 0, '', ''),
+(76, 1, '2a22db16e22c08d54c3895f72e4dfa51580f5908', 'User-friendly didactic architecture', 'implemented-dynamic-hub', '7', '', '1407608991', 's:24:"http://bayerstroman.biz/";', '0', 495, 179, 287, 22963, 0, '', ''),
+(77, 1, '15ed63f6323e5bf37dafe36f9cc6d561d570e4d0', 'Profit-focused hybrid algorithm', 'customizable-fault-tolerant-model', '7', '', '1407608991', 's:23:"http://www.ernser.info/";', '0', 478, 1063, 99, 88934, 0, '', ''),
+(78, 1, '7e5484fe5b7568e626b58aa14b5007ed19e18b26', 'Object-based heuristic synergy', 'advanced-zerodefect-success', '7', '', '1407608991', 's:42:"http://www.haag.com/in-et-et-illo-mollitia";', '0', 298, 292, 1059, 86375, 0, '', ''),
+(79, 1, 'a1e754de45bc07225187c644a19cfda497bfc2cc', 'Object-based contextually-based internetsolution', 'configurable-optimal-openarchitecture', '3', '', '1407608991', 's:51:"http://kuhlman.info/est-numquam-laborum-non-dolorem";', '0', 433, 968, 970, 19615, 0, '', ''),
+(80, 1, '37ae540aea4860be7716721e145a5e2292f5bcfd', 'Managed logistical groupware', 'ergonomic-assymetric-project', '6', '', '1407608991', 's:22:"http://www.jacobi.com/";', '0', 341, 633, 506, 41894, 0, '', ''),
+(81, 1, 'c492548b9a18f43211bbba98d283c9f8205b6eca', 'Total clear-thinking capacity', 'universal-national-capacity', '1', '', '1407608991', 's:74:"https://www.grantrath.com/ex-a-reiciendis-ex-voluptatem-similique-iste-cum";', '0', 623, 565, 910, 68011, 0, '', ''),
+(82, 1, '9cb4b268c223cde7d0d3d56be4d49d49e1f97c23', 'Implemented contextually-based knowledgeuser', 'user-centric-maximized-hub', '3', '', '1407608991', 's:51:"http://beatty.com/qui-culpa-sequi-fugiat-temporibus";', '0', 310, 804, 548, 14072, 0, '', ''),
+(83, 1, 'b7a6a630fcc9a83ffebb05c480c5c8c4d0286b1d', 'Visionary impactful collaboration', 'enhanced-static-circuit', '5', '', '1407608991', 's:68:"http://baumbachyundt.org/quia-vel-maxime-qui-quisquam-similique-sint";', '0', 734, 252, 197, 72844, 0, '', ''),
+(84, 1, '6224f52db708afcea23bb4329fc86faaf2235779', 'Assimilated 24/7 database', 'multi-lateral-full-range-synergy', '7', '', '1407608991', 's:70:"http://www.gerhold.com/eum-aut-dignissimos-corporis-sed-inventore.html";', '0', 987, 104, 176, 40651, 0, '', ''),
+(85, 1, '80df1d96705af6fc6ca4d1cf0401fc1cf27d489c', 'Virtual analyzing attitude', 'distributed-background-opensystem', '3', '', '1407608991', 's:73:"https://ornkuhic.info/recusandae-quos-qui-et-eum-eveniet-autem-nobis.html";', '0', 62, 565, 1025, 89570, 0, '', ''),
+(86, 1, '51a7e3dc1ff32eeec7783a5d1427175f94d360b3', 'Reverse-engineered full-range task-force', 'phased-3rdgeneration-support', '5', '', '1407608991', 's:22:"http://www.spinka.com/";', '0', 423, 395, 891, 76081, 0, '', ''),
+(87, 1, '8113beae834574f52331f8b865747cb61e3e29a7', 'Multi-layered cohesive function', 'implemented-clear-thinking-framework', '7', '', '1407608991', 's:49:"https://hudson.com/in-aut-ratione-illo-saepe.html";', '0', 719, 130, 211, 57889, 0, '', ''),
+(88, 1, '4cb98f05074296b7b54d2d40e615e6f445f56649', 'Re-engineered methodical productivity', 'triple-buffered-foreground-processimprovement', '2', '', '1407608991', 's:81:"http://www.hermannrunolfsdottir.biz/ea-molestiae-assumenda-voluptatem-commodi-est";', '0', 857, 876, 134, 47313, 0, '', ''),
+(89, 1, '64b5c4c07c38163995f32af9aadb2dcedd9ef542', 'Focused interactive securedline', 'triple-buffered-intermediate-infrastructure', '4', '', '1407608991', 's:57:"https://www.hamill.biz/tempora-sint-deleniti-debitis-vero";', '0', 532, 816, 277, 47170, 0, '', ''),
+(90, 1, '5ebccd57ee236e8ec2db413da8773b1be70cb1b0', 'Balanced disintermediate matrix', 'grass-roots-full-range-function', '1', '', '1407608991', 's:75:"http://legros.com/mollitia-ea-debitis-ut-accusantium-laborum-doloribus.html";', '0', 694, 378, 322, 16705, 0, '', ''),
+(91, 1, '60dbf57d3dee611d28349b67b29a316e2b680201', 'Reduced leadingedge archive', 'decentralized-impactful-hardware', '2', '', '1407608991', 's:75:"https://larson.com/consequatur-qui-dolor-rerum-libero-accusantium-esse.html";', '0', 819, 604, 294, 76746, 0, '', ''),
+(92, 1, '7b7797011d482fa18d141725132205b577424deb', 'Up-sized 6thgeneration hardware', 'reverse-engineered-value-added-archive', '7', '', '1407608991', 's:69:"http://www.bayer.com/et-quia-ipsa-qui-iure-consequatur-voluptatem-aut";', '0', 922, 1042, 629, 27637, 0, '', ''),
+(93, 1, '43e8d99b8da9b6564ddef0508c324e65aa98c4a5', 'Visionary global service-desk', 'monitored-homogeneous-workforce', '5', '', '1407608991', 's:72:"http://www.okunevacollier.com/rerum-dolorem-dolorem-odio-enim-animi.html";', '0', 798, 77, 78, 28555, 0, '', ''),
+(94, 1, '959327585e46c316c6ff968d922a5b75470904f3', 'Upgradable non-volatile artificialintelligence', 'realigned-hybrid-customerloyalty', '4', '', '1407608991', 's:60:"http://www.deckow.info/sint-ut-et-eveniet-similique-qui.html";', '0', 905, 309, 162, 59815, 0, '', ''),
+(95, 1, '7bbddada9084993cd4c57b33215ad0e8d7f15071', 'Compatible dedicated service-desk', 'multi-channelled-transitional-solution', '5', '', '1407608991', 's:26:"http://fadelwilkinson.com/";', '0', 342, 903, 102, 19715, 0, '', ''),
+(96, 1, 'f70d55d4a7cfce0a6a541dde5545eadb3581aeb7', 'Phased optimizing core', 'profit-focused-heuristic-capacity', '2', '', '1407608991', 's:18:"http://miller.org/";', '0', 993, 648, 430, 64344, 0, '', ''),
+(97, 1, '6333a0de30e0a4067eefa84072efaa6ce904fa90', 'Function-based client-server GraphicInterface', 'synergistic-3rdgeneration-application', '5', '', '1407608991', 's:77:"http://connelly.org/consequuntur-repellat-odit-esse-non-similique-ea-aut.html";', '0', 119, 282, 299, 64650, 0, '', ''),
+(98, 1, '05ea1aa71106bcb8c68b29d7855edc12b4c7d58e', 'Optimized executive pricingstructure', 'seamless-attitude-oriented-functionalities', '5', '', '1407608991', 's:45:"http://stanton.com/accusamus-et-quia-non-sint";', '0', 358, 686, 67, 33257, 0, '', ''),
+(99, 1, 'cf7ca325c004f4f39daad068e0e02974a89f7b11', 'Enhanced disintermediate utilisation', 'expanded-heuristic-collaboration', '1', '', '1407608991', 's:73:"http://rolfson.com/natus-vitae-qui-voluptate-illo-rerum-voluptatem-libero";', '0', 631, 788, 245, 45742, 0, '', ''),
+(100, 1, 'bf5f6ca6b6c7a0c5a2231beac70b89f85877a336', 'Digitized tangible definition', 'diverse-leadingedge-leverage', '2', '', '1407608991', 's:49:"http://schumm.com/sunt-magnam-provident-esse-nemo";', '0', 300, 983, 63, 31489, 0, '', ''),
+(101, 1, '4a5257aded9a425a7ccb0563bd88bb9e29c3f9a9', 'Numb3rs - Saison 3', 'numb3rs-saison-3', '4', '<span style="background-color: rgb(255, 0, 0);">Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3Numb3rs - Saison 3</span> ', '1407749909', 's:43:"http://tracker.torrentfrancais.com/announce";', '0', 0, 0, 0, 2147483647, 0, '', '.png'),
+(102, 1, 'cd4343be5bffefa72b18354bc1dade1e0c2a9d5e', 'Compatible nextgeneration neural-net', 'visionary-neutral-synergy', '4', 'Facere autem perferendis qui eos odit dolores. Dolores adipisci ea cumque. Et quia eaque officia sit. Vitae rerum ut quia laborum reprehenderit et.', '1410574574', 's:73:"http://rowe.info/consequatur-voluptates-ullam-quia-eum-et-molestiae-omnis";', '0', 422, 1073, 1027, 12767, 0, '', ''),
+(103, 1, '5973fd2b18d1b1267228daa33389988e944743bf', 'Distributed homogeneous array', 'synchronised-system-worthy-hub', '6', 'Nihil facere ab voluptatibus enim voluptas. Commodi laborum est et et adipisci hic.', '1410574574', 's:58:"https://wolf.biz/quia-doloribus-eaque-officia-dolorem.html";', '0', 159, 943, 571, 50453, 0, '', ''),
+(104, 1, 'a9cb64d2d13d244bbf0343ae31bfb01df2affba7', 'Sharable responsive matrices', 'ameliorated-national-forecast', '4', 'Ipsa aliquid nam dolor architecto. Minus rem quos laboriosam repellat dignissimos enim. Qui eum rerum et libero. Explicabo et rerum dolor laboriosam quibusdam. Officia sed minus sed qui ipsam quia.', '1410574574', 's:77:"https://ritchiedare.com/corrupti-voluptas-impedit-adipisci-voluptatem-et.html";', '0', 997, 411, 762, 80621, 0, '', ''),
+(105, 1, 'c07277586b86d5e3b68f3d565ace336f8aaac579', 'Focused uniform time-frame', 're-contextualized-attitude-oriented-service-desk', '7', 'Nihil numquam cumque sed aperiam vero in est. At natus voluptatum quia distinctio blanditiis vel.', '1410574574', 's:91:"http://konopelskibartoletti.org/tempore-optio-rerum-laboriosam-dolorum-sequi-veniam-aliquid";', '0', 1069, 875, 957, 37961, 0, '', ''),
+(106, 1, 'b8ce6a9c1c68856087524b436a22216b63109d24', 'Horizontal radical migration', 'up-sized-5thgeneration-interface', '4', 'At dolores labore accusantium sit animi quis est velit. Enim asperiores quis debitis culpa. Unde quo quidem cumque et nulla tenetur.', '1410574574', 's:54:"http://www.kassulkehalvorson.com/ex-ut-molestiae-nobis";', '0', 1029, 103, 440, 16771, 0, '', ''),
+(107, 1, '8cb47600924616bf16051bbd58bb72436cbb7fe1', 'User-centric optimal core', 'universal-coherent-challenge', '6', 'Velit autem et est commodi quod. Velit error sed nisi deserunt non. Dolor nihil voluptatem officia minima est rem. Officiis ducimus fugit temporibus aspernatur incidunt quia rerum.', '1410574574', 's:65:"http://lynch.biz/tempora-qui-autem-cum-quisquam-provident-dolores";', '0', 57, 1012, 916, 87800, 0, '', ''),
+(108, 1, '7c21873a1f128b66499c0b4fc710847979ecb633', 'Re-contextualized empowering GraphicInterface', 'streamlined-object-oriented-localareanetwork', '1', 'Rerum est rerum consequatur est suscipit et. Omnis cupiditate error impedit sunt quam optio commodi. Minima quos harum eum ullam quia. Soluta natus voluptatem ut mollitia eos.', '1410574574', 's:22:"http://www.sporer.com/";', '0', 354, 869, 622, 40859, 0, '', ''),
+(109, 1, '51be49689abb103f3656e53618df6ea0cc66cc4d', 'Business-focused client-server knowledgebase', 'extended-mission-critical-moderator', '6', 'Sunt sit repellendus tempora a illum id suscipit dolores. Corrupti dolor ea nulla est. Molestiae aut sed sed quis voluptatem voluptate corrupti modi.', '1410574574', 's:26:"http://rolfsoncollier.com/";', '0', 925, 101, 480, 86967, 0, '', ''),
+(110, 1, '17db6835b3c62949a8c37bc1d419746d66afa355', 'De-engineered optimizing core', 'persevering-reciprocal-website', '7', 'Rem quidem dolorem et quis minus. Sint perspiciatis sed aperiam corporis sit velit eum. Dolorem consequuntur animi dolores non.', '1410574574', 's:25:"http://www.daugherty.com/";', '0', 653, 413, 332, 54373, 0, '', ''),
+(111, 1, '5faaaf820881b4117814789c7f578023dabe5ec4', 'Object-based heuristic archive', 'decentralized-well-modulated-initiative', '3', 'Ipsa quia aspernatur laborum quis et dolorum. Occaecati aut maxime ab repellendus ipsum. Nostrum amet non id aut. Dicta consequuntur aut possimus in quibusdam quo. Quas debitis esse aut nulla nobis.', '1410574574', 's:70:"https://www.leffler.biz/vel-culpa-quam-mollitia-sunt-neque-dignissimos";', '0', 978, 285, 325, 13667, 0, '', ''),
+(112, 1, '334a35ffd4cc55963367bfa94beb37d999dd5224', 'Babysitter.Diaries.14.2014.DVDRip', 'babysitter-diaries-14-2014-dvdrip', '3', '<br>\r\nAlana Rains, Dani Desire, Jessie Parker, Johnny Sins, Keisha Grey, Manuel Ferrara, Mr. Pete, Ramon Nomar<br>\r\n<br>\r\nscrenshots: ', '1410701041', 'a:13:{i:0;a:1:{i:0;s:26:"udp://10.rarbg.me/announce";}i:1;a:1:{i:0;s:35:"udp://tracker.publicbt.com/announce";}i:2;a:1:{i:0;s:38:"udp://tracker.publicbt.com:80/announce";}i:3;a:1:{i:0;s:36:"udp://open.demonii.com:1337/announce";}i:4;a:1:{i:0;s:32:"udp://tracker.openbittorrent.com";}i:5;a:1:{i:0;s:35:"udp://tracker.openbittorrent.com:80";}i:6;a:1:{i:0;s:39:"udp://ipv4.tracker.harry.lu:80/announce";}i:7;a:1:{i:0;s:30:"udp://11.rarbg.com:80/announce";}i:8;a:1:{i:0;s:30:"udp://9.rarbg.me:2710/announce";}i:9;a:1:{i:0;s:35:"udp://tracker.istole.it:80/announce";}i:10;a:1:{i:0;s:31:"udp://9.rarbg.com:2710/announce";}i:11;a:1:{i:0;s:27:"udp://10.rarbg.com/announce";}i:12;a:1:{i:0;s:27:"udp://11.rarbg.com/announce";}}', '0', 87, 509, 62, 707468992, 1410701072, '', '.jpg'),
+(113, 1, '9227d84b880992bd8e1d24812289118e8a3f02a4', '03_elephant_php_1280_1024.png', '03-elephant-php-1280-1024-png', '1', 'dfgdfg ', '1410703238', 's:25:"http://localhost/announce";', '0', 0, 1, 0, 523393, 1410707855, '', ''),
+(114, 1, '4e31b71f0889ec3514f2b25dbd11a047b873a925', 'hacker-x-73021.jpg', 'hacker-x-73021-jpg', '1', 'hacker-x-73021-jpghacker-x-73021-jpghacker-x-73021-jpghacker-x-73021-jpg ', '1410707920', 's:25:"http://localhost/announce";', '0', 0, 0, 0, 56198, 1410746874, '', ''),
+(115, 77, '4e31b71f0889ec3514f2b25dbd11a047b873a925', 'hacker-x-73021.jpg', 'hacker-x-73021-jpg', '1', 'hacker-x-73021-jpghacker-x-73021-jpghacker-x-73021-jpg ', '1410746874', 's:25:"http://localhost/announce";', '0', 0, 0, 0, 56198, 1410746874, '', ''),
+(116, 1, '34021eaf3a6bfe8d3134e82b67950ed0ea0ac30b', 'Transformers Age of Extinction 2014 720p Bluray DTS x264 Worldwide7477', 'transformers-age-of-extinction-2014-720p-bluray-dts-x264-worldwide7477', '1', 'Transformers Age of Extinction 2014 720p Bluray DTS x264 Worldwide7477Transformers Age of Extinction 2014 720p Bluray DTS x264 Worldwide7477Transformers Age of Extinction 2014 720p Bluray DTS x264 Worldwide7477 ', '1411228984', 'a:11:{i:0;a:1:{i:0;s:40:"http://inferno.demonoid.ph:3389/announce";}i:1;a:1:{i:0;s:44:"udp://tracker.openbittorrent.com:80/announce";}i:2;a:1:{i:0;s:38:"udp://tracker.publicbt.com:80/announce";}i:3;a:1:{i:0;s:35:"udp://tracker.istole.it:80/announce";}i:4;a:1:{i:0;s:39:"udp://ipv4.tracker.harry.lu:80/announce";}i:5;a:1:{i:0;s:34:"udp://tracker.zond.org:80/announce";}i:6;a:1:{i:0;s:34:"udp://tracker.token.ro:80/announce";}i:7;a:1:{i:0;s:31:"udp://bt.rghost.net:80/announce";}i:8;a:1:{i:0;s:43:"udp://tracker.coppersurfer.tk:6969/announce";}i:9;a:1:{i:0;s:36:"http://torrent.gresille.org/announce";}i:10;a:1:{i:0;s:33:"http://exodus.desync.com/announce";}}', '0', 0, 29, 0, 2147483647, 1411228996, '', '.jpg'),
+(117, 1, 'cb84ccc10f296df72d6c40ba7a07c178a4323a14', 'ubuntu-14.04.1-desktop-amd64.iso', 'ubuntu-14-04-1-desktop-amd64-iso', '1', ' ', '1412348535', 'a:2:{i:0;a:1:{i:0;s:39:"http://torrent.ubuntu.com:6969/announce";}i:1;a:1:{i:0;s:44:"http://ipv6.torrent.ubuntu.com:6969/announce";}}', '0', 595, 15, 4, 1028653056, 1416894448, '', ''),
+(118, 1, 'cb84ccc10f296df72d6c40ba7a07c178a4323a14', 'ubuntu-14.04.1-desktop-amd64.iso', 'ubuntu-14-04-1-desktop-amd64-iso', '1', '<div id="block-system-main" class="block block-system">\r\n\r\n    \r\n  <div class="content">\r\n    <div id="node-17" class="node node-intro clearfix">\r\n\r\n  \r\n      \r\n  \r\n  <div class="content">\r\n    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p class="slogan-intro">Des milliers d''applications, des millions d''utilisateurs,<br>une nouvelle faÃ§on d''utiliser votre ordinateurÂ !</p>\r\n<p>Rapide et sÃ©duisant, Ubuntu est un systÃ¨me d''exploitation intuitif et\r\n sÃ©curisÃ©, idÃ©al pour les ordinateurs de bureau, les serveurs, les \r\nnetbooks et les ordinateurs portables. Ubuntu est libre, gratuit, et est\r\n composÃ© de logiciels qui le sont Ã©galement.</p>\r\n\r\n<h3>ActualitÃ©</h3>\r\n<div style="border:1px solid #ccc;padding:10px">\r\n\r\n\r\n\r\n\r\n<h4><a href="http://ubuntu-paris.org/">Ubuntu Party de Paris</a> (publiÃ© le 6 octobre 2014)</h4>\r\n<p>Depuis 2006, lâ€™association Ubuntu-fr organise Ã  Paris un grand \r\nÃ©vÃ©nement de promotion d''Ubuntu et du Logiciel Libre. La prochaine \r\nÃ©dition est programmÃ©e pour les 15 et 16 novembre 2014, Ã  la CitÃ© des \r\nsciences et de l''industrie. Des milliers de visiteurs et une centaine de\r\n bÃ©nÃ©voles y sont attendusÂ ! (<a href="http://ubuntu-paris.org/">voir le site Ubuntu Paris</a>)</p><p><iframe src="//www.youtube.com/embed/dNdyHM5xVqc" frameborder="0" height="360" width="640"></iframe><br></p>\r\n</div>\r\n</div></div></div>  </div>\r\n\r\n  \r\n  \r\n</div>\r\n  </div>\r\n</div> ', '1412350509', 'a:2:{i:0;a:1:{i:0;s:39:"http://torrent.ubuntu.com:6969/announce";}i:1;a:1:{i:0;s:44:"http://ipv6.torrent.ubuntu.com:6969/announce";}}', '0', 595, 15, 4, 1028653056, 1416894448, '', '.png'),
+(119, 1, 'cb84ccc10f296df72d6c40ba7a07c178a4323a14', 'ubuntu-14.04.1-desktop-amd64.isofhfgh;hbvlhlhlihh', 'ubuntu-14-04-1-desktop-amd64-isofhfgh-hbvlhlhlihh', '1', ' ', '1412350683', 'a:2:{i:0;a:1:{i:0;s:39:"http://torrent.ubuntu.com:6969/announce";}i:1;a:1:{i:0;s:44:"http://ipv6.torrent.ubuntu.com:6969/announce";}}', '0', 595, 15, 4, 1028653056, 1416894448, 'data: image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAADRCAYAAAAjZ2xYAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAFKgAABSoBd8oRkAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACAASURBVHic7Z152FxVkcZ/RRIIyL4EBGQRRUAERBkEURBkEUVgZIBhDasgW9gUNIjsO8giOiqj4AauCKMzIyKrCbIGSICwhYSQQCAhCdngS3Lmj7r3SftN9z33+77uW9Xd532e+ifpr/u9955T95w6VW9JCIGEhITuxFLWBBISEuyQHEBCQhcjOYAuhogMEpGlrXkk2CE5gC6FiKwP3APcKyJbWfNJsEFyAF0IETkE+BvwGWA74A4ROc2WVYIFJJ0CdA9EZDBwI3AgsEKv/34X+BNwZAhhVtXcEmyQHECXQEQ2Am4Bto989Eng9BDC3a1nlWCNtAXoAojIkcBfiU9+gC2BX4nIJSKSxkeHI60AOhhZhP+HwH7A+/r454vQOMGRIYTJzeaW4APJw3coRGRT4H7gcPo++QEGAbsCd4vIQc3kluAHaQXQgRCR44GzgPWa9JWzgduAE0MI7zXpOxMcIDmADoKIDAVuAvYBlmvBT4wCjgshPN2C704wQNoCdAhEZEvgAeAgWjP5QYOI/yUiI1r0/QkVI60AOgAicgpwBrBuRT+5APgv4KgQwuyKfjOhBUgOoI0hIssBPwH2BpYxoDAGOC2EcI/Bbyc0AckBtClEZBvgB8DWxlSmAT8GRoY0mNoOyQG0IUTk68AI4P3WXDIsAu4GjgghTLEmk1AeyQG0EURkeTSd94uAxzLe8cC5IYTbrIkklENyAG0CEfk08D00VdczZgG3AiennAH/SA6gDSAiI4ETgTWtufQBD6I5A+OsiSQ0RnIAjiEiKwE/A/YAhhjT6Q8mAleFEK63JpJQH8kBOIWI7Ax8F/iYNZcBYj5wJ5ozMMeaTMI/IzkAhxCRC4BjgWHWXJqIJ4ARIYT7rYkkLEFyAI4gIquhS/5dgcHGdFqBN9Dy5HNTzoAPJAfgBCKyB3AVsJk1lxZjISpOckQI4XVrMt2OVAxkDFFcCvyczp/8oCubPYB7RGQ/azLdjrQCMISIrIku+XdGBTi6DTOBX6KxgR5rMt2I5ACMICJfBi4DNrHm4gAPAMeGEJ6zJtJtSA6gYmRCm1cCw4FVbNm4wivAFSGEG62JdBOSA6gQIrIOmsu/Eyn+Ug/zgT8CR4cQ5lqT6QakQVgRROTfUJXdnUn3vRGWRZuW3CciO1iT6QakFUCLISKD0Iy+Q4CVjenkCMBjwEb43Ya8juodnJ9yBlqH9CZqIURkA7RO/gT8TP63geuATwHHA14Db2sBI1ENwnYqgmorJAfQImQNOO8CdgTEmE6OZ4DDQwgjQgiLsrr93VAntdiWWl0MBvZEcwb+1ZpMJyJtAZoMERkC3IDuZVc0ppNjIfAX4LAQwvTe/5ltU64EDgVWq5hbWcxEk6VODSEstCbTKUgOoIkQkQ8D/wl4CmC9DtwYQrgg9kER2Re4EL8ZiQHNGTgmhPC8NZlOQHIATULWgHMksKE1lxo8jnbzGV32D0Tk/cBP0dMKrwVJrwCXhRB+YE2k3ZEcwAAhIssA3wf2p389+FqB+cDt6Hn6vL7+cZasdCmarLRGc6k1DfPQazymP9eYoEhBwAFARD4K3AMcgZ/JPxHV6j+o0cQQkWEicrOI1O0dGEJYHEL4OnpdY1vIdSBYDu2CdJ+IlGl7nlAPIYRk/TDgOHQpGhzZA8DGEd57oUd/AXgB2D/y+TWAPwM9Dq6vkU0FzrEeE+1o5gTazYChaAXfPAcDP7eZwI3A4ALeS6F6A2/X+dtrgaUK/laAi9CAovW1NrIetF3Z6tZjpJ3MnEA7GbAV8JCDwV5rzwFfifBelyVn/fW+YzGaprx25Hs+Dzzp4JqLbBywt/VYaRczJ9AuBpwCTHIwwHNbCPwPsGaE9/7oUr/Md44H9ol836rAHcB7Du5BI5uBpl83XBEly56nNQHvhgb3foVG1q0Hdm5vABeQneI04D0ITUia3Y/Jc0XRd2ff/21gioN70cgWowHaD1mPIc9mTsCzAdsCjzgYzLX2BLBThPcHgfsH8BuL0MzBYZHf2RHNNbC+J0X2Enocaj6ePJo5Aa8GnAm85mAA5zYf+A2wfIT3cGBCk37zGeALkd9bCfgDsMDBPWpkc1EdhmWtx5U3MyfgzYAVgN8C7zoYuLlNQnvtFfFeGrgpG+zN/O23gItK3LezgckO7lWRPQx8ynqMeTJzAp4MzeH3tqQdBWwe4f1RYHQLOSwE/gSsGuGxPfCog3tWZK8B37Iea17MnIAXQ/P4pzoYoLnNBn4ELB3hfTzVnU48DewS4bM88Gt8BU17Ww96krGa9bizNnMC1oYKddyOr0y354GDIryHouWxVU+0acC3S9zX0/F1bFrPxgJfsh6DpuPfmoDpxcMuwBgHAzG3RWjXnHUivD+B7elEDyreuWKE59bAPxzc1yKbDlwDDLIejyZzwJqAyUVraut56Hm69QDM7U20T0Ds/P00/JxOjAE+E+G7HNr8o9nByWZangm5ofXYrHwuWBOo/IJhdTRn3NOS/ylg1wjv96HHgN4y8KYCZ5e47yfhr3iqt70IHGk9RiudD9YEKr1Y+AIayLIeaLm9i56hrxThvQO+tir1ruN3xHMUtqC1pxXNsDmoIEpX5AyYE6ho4gtwCbrMth5guU0GzizBfSS+tipF9hjwL5HrGQrcnE00a75F9g9gG+uxmxzAwCf/WsB/o2fZ1oOqdnB9PMJ7ZfSoytNWpYxNRgVJYs/lWOBlB3yL7DXgLOsxnBxA/yf/3mh5qPVAyi1fXi4T4b0rekRlzbe/Nh+4lcgyGm2M+qADvkX2HnpMXJgE1a5mTqBFEz9vwDnDwQDK7SVgeIR3LrzxlgO+zbCHga0i17w08GNglgO+RfY0kbqIdjRzAi2Y/OuilWyLHAyawJKy1A0ivIeh9f1eeDfLJgEnlHhuw9EovDXfIpuOvlgaqie1m5kTaPLk358lencebAYlkkyALwPPOuDbKpuHVuPFtj4bAffRWLnIgy1G1ZUKHXq7mDmBJk38wWi/u5kOBkhu44ikmaJblav5/zp9nWoPAZtF7skQVGbd+z15AW2zZj7+u9oBoI04ivTuqrZcnDJWORfT6etUe4USAh2o5Pd4B3yLbA7aCWqo9TzoSgeAttwuq3dXhU0BRpbgfYAz3lYTJ1bpuD6aous9LjIa2Np6PnSNA2DJMrGvenettEeJiE2gW5XvOeJtnRj1IBHNPlTb8Dp8nejUs1KJXd7MnEA/Jv/GaKDI+oHnNg/4BbBchPdGDEynrxV2GfYCHi+hXYtjz/0r+A+U5qndK1vPk450AMCR+DoqmgB8tQTvI/CZ9XY0KoF2O7aZkrPRFV2hjDewNnCXMdcy9iSwu/V86RgHACyDJou84+Dh5nY/8TZcuU6f17z3E2q4Xoz9Mvs+4vkSeZKX92SpvLzbdc6AOYESk39ztOed9QPNbSaqtx97W22O/8q3U3tx/lfsg5MvAAeUGBd74SvNu57lAi/rWc+jtnQAaAPOCQ4eZG7PEmnDlfH+Gv7lsAJ1Cl3QngLW+fkz0cBfLIEqz570XjD1PHCI9XxqGwcALIsWzXhpwNlDuTZcy2Kj09dfq9tRF91y/Qxbrf9cpScmj5aXek9zcD+L7B10G1uYDdn1DgD4OCqFbf3AcnsDOJ+4VNcn8ddFKGbfiVzTGdgrJT8H7Fti3OyOL7GXRjYK2NJ6nrl0AMDJ+Fo6PwF8tgTvM/Cj09cXu5fIkRWwE/alyTMoUYSDNi71JvdWz14FTreeb24cAKp390v8LJ3no9r2MYmr5VGdPk9dhPpqTwLbRa5zGHr8Zpm2nPcrLNyGZXzPA153cG+LLJdRK1RW7ngHAHwKX9LR0TZcGe/PoCsEa77NsNeAUyLXOwjNYrQ+ih0HfLHE89kZ3zqKuY0BPt+VDgBdOnvqJzcK+GgJ3ufg/w3TV5uHavXF8vOPBCYac30LzVuIxWVWQvsXeF+hvYkGMguvp2McALAiusT28mBmAz8EhkR4r0J76vT1xR4gnoyzFfYpxAuBP1OivRfwLbRQy/reFlm+xVm3ox0AunS2Hjy19jzw7yV470Z7RJmbdU/2idyP5dG8d2tn+DQlltDAp/HX+LWejSfSFq5tHQDwTfx44kVoYKvMOfNF2FfOVW3TgYtLPNMLs89acn0DOK8E1xXQwJtlfkMZy1ekhduxtnEA6NL59/jpavMmcCnxPeQwVFLcez16q6wHuBNYIXKf9kVXDdZc7yDSZCXjeya+Yk+N7O/Ax9raAaANOD1Fy5+i3JJxb/yXn1ZljwOfiNyvDbFPIQ5oVL1M7sY2tEfi1iRgRNs5AHTp/B38dLXJa7VjHW27TaevLwPxuMi9WxpNIbbO55gKfLPEGF0O7V9gzTdmC9B8k8KVmBsHAKyBr2j5ZOCMErw/QHfq9JW1OcCPiFdCno59CvG76LYzOmmAU/CVgdrIngA+59oBoA04n3Rws3J7iEgbroz3gdjvY9vF7iUePN0JH6cmjxORasv4bpWNFWu+MZuGBl6bkjPQzIm/FJqc4SVaPgf4CXEt+lynz3tnGm/2LLBn5N6ugZ5tW6+oyq4Ah6JbGK8CLrktRKtT13bhAID3A3/Cj1RTtA1XxvtD+NIXbDebRryicClUQMU6hTjvV1io3ZhxPh6VL7e+vzEbTwnxlJY6ADRabl0tllvehmv9Ery96vS1m72H7rXfF7nfw7FPIQ5o5L/MlnAzfJWlN7JZqJ5iYRZr0x0AWhxyBfZJILlNR6P3sZJR7zp97WqPAFtE7v0W+MgCnQScVGKML4P2L7BevZSxB4HNK3EAwHroHsR6b5fbWMpViG1Oe3j1drVXgCMiz+B9+EghnoeqN0W7+gBH0R6rxYmUcGwDcgDAv+EnQSbPVIv2bkd1+jwsQTvdZqFB1Zie3wX4WD0+RIk3J/BhfInTNrL5wG1EtCz67ADQaPl38ZMgMxX4Vgne7abT1wm2GFXDjWko7o2Po9cJwLElxtIQ4D/w09mpyB4HdmyKA0CVYq0VYWrtUWDbEry3AR52wLdbbSywS+QZrY+PFOJS/Qozzt56UjayqJ5lmcl/MH66tM5F23AtW4J3u+r0dZpF03LRwOwt+Fil/Z1Iw5eM8wboEbKXl2IjW4gWtK3VJweQPRRPjSwnUK4N1wrAb/EjNpJMc9lvJeK4gVOxTyEOlM8jGYTmOMx0wDlmzwH7lXIAwEdQTXZr0rndT6SLbMa7k3T6OtFGAx+JPMPP4iOFeBa634+erwP742eVXGRv0eu0rN7FHIGvBpw9aCVU4XENvnT6XkSXkh6WtAFdpj6bcbLMf3iWSEwge5ar46dU9z5gwxKc10ULybxqR7wKfC26AkCXYV5Ue2ptVNGDAC7HTz7/LFRCbC80S87KMb2OHpMeB6yG7eroAUrq3eFDZajWysrGbYvPo+ZHgK1LxwBQ/TRPFX25jacg4Qc4AD8JG/eSRV/RxKkb0KVtq4NGc9E3/WXUTDi074LFfViQ/Xa0JRaqM3g79klCvW0xug1teA1o/YC3oPO7qPhuw/qHooexMtplxUuBT27TKDj/R+MXHvoMLKRXVhYaWD0JXSo2M700X+L/lDr14sDR2PRZnEaD/oN1OG4NPObgufW22WgsoK4GApofcxN+tnu5TQW+Hr3vJR7MJdj3je9t89G3St0zW7Ss8zbs3yRP08D7oqusXzCwJeNUVHjlOBrESNBz9pcMrv154MslJ/+x+BTkeBk4soD3+vjMDhwD7FDq3pd8QPvgI2OrtxXuK1E9eGt9gmsi93ZV1Mk+RjmHlS/xLy269uy7l0Iz8qq+5tHARiXG1SD07eqxMGs0sFkB933xFSwPLBFGLez32GcHkF3wevisnX8W2K2A9+7oGagVv8lEGm3UTNbjKN4a9EkSChVoqTIq3YPKbpdJ1FobX0fNuc0nkmyGOmxvZ/9vAueXHRt9dgDZhQ9Ge5zPdXDBtTaVAsUXYB1UJ8CK369L3t+1KN5u/aUPz2ondA9e1TXOoEQfgYzbHvgpKKu1ycBpBbxXQoVvvB31jQP26Ovk77MDqLkRHvds89EgWN3EDdR5/QibYM1sYNeqHABacltlQO1l4MCS3L6N/basnj1OQZdkYDv8nYzl7cSG9Wce99sBZDfEQ3+4enYPDfKeM94nYHNccy/xRiTNcgA/r/C6HqVcQ9Xl0BRt68Bsb+tBjx4bysWjqsFeksxyexu4iogATsscQM2b5ncOH+o4YKcC3ttSfevo/3cs2AoHgHbvrWKLtpASXYMyTh/DZ1VmYUsxlvQ58NZK7Hnq5PVX7gBqbtQ5VLvfLGNTgJMLOK+Mdpetcj83lqKkjAE6APRYqorI9CxUfi0qTQ0cjk+BzbHA7gW8P4RP9ah7gfWaMW+b5gCyG7Yb8IyDG1RrhY0s0O5FV1FtCvF1qPOpZxtT7AD+WvC3K6P7wVbzn0hE9iu7t7kasJdq0twWAf9Lwb4Z7RHhJaM0t3eAHxBpymLmALIbNwxfwiGBJeo0qxfwPggtN66Cz1x0tdTIilYkA/nbZtgTRHoEOh4HAd03NxSOxeaFUMYmAIc3c662xAHUeP7r8Of5nwK2L+C9KT5SiD1a/taMJpigzWC9yMTX2vPA/gW8V82u0ZvTGgVs0orJ3xIHUHNDD8bfMmoyBQ0uUf3A3+AvqGlpc4AbKRFtBs7CX7Q8ECnpBXbEn9Oaj6okRYuoXDqA7MZujKZUWt/MWnsnNqDxe1ZdtU2mTg15nfs1FPgV/lSY8hhQQ1EP4Ov4C2C/CpzYyrlZiQPIbvAyaGqlp6OUfEm7SgHvPbFNIba2pylRUAJsgj8nH9CTh2NKOK33HHCttUcpEWdpGwdQc8NPw4feW609AXyygPO6+Kx/aLX9jRLZZeg2z6LSMGYPUdClCJ/xnvfQ7Wdhi7W2dQDZjd8ef+mUEyku+RyCykVb1NNXbfOyay08akIDvVfjL1o+H32rFxXyHIq/vITXgbOqnIsmDiB7ACvjq5NwyAbytRTpp8PJ+FN8afYgPL3E81sNlZn2VhDzGsUFYUsB1+Ov9PhJSjTw6BgHUPNALsWX0MhCVAGpKCfc4wqmGfYs5YqVPuP0+p8APl3Aexg2ughFlre1axiH6mgHkD0Yj0IjjwFbFnBeFW2M6u0N2F97APhAiWflUSw2F8BYqYD3rvgrPX4LuNBy7rlwANkDWg8VXLR+KLU2ATikgLOgfRK9JTv1xd6lQFat5lqXwU/Xnlp7E7ggwn0k/o5znwG+YD3v3DiA7EHltfqehEbeBq6gOC5wKNWlEDd78ows8Vw2wqfm3TgKJhFaeuytSnUxWqtR2DC1Kx1AzYPzJjTSA/yRglbLwOb4LHVtZKXEOoH98NcAcxFaY1Ck97AF/nQq3gauYYC1+x3vALIHuCX+5KEfplgg0uMbp549RESsE93eeAvQBlSD79qiSYTKn7/qgGutvUBBDYK1mRNoown1InBAhPd5aIDHmmtvKyXWiWre3YmvI9p8EjWUHEPVhX+Ary1kQJPI1reeT23nAGoerDehkenARRHOe+GrUeSMGOeM93aoLp413972APDBAt7roCIZ1jxrbQ4FzUQ8mTmBEgNzV3wJjfSg2nZFyj5eTjZeJrJqyfieiBb+WPPtPYluouCUAvgivpxtQIPCDTNLvZk5gZJOYA38CUyMBj5cwHkIcDN2KcSPAptH7uuQbJJ5S3OeSEHZdsb9fHw1EM3HxKbW86XjHED2wJdCg0Cezt6fB/aJ8B5BtQk0uVhnw5OLjNf62PZKaGQPU5yItTx6MuMpTjEfFQ9tae1+VzuAmgFQpXxXGXsTODfCeQdUkajVXEqJdQJ746/UeQHaz7Foa/VJbFuc17PJFIjPejdzAv10AhujR1rWDz+3d4FbadCgM+O8GpoI0qoU4knA8BL37gL8nVRMIdLJFvga/oqxHqWgnLwdzJzAAJyAR6GRBynoA8iSirRmb2PGEBGRAFYAfo+vo9Wc+2cLeHtsv/0eeqxaae1+cgD1B8ip+BIaeQ7YM8J5OM2pSV9MRNko+71PAI84uDe1llfDNRQaxWf77deBs63HfXIA/zxQtqeaPXZZeyM2SNCU1YFMylJinWh69SsO7kmtvQVcRHGdhcf2209R0HGqHc2cQBOdQN651Ut0OI8MF51jLw/8gb4vy18Djo/cj8HA9yluN25hzwB7RbhfiubPW3PNLdeKMK3dTw6gnCPwlsd+L7BuhPOFlA/MjSUi1olmx3kTwMgbtKxdwNtj++3oaqWdzZxAi5zAPviqZBtHRHEHPZqLZbVFxTqBPbLfs77mWpuFBj8HFfD2to0L6GrlS9bjOTmA/lyYn3Tc3KYS0dwDNkBPEnr/7XzKiXWeg8YfrK+11l4EDo7wHoGvQO5iImXHnWLmBFp6cboP/jF+qsRy1d2iRhV5S+o8PTcq1om2ab8Nfxr3D1KcLu2x/fZMVO3JXe1+S+aINYFKLlIj4Z7qxP9G5O0CnI5W58W2DlvgKykqoM7rJxQHQD22336BEsVTnWTmBCq7UNgKX0IjTxORgyae0jscf/0XJxFpJwYc4JD3/RQkcXWqmROo9GJVaMRTNtxk4KR+XMcgfHZgfgTYuoB33n7bE+85wA8p2JZ1spkTMLloDZZ5UYvNxSMaRsh7cV8LlSX3VBodbWuF1kJ4a7/9CnCU9Xg0nQvWBMwu3JdefK4Yu3qE8y74OyqLpsbis/32QxToPHaLmRMwvfglHWO8vJXGANs14PoNfB2VBUqkxqLttz0dTc5Hi8gaVm52k5kTsDb8CY28Cny1ht9y+Kt6XIhm7K1acF+HoiXSno4mJwOnWI85T2ZOwIuhra4nOBikAc3fvwHtOVAvMcjSpqPp1kWFPB7bbz8GbGM9zryZZA8sARCRjdE2WNtac0G3JdPQoJ8XjAe+EUL4Y6MPiMhhqF7f+pWxKkYPWshzWAhhjjUZb0gOoBdEZGk0W28/VHQkQd+g96CKQ6/W+4CI5Fup4WiVowdMA64PIVxoTcQrkgNoABE5DTgTX29gC7yDpuueHEJYVO8DIrIm2mj0c+hZvwc8je7377Em4hnJARRARLZDz+g/Zs3FCC8D54UQbmn0ARHZDX3zb1IZq2IsQo9UDwkhzLAm4x3JAUQgIiuhb7fd0Qy8bsEotMHF+EYfEJGRwCnA6pWxKsZ0tMv0N0Ma2KWQHEBJiMilwFeBla25tBjz0ay+Y0MI79b7gIgsh24LvoxWXHrAc6iy8J3WRNoJyQH0ASKyN3AlWsnWiZgMXB5CuL7RB0RkCzRI+onKWBUjoNWVh4UQpliTaTckB9BHiMgH0C3BDtZcmozHUJ3BRxp9QESOBr4NfKAyVsWYhR7bntooQJlQjOQA+gERGYy2o/53NFOvnbEQuAM4vNE5uYgMAr4HHIKKj3jAi8A5IYRbrYm0M5IDGABE5Fi0snBday79xDTguhDCRY0+ICLroKnIO1bGKo4HUIc1wZpIuyM5gAFCRLZE1W8+bs2ljxgLjAgh3N3oAyLyJTTm8ZHKWBVjLlpfcHwIoceaTCcgOYAmIIuK/xzYCz9R8UbIuwkdGkKY3uhDInI+cAKwalXEIpgIXBRC+JE1kU5CcgBNhIicA5yMn3Px3piJnpN/o9E5uYgsjy7598SPM3sYODqE8LQ1kU5DcgBNhojsisp1ecmMy/E8Ktzx+0YfEJFPog5iq8pYFWMB2jnpqBDCfGsynYjkAFoAERkG/Ao/ufH3okGzSY0+ICLHA99Cuwp5wBTgyhDCNdZEOhnJAbQIWXXcd9HquBWMaMxBYxMnhRAW1vuAiAxB6x0OBJatkFsRnkADff+wJtLpSA6gxRCRg9DechtU/NOvoIU8P230ARFZD93ve0lq6kGVhg4LIbxjTaYbkBxABRCRD6O581UJjYwGjgkhjCvgtC9wOX7SmqcBN4QQLrAm0k1IDqAiZEIjPwG+QuuERhYAv0Un/4ICLt4Km8aitft/sybSbUgOoGKIyKmowu+aTf7qKWghz7UFv70yuuT3Utqc1+4X5iQktA7JARggExr5ISr62Qw8DpwQQnio4De3B76P9hL0gBlo49azUu2+HZIDMEKN0MgeqDR5f7AQuBM94msYNBORU9BVx/v7+TvNxnNoMtId1kS6HckBGGMA+/E30aDZ+QXfvTRwEypwOrTfJJuHgOYkHBpCeM2YSwLJAbiAiOwDXEH5iPw44LQQwl8KvvNDaK38dgNn2BTMQk9CRqTafT9IDqACZG/iZSLL9DJCI4uBu9Bz8mkF33UAcDHwwf4xbjpeAs4NIfzCmkjCP6O/e8+Eksj2+n8G7hKRhkG/TG9/J3TJPq/OR2YB1wB7Npr8orgaDTB6mfx/B3ZLk98n0gqghRCRDYBfA9tk//QiGvX+XeTvjgHOZUle/guo0u1vC/5mNXQF8Xl8OPa5wG1oSu971mQS6iM5gBZBRD6FHnN9tNd/TUdVeBoG77K/z4VGZqNR/okFn90J7SXY+7esMAm4OITwH9ZEEoqRHEALkKXZXgVs2OAjPejK4KhG0tvZ9ywL9DQq5Mk+8w3gNLTVuQc8jGYiPmVNJCGO5ACaDBE5AdUJLJPpdx96JFa3317kd4YCPwX2BZbu69+3AAuA29FmIql2v02QHEATISKXAF8DVuzDn41Dy3VL97ATkU3Ryf8vfSLYOkwBrg4hXGVNJKFvSA6gCchks29CZcL78zaeiu6ZbyjxW97abz+BpiGPtiaS0HckBzBAZPv036AaegNR/5kH3AycGEJYXOd3lkKlxg7DTmCkFj3Af6NNOFPtfpsiOYABIJP++j3w6SZ9ZUCr4w4MIcys+Z010Sq+nfEhMTYNuDGEcJ41kYSBwcN5cVtCRDZDJ2uzJj/o5N4duCc7Bszbb98D7IKPyT8WODhN/s5AWgH0AyKyC9oarJVqOhPRU4IvAGu08HfKYhHwTVH/ZQAAAspJREFUV3TJ/5Y1mYTmIDmAPkJEDgUuBda25lIhZqBBzob9BBLaE14aP7QFRORs4ExgFWsuFWI8mr58uzWRhOYjOYCSEJEbgCPxI53dauS1+4eFECYbc0loEZIDiCDTzf8lmnHnQUevCsxG+wmcnGr3OxvJARRARFZEW1PtbM2lQrwEfCeE8HNrIgmtR3IAxVgNGGJNokKMQisPX7QmklAN0ilABNkW4Ho0zbcvOf7thLloNuNXU+1+dyElAkUQQugJIRwHnIAKenQaJgFnhBCOSJO/+5BWAH2AiGyIinR8Fh9ZeQPFI2jt/pPWRBJskBxAHyEig4FrgYOBlYzp9BcLgDuAI0II9fQHE7oEaQvQR4QQFoYQTgCOQ7X62g1TgHNCCAekyZ+QVgADQCblfTOq5tsOW4IxaO3+KGsiCT6QHMAAkYmBXI3W6Xvpttsbee3+oSGE2dZkEvwgbQEGiBDCohDCKcDRaN68N0xD1Yb2TpM/oTfSCqCJEJF10C3B5/DhXMcBp4YQ7rImkuATyQE0GZl015XA4cCqRjQWAXejwh2pdj+hIZIDaBGyhp+XAJtU/NMz0FyFM1PtfkIMyQG0ECKyFtqhdxeq2RKMB84OIfyhgt9K6AAkB9BiZFuCy1AtgVZtCQJLmoyk2v2E0kgOoCKIyJeAy4FNm/zVs1G9gpOKWoglJNRDcgAVIpMRvwXt4NsMcZGXgfNCCLc04bsSuhDJAVQMERHgYuAYVG+gvxgFDA8htGM6coITJAdgBBHZA+0gvFkf/3Qu8Dvg2KLOwgkJZZAcgCFEZDXgZ8CulFNnmgRcFkK4saXEEroGyQE4gIhcCBxLcQOQR9Ha/THVsEroBiQH4AQi8nngGmDzXv+1ALgT3e+n8t2EpiI5AEcQkVXQLcHu6JZgCnBtCOFyU2IJHYvkABxCRL6Dths/NYTwd2M6CR2M/wNPW/vk4bJgwgAAAABJRU5ErkJggg==', '.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(15) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `pass` varchar(200) NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `level` varchar(5) NOT NULL,
+  `seemail` enum('true','false') NOT NULL,
+  `seeMytorrents` enum('true','false') NOT NULL DEFAULT 'true',
+  `signature` varchar(250) NOT NULL,
+  `location` varchar(50) NOT NULL,
+  `website` varchar(200) NOT NULL,
+  `private_id` varchar(32) NOT NULL,
+  `upload` int(11) NOT NULL,
+  `download` int(11) NOT NULL,
+  `joined` int(11) NOT NULL,
+  `fakeuser` enum('true','false') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=127 ;
+
+--
+-- Contenu de la table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `pass`, `mail`, `level`, `seemail`, `seeMytorrents`, `signature`, `location`, `website`, `private_id`, `upload`, `download`, `joined`, `fakeuser`) VALUES
+(0, 'Anonymous', '', '', '1', 'true', 'true', '', '', '', '0', 0, 0, 0, 'true');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users_group`
+--
+
+CREATE TABLE IF NOT EXISTS `users_group` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `group` varchar(50) NOT NULL DEFAULT '',
+  `view_torrents` enum('true','false') NOT NULL DEFAULT 'true',
+  `edit_torrents` enum('true','false') NOT NULL DEFAULT 'false',
+  `delete_torrents` enum('true','false') NOT NULL DEFAULT 'false',
+  `view_users` enum('true','false') NOT NULL DEFAULT 'true',
+  `edit_users` enum('true','false') NOT NULL DEFAULT 'false',
+  `delete_users` enum('true','false') NOT NULL DEFAULT 'false',
+  `can_upload` enum('true','false') NOT NULL DEFAULT 'false',
+  `can_download` enum('true','false') NOT NULL DEFAULT 'true',
+  `can_scrape` enum('true','false') NOT NULL,
+  `can_be_deleted` enum('true','false') NOT NULL DEFAULT 'true',
+  `admin_access` enum('true','false') NOT NULL DEFAULT 'false',
+  UNIQUE KEY `base` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Contenu de la table `users_group`
+--
+
+INSERT INTO `users_group` (`id`, `group`, `view_torrents`, `edit_torrents`, `delete_torrents`, `view_users`, `edit_users`, `delete_users`, `can_upload`, `can_download`, `can_scrape`, `can_be_deleted`, `admin_access`) VALUES
+(1, 'Visitor', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'true', 'true', 'true', 'false'),
+(2, 'Member', 'true', 'true', 'true', 'true', 'false', 'false', 'true', 'true', 'true', 'true', 'false'),
+(3, 'Uploader', 'true', 'true', 'true', 'true', 'false', 'false', 'true', 'true', 'true', 'true', 'false'),
+(4, 'Premium', 'true', 'true', 'true', 'true', 'false', 'false', 'false', 'true', 'true', 'true', 'false'),
+(5, 'Moderator', 'true', 'true', 'true', 'true', 'true', 'true', 'true', 'true', 'true', 'true', 'true'),
+(6, 'Owner', 'true', 'false', 'false', 'true', 'true', 'true', 'false', 'true', 'false', 'false', 'true');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
