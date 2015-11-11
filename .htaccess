@@ -1,0 +1,33 @@
+Options -Indexes
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/index\.
+RewriteCond %{REQUEST_URI} !^/$
+
+
+RewriteRule ^([^/]*)$ /?page=$1 [L,QSA]
+RewriteRule ^([^-]*)/([^-]*)/$ /?page=$1&act=$2 [QSA,L]
+ 
+ 
+RewriteRule ^upload/([^/]*)$ /?page=upload&act=$1 [L]
+RewriteRule ^torrents/([0-9]+)$ /?page=torrents&next=$1 [L,QSA] 
+RewriteRule ^torrents/cat/([^/]*)$ /?page=torrents&catid=$1 [L,QSA]
+RewriteRule ^torrents/cat/([^/]*)/([^/]*)$ /?page=torrents&catid=$1&next=$2 [L,QSA]  
+RewriteRule ^torrents/search/([^/]*)$ /?page=torrents&search=$1 [L,QSA] 
+RewriteRule ^torrents/search/([^/]*)/([^/]*)$ /?page=torrents&search=$1&next=$2 [L,QSA] 
+RewriteRule ^torrents/([^/]*)/([^/]*)$ /?page=torrents&sortedBy=$1&axis=$2 [L,QSA] 
+RewriteRule ^torrents/([^/]*)/([^/]*)/([^/]*)$ /?page=torrents&next=$1&sortedBy=$2&axis=$3 [L,QSA]  
+RewriteRule ^torrents/cat/([^/]*)/([^/]*)/([^/]*)$ /?page=torrents&catid=$1&sortedBy=$2&axis=$3 [L,QSA]
+RewriteRule ^torrents/cat/([^/]*)/([^/]*)/([^/]*)/([^/]*)$ /?page=torrents&catid=$1&next=$2&sortedBy=$3&axis=$4 [L,QSA]
+RewriteRule ^torrent-detail/([^/]*)$ /?page=torrent-detail&id=$1 [L,QSA] 
+RewriteRule ^torrent-detail/([^/]*)/([^/]*)$ /?page=torrent-detail&id=$1&urlTitle=$2 [L,QSA] 
+RewriteRule ^torrent-edit/([^/]*)/([^/]*)$ /?page=torrent-edit&id=$1&urlTitle=$2 [L]
+RewriteRule ^torrent-delete/([^/]*)/([^/]*)$ /?page=torrent-delete&id=$1&hash=$2 [L]
+RewriteRule ^download/([^/]*)$ /?page=download&hash=$1 [L]
+RewriteRule ^rss/([^/]*)$ /?page=rss&cat=$1 [L]
+RewriteRule ^account/([0-9]+)$ /?page=account&next=$1 [QSA,L]
+RewriteRule ^admincp/users/([0-9]+)$ /?page=admincp&act=users&next=$1 [QSA,L]
+
+
