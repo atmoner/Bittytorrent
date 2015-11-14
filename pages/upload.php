@@ -173,6 +173,7 @@ $resultTorrent = $torrent->result;
 		} else
 			$startUp->torrentScrape($announce,$_POST['torrentHash']);
  
+ 		$startUp->redirect($conf['baseurl'].'/torrent-detail/'.$returnIdtorrent);
 }
 
 }
