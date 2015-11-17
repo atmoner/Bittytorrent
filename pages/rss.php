@@ -57,7 +57,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
                 <link><?php echo $conf['baseurl'].'/'.$startUp->makeUrl(array('page'=>'torrent-detail','id'=>$obj->id,'urlTitle'=>$startUp->Fuckxss($obj->url_title))); ?></link>
                 
                 <pubDate><?php echo $pubDate; ?></pubDate>
-                <description><![CDATA[<?php echo '<img src="'.$obj->images64.'" height="200" width="200" /> <br />'; echo $obj->torrent_desc; ?>]]></description>
+                <description><![CDATA[<?php echo '<img src="'.$conf['baseurl'].'/uploads/images/'.$obj->info_hash.$obj->imgExt.'" height="200" width="200" /> <br />'; echo $obj->torrent_desc; ?>]]></description>
               
             </item>
 	        <?php } ?> 
