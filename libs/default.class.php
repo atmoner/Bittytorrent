@@ -804,11 +804,11 @@ class Bittytorrent extends startUp {
                          $user->website = $this->Fuckxss($user->website);
                          $user->private_id = $this->Fuckxss($user->private_id);
                          $user->seeMytorrents = $this->Fuckxss($user->seeMytorrents);
-						 if ($userData->upload != NULL) 
+						 if ($user->upload != NULL) 
 						 $user->upload = $this->bytesToSize($user->upload);
 						 else 
 						 $user->upload = '0 Mb'; 
-						 if ($userData->download != NULL)
+						 if ($user->download != NULL)
 						 $user->download = $this->bytesToSize($user->download);
 						 else
 						 $user->download = '0 Mb';
