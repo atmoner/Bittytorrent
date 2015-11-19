@@ -476,9 +476,8 @@ class StartUp {
 			else
 			$level = "2";
 			
-		$query = "INSERT INTO ".$this->prefix_db."users (id,name,pass,mail,level,private_id) 
+		$query = "INSERT INTO ".$this->prefix_db."users (name,pass,mail,level,private_id) 
 	          VALUES (
-			  'NULL',
 			  '".$db->escape($name)."',
 			  '".$this->obscure($pass)."',
 			  '".$db->escape($mail)."',
