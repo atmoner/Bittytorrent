@@ -140,7 +140,7 @@
 		{if $getMyTorrents neq false}
 		    {foreach key=key item=t from=$getMyTorrents} 
 				<tr> 
-					<td><img src="{$t.c_icon}" title="{$t.c_name}" width="32" height="32"> {$t.c_name}</td>
+					<td><img src="{$getConfigs.baseurl}/{$t.c_icon}" title="{$t.c_name}" width="32" height="32"> {$t.c_name}</td>
 					<td><a href="{$getConfigs.baseurl}/{$t.torrentUrl}"><i class="icon-file"></i> {$t.title}</a></td>
 					<td><i class="icon-calendar"></i> {date('Y-m-d H:s',$t.date)}</td>	
 					<td>{$t.size}</td>											            	
