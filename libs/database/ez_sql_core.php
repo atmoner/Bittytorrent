@@ -5,7 +5,7 @@
 	*  Web...: http://justinvincent.com
 	*  Name..: ezSQL
 	*  Desc..: ezSQL Core module - database abstraction library to make
-	*          it very easy to deal with databases. ezSQLcore can not be used by 
+	*          it very easy to deal with databases. ezSQLcore can not be used by
 	*          itself (it is designed for use by database specific modules).
 	*
 	*/
@@ -14,10 +14,10 @@
 	*  ezSQL Constants
 	*/
 
-	define('EZSQL_VERSION','2.17');
-	define('OBJECT','OBJECT',true);
-	define('ARRAY_A','ARRAY_A',true);
-	define('ARRAY_N','ARRAY_N',true);
+	defined('EZSQL_VERSION') or define('EZSQL_VERSION', '2.17');
+	defined('OBJECT') or define('OBJECT', 'OBJECT');
+	defined('ARRAY_A') or define('ARRAY_A', 'ARRAY_A');
+	defined('ARRAY_N') or define('ARRAY_N', 'ARRAY_N');
 
 	/**********************************************************************
 	*  Core class containg common functions to manipulate query result
@@ -33,6 +33,7 @@
 		var $vardump_called   = false;
 		var $show_errors      = true;
 		var $num_queries      = 0;
+		var $conn_queries     = 0;
 		var $last_query       = null;
 		var $last_error       = null;
 		var $col_info         = null;
@@ -58,8 +59,23 @@
 		*  Constructor
 		*/
 
-		function ezSQLcore()
+		function __construct()
 		{
+		}
+
+		/**********************************************************************
+		*  Get host and port from an "host:port" notation.
+		*  Returns array of host and port. If port is omitted, returns $default
+		*/
+
+		function get_host_port( $host, $default = false )
+		{
+			$port = $default;
+			if ( false !== strpos( $host, ':' ) ) {
+				list( $host, $port ) = explode( ':', $host );
+				$port = (int) $port;
+			}
+			return array( $host, $port );
 		}
 
 		/**********************************************************************
@@ -166,7 +182,7 @@
 			// If invalid output type was specified..
 			else
 			{
-				$this->print_error(" \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N");
+				$this->show_errors ? trigger_error(" \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N",E_USER_WARNING) : null;
 			}
 
 		}
@@ -188,7 +204,8 @@
 			}
 
 			// Extract the column values
-			for ( $i=0; $i < count($this->last_result); $i++ )
+			$j = count($this->last_result);
+			for ( $i=0; $i < $j; $i++ )
 			{
 				$new_array[$i] = $this->get_var(null,$x,$i);
 			}
@@ -240,7 +257,7 @@
 				}
 				else
 				{
-					return null;
+					return array();
 				}
 			}
 		}
@@ -303,7 +320,9 @@
 						'num_rows' => $this->num_rows,
 						'return_value' => $this->num_rows,
 					);
-					error_log ( serialize($result_cache), 3, $cache_file);
+					file_put_contents($cache_file, serialize($result_cache));
+					if( file_exists($cache_file . ".updating") )
+						unlink($cache_file . ".updating");
 				}
 			}
 
@@ -323,9 +342,10 @@
 			if ( $this->use_disk_cache && file_exists($cache_file) )
 			{
 				// Only use this cache file if less than 'cache_timeout' (hours)
-				if ( (time() - filemtime($cache_file)) > ($this->cache_timeout*3600) )
+				if ( (time() - filemtime($cache_file)) > ($this->cache_timeout*3600) &&
+					!(file_exists($cache_file . ".updating") && (time() - filemtime($cache_file . ".updating") < 60)) )
 				{
-					unlink($cache_file);
+					touch($cache_file . ".updating"); // Show that we in the process of updating the cache
 				}
 				else
 				{
@@ -371,7 +391,7 @@
 			echo "<b>Last Query</b> [$this->num_queries]<b>:</b> ".($this->last_query?$this->last_query:"NULL")."\n";
 			echo "<b>Last Function Call:</b> " . ($this->func_call?$this->func_call:"None")."\n";
 			echo "<b>Last Rows Returned:</b> ".count($this->last_result)."\n";
-			echo "</font></pre></font></blockquote></td></tr></table>";
+			echo "</font></pre></font></blockquote></td></tr></table>".$this->donation();
 			echo "\n<hr size=1 noshade color=dddddd>";
 
 			// Stop output buffering and capture debug HTML
@@ -411,7 +431,7 @@
 			// Start outup buffering
 			ob_start();
 
-			echo "<br /><br /><br /><blockquote>";
+			echo "<blockquote>";
 
 			// Only show ezSQL credits once..
 			if ( ! $this->debug_called )
@@ -445,9 +465,17 @@
 				echo "<tr bgcolor=eeeeee><td nowrap valign=bottom><font color=555599 face=arial size=2><b>(row)</b></font></td>";
 
 
-				for ( $i=0; $i < count($this->col_info); $i++ )
+				for ( $i=0, $j=count($this->col_info); $i < $j; $i++ )
 				{
-					echo "<td nowrap align=left valign=top><font size=1 color=555599 face=arial>{$this->col_info[$i]->type} {$this->col_info[$i]->max_length}</font><br><span style='font-family: arial; font-size: 10pt; font-weight: bold;'>{$this->col_info[$i]->name}</span></td>";
+					/* when selecting count(*) the maxlengh is not set, size is set instead. */
+					echo "<td nowrap align=left valign=top><font size=1 color=555599 face=arial>{$this->col_info[$i]->type}";
+					if (!isset($this->col_info[$i]->max_length))
+					{
+						echo "{$this->col_info[$i]->size}";
+					} else {
+						echo "{$this->col_info[$i]->max_length}";
+					}
+					echo "</font><br><span style='font-family: arial; font-size: 10pt; font-weight: bold;'>{$this->col_info[$i]->name}</span></td>";
 				}
 
 				echo "</tr>";
@@ -486,7 +514,7 @@
 				echo "<font face=arial size=2>No Results</font>";
 			}
 
-			echo "</blockquote></blockquote> <hr noshade color=dddddd size=1>";
+			echo "</blockquote></blockquote>".$this->donation()."<hr noshade color=dddddd size=1>";
 
 			// Stop output buffering and capture debug HTML
 			$html = ob_get_contents();
@@ -503,7 +531,16 @@
 			return $html;
 
 		}
- 
+
+		/**********************************************************************
+		*  Naughty little function to ask for some remuniration!
+		*/
+
+		function donation()
+		{
+			return "<font size=1 face=arial color=000000>If ezSQL has helped <a href=\"https://www.paypal.com/xclick/business=justin%40justinvincent.com&item_name=ezSQL&no_note=1&tax=0\" style=\"color: 0000CC;\">make a donation!?</a> &nbsp;&nbsp;<!--[ go on! you know you want to! ]--></font>";
+		}
+
 		/**********************************************************************
 		*  Timer related functions
 		*/
@@ -534,7 +571,7 @@
 					'time' => $this->timer_elapsed($timer_name)
 				);
 			}
-			
+
 			$this->total_query_time += $this->timer_elapsed($timer_name);
 		}
 
@@ -555,26 +592,48 @@
 		*
 		*     login = 'jv', email = 'jv@vip.ie', user_id = 1, created = NOW()
 		*/
-	
-		function get_set($parms)
-		{		
-			$sql = '';
-			foreach ( $parms as $field => $val )
+
+		function get_set($params)
+		{
+			if( !is_array( $params ) )
 			{
-				if ( $val === 'true' ) $val = 1;
-				if ( $val === 'false' ) $val = 0;
-			
-				if ( $val == 'NOW()' )
-				{
-					$sql .= "$field = ".$this->escape($val).", ";
-				}
-				else
-				{
-					$sql .= "$field = '".$this->escape($val)."', ";
+				$this->register_error( 'get_set() parameter invalid. Expected array in '.__FILE__.' on line '.__LINE__);
+				return;
+			}
+			$sql = array();
+			foreach ( $params as $field => $val )
+			{
+				if ( $val === 'true' || $val === true )
+					$val = 1;
+				if ( $val === 'false' || $val === false )
+					$val = 0;
+
+				switch( $val ){
+					case 'NOW()' :
+					case 'NULL' :
+					  $sql[] = "$field = $val";
+						break;
+					default :
+						$sql[] = "$field = '".$this->escape( $val )."'";
 				}
 			}
-		
-			return substr($sql,0,-2);
+
+			return implode( ', ' , $sql );
 		}
 
+		/**
+		 * Function for operating query count
+		 *
+		 * @param bool $all Set to false for function to return queries only during this connection
+		 * @param bool $increase Set to true to increase query count (internal usage)
+		 * @return int Returns query count base on $all
+		 */
+		function count ($all = true, $increase = false) {
+			if ($increase) {
+				$this->num_queries++;
+				$this->conn_queries++;
+			}
+
+			return ($all) ? $this->num_queries : $this->conn_queries;
+		}
 	}
