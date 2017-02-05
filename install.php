@@ -141,7 +141,7 @@ if ($link && !$database)
 	echo "<br /><br /> No database name was given.</p>\n";
  
 if ($database) {
-    $dbcheck = mysqli_select_db($link, 'opendata');
+    $dbcheck = mysqli_select_db($link, $database);
 if (!$dbcheck) {
          echo "<img src=\"lib/icons/no.png\"> ".mysqli_error($link);
 }else{
