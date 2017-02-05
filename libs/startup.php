@@ -30,14 +30,14 @@ along with Bittytorrent.  If not, see <http://www.gnu.org/licenses/>.
 require($path.'/libs/Smarty.class.php');
 require($path.'/libs/db.php');
 require($path.'/libs/database/ez_sql_core.php');
-require($path.'/libs/database/ez_sql_mysql.php');
+require($path.'/libs/database/ez_sql_mysqli.php');
 require($path."/libs/categories.class.php");
 require($path.'/libs/default.class.php'); 
 require($path.'/libs/SmartyPaginate.class.php');
 require($path.'/libs/Hooks.class.php'); 
 
 
-$db 	 = new ezSQL_mysql($dbuser,$dbpass,$dbname,$dbhost); 
+$db 	 = new ezSQL_mysqli($dbuser,$dbpass,$dbname,$dbhost); 
 $smarty  = new Smarty;
 $hook    = new phphooks();
 $startUp = new Bittytorrent; 
