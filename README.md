@@ -1,4 +1,4 @@
-![Bittytorrent](http://bittytorrent.com/wp-content/uploads/2014/11/bittytorrent.jpg) Bittytorrent
+![Bittytorrent](http://i.imgur.com/pYv0Q9b.png) Bittytorrent
 =============
 
 * * *
