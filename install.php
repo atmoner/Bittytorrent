@@ -130,10 +130,10 @@ $username = trim(htmlentities($_POST['username']));
 $password = trim(htmlentities($_POST['password']));
 $database = trim(htmlentities($_POST['database']));
 
-$link = mysql_connect($hostname,$username,$password);
+$link = mysqli_connect($hostname,$username,$password);
 if (!$link || empty($hostname)) {
 echo " Could not connect to the server \n";
-         echo mysql_error();
+         echo mysqli_error($link);
 } else
 		 echo " <img src=\"themes/boot3/img/Ok-icon.png\">Successfully connected to the server <br />\n";
  
@@ -141,9 +141,9 @@ if ($link && !$database)
 	echo "<br /><br /> No database name was given.</p>\n";
  
 if ($database) {
-    $dbcheck = mysql_select_db("$database");
+    $dbcheck = mysqli_select_db($link, 'opendata');
 if (!$dbcheck) {
-         echo "<img src=\"lib/icons/no.png\"> ".mysql_error();
+         echo "<img src=\"lib/icons/no.png\"> ".mysqli_error($link);
 }else{
 echo "<img src=\"themes/boot3/img/Ok-icon.png\"> Successfully connected to the database '" . $database . "' \n<br /><br />";
 echo "<form action=\"install.php?step=2&action=w\" id=\"mail\" method=\"post\">\n";
@@ -342,4 +342,3 @@ echo "<br /><br /><a href=\"http://".$hote.$pathh."\" target=\"_blank\" class=\"
 </div>
 </body>
 </html>
-
