@@ -6,8 +6,10 @@
 *   [What is BitTorrent?](#what-is-bittorrent "What is BitTorrent?")
 *   [What is BittyTorrent?](#what-is-bittytorrent "What is Bittytorrent?")
 *   [How to install Bittytorrent?](#how-to-install-bittytorrent "How to install Bittytorrent?")
+*   [All plugins Bittytorrent](http://forum.bittytorrent.pw/plugins-vf16.html "All plugins Bittytorrent")
+*   [All Themes Bittytorrent](http://forum.bittytorrent.pw/themes-vf13.html "All Themes Bittytorrent")
+*   [Help us on dev or try beta](http://git.bittytorrent.pw/atmoner/Bittytorrent "Help us on dev")  
 *   [Demonstration](#demonstration "Demonstration")
-*   [Script used](#script-used "Script used")
 
 
 ### What is BitTorrent? ###
