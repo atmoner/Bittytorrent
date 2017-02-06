@@ -1,0 +1,13 @@
+{
+  "name": "bittytorrent",
+  "version": "1.3.20",
+  "description": "Bittytorrent, php bittorrent script UI",
+  "author": "atmoner <contact.atmoner@gmail.com>",
+  "repository": {
+  "type": "git",
+  "url": "http://git.bittytorrent.pw/atmoner/Bittytorrent"
+},
+  "bugs": {
+  "url": "http://git.bittytorrent.pw/atmoner/Bittytorrent/issues"
+}
+  
