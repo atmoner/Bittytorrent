@@ -34,11 +34,9 @@ if (!empty($_POST["submit"])) {
  
         foreach($_POST as $key=>$value) {
 			$db->query("UPDATE ".$startUp->prefix_db."settings SET 
-			`value` = ".$startUp->sqlesc($value)." WHERE 
-			`key` = ".$startUp->sqlesc($key)."");
+			`value` = '".$db->escape($value)."' WHERE 
+			`key` = '".$db->escape($key)."'");
         }
- 
-     
 }
 $smarty->assign("getConfigs",$startUp->getConfigs()); 
 $smarty->assign("getThemes",$startUp->getThemes('themes')); 
