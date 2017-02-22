@@ -1,15 +1,14 @@
 <?php
 
-
-define("IN_TORRENT",true);
+error_reporting(0);
 
 // This part can be removed after install
-if (file_exists("install.php")) {
-	if (filesize("libs/db.php") === 0) {
-		header("location:install.php");
-	}
-} // This part can be removed after install
+if (file_exists("install.php") && !file_exists("libs/db.php")) {
+	header("Location: install.php");
+	exit;
+}
 
+define("IN_TORRENT",true);
 
 $path = dirname(__FILE__); 
 

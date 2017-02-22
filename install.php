@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+
 //error_reporting(E_ALL);
 if(!isset($_SESSION)) session_start();
 $path = dirname(__FILE__);
@@ -169,7 +171,7 @@ echo "</form>\n";
          $foutput.= "\$dbuser = \"".$_POST["username"]."\";\n";
          $foutput.= "\$dbpass = \"".$_POST["password"]."\";\n";
          $foutput.= "\$dbname = \"".$_POST["database"]."\";\n";
-         $foutput.= "// Please ! manipulate this file if you know what you made​​!\n";
+         $foutput.= "// Please ! manipulate this file if you know what you made!\n";
          $foutput.= "";
          fwrite($fd,$foutput);
          fclose($fd);
