@@ -33,18 +33,16 @@ $hook->add_page('edit-account','pages/edit.account.php','edit.account.html');
 $hook->add_page('user','pages/user.php','user.html');
 $hook->add_page('logout','pages/logout.php','');
 $hook->add_page('admincp','pages/admincp/admincp.index.php',''); 
-				
-				
-				
-if ($hook->hook_exist('new_page')) 
+
+if ($hook->hook_exist('new_page'))
 	$hook->execute_hook('new_page');
 	
-	foreach ($hook->addnewpage as $value) {				
-		if ($value['name'] === $page) { 
+	foreach ($hook->addnewpage as $value) {
+		if ($value['name'] === $page) {
 			if (!empty($value['phpFile']))
 				include $value['phpFile'];
 			if (!empty($value['htmlFile']))
-				$smarty->display($value['htmlFile']);		        	
-		}  	
+				$smarty->display($value['htmlFile']);
+		}
 	}
 
