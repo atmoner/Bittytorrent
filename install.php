@@ -1,5 +1,4 @@
 <?php
-
 //error_reporting(E_ALL);
 if(!isset($_SESSION)) session_start();
 $path = dirname(__FILE__);
@@ -160,7 +159,7 @@ echo "</form>\n";
 }
 
     if (!empty($_GET["action"]) and $_GET["action"] == "w") {
-      if (is_writable($path."/libs/db.php"))
+      if (is_writable($path."/libs/"))
       
          {
          $fd = fopen($path."/libs/db.php", "w+");

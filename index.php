@@ -1,5 +1,4 @@
 <?php
-
 // This part can be removed after install
 if (file_exists("install.php") && !file_exists("libs/db.php")) {
 	header("Location: install.php");
