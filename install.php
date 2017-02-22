@@ -159,7 +159,7 @@ echo "</form>\n";
 }
 
     if (!empty($_GET["action"]) and $_GET["action"] == "w") {
-      if (is_writable($path."/libs/db.php"))
+      if (is_writable($path."/libs/"))
       
          {
          $fd = fopen($path."/libs/db.php", "w+");
@@ -169,7 +169,7 @@ echo "</form>\n";
          $foutput.= "\$dbuser = \"".$_POST["username"]."\";\n";
          $foutput.= "\$dbpass = \"".$_POST["password"]."\";\n";
          $foutput.= "\$dbname = \"".$_POST["database"]."\";\n";
-         $foutput.= "// Please ! manipulate this file if you know what you made​​!\n";
+         $foutput.= "// Please ! manipulate this file if you know what you made!\n";
          $foutput.= "";
          fwrite($fd,$foutput);
          fclose($fd);
