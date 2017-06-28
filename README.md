@@ -38,8 +38,7 @@ Once the installation is complete, you must delete the install.php file, libs/db
 
 ### Demonstration ###
 
-![Bittyflix theme](http://i.imgur.com/1rS8sda.png "Bittyflix theme")
-
+ 
 
 [Demonstration](http://demo.bittytorrent.pw/ "Demonstration")
 
