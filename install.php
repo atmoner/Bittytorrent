@@ -326,14 +326,12 @@ if ($_GET["step"] == "5") {
 if(empty($_SESSION['step_four']))
 header('Location: install.php?step=4');
 else {
-$pathh = substr($var['path'], 0, -12);
-$hote = $_SERVER['HTTP_HOST'];
 echo "Your install is ok ! <br />";
 echo "Thinks to: <br /><br />";
 echo "- remove install.php of your ftp <br />";
 echo "- remove libs/db.sql <br />";	
 echo "- chmod 644 libs/db.php";
-echo "<br /><br /><a href=\"http://".$hote.$pathh."\" target=\"_blank\" class=\"button\">Go to your website</a>";
+echo "<br /><br /><a href=\"index.php\" target=\"_blank\" class=\"button\">Go to your website</a>";
         }
 }
 
