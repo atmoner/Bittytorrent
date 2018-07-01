@@ -457,7 +457,7 @@ class StartUp {
  							
 		} else {
 			if (empty($_SESSION['strLangue'])) {
-			$_SESSION['strLangue'] = $conf['lang'];		
+			$_SESSION['strLangue'] = 'en';		
 			}  
 		}
 	}
