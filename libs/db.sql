@@ -152,11 +152,11 @@ INSERT INTO `tasks` (`name`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `torrents`
+-- Table structure for table `torrents`
 --
 
-CREATE TABLE IF NOT EXISTS `torrents` (
-  `id` int(200) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `torrents` (
+  `id` int(200) NOT NULL,
   `userid` int(50) NOT NULL,
   `info_hash` varchar(50) NOT NULL,
   `title` varchar(100) NOT NULL DEFAULT 'Untitled',
@@ -166,17 +166,37 @@ CREATE TABLE IF NOT EXISTS `torrents` (
   `date` varchar(10) NOT NULL,
   `announce` longtext NOT NULL,
   `hits` varchar(100) NOT NULL DEFAULT '0',
-  `seeds` int(11) NOT NULL,
-  `leechers` int(11) NOT NULL,
-  `finished` int(11) NOT NULL,
-  `size` bigint(11) NOT NULL,
-  `last_scrape` int(11) NOT NULL,
-  `images64` longtext NOT NULL,
-  `imgExt` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `seeds` int(11) DEFAULT NULL,
+  `leechers` int(11) DEFAULT NULL,
+  `finished` int(11) DEFAULT NULL,
+  `size` bigint(11) DEFAULT NULL,
+  `last_scrape` int(11) DEFAULT NULL,
+  `images64` longtext,
+  `imgExt` varchar(10) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `torrents`
+--
+ALTER TABLE `torrents`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `torrents`
+--
+ALTER TABLE `torrents`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 --
 -- Structure de la table `users`

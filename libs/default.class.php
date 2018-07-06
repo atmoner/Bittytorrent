@@ -110,9 +110,8 @@ class StartUp {
 	function addTorrent($userid,$title,$urlTitle,$cat,$desc,$hash,$announce,$size,$imgExt) {
 		global $db,$conf;
 		$date = time();
-		$query = "INSERT INTO ".$this->prefix_db."torrents (id,userid,info_hash,title,url_title,categorie,torrent_desc,date,announce,size,imgExt) 
+		$query = "INSERT INTO ".$this->prefix_db."torrents (userid,info_hash,title,url_title,categorie,torrent_desc,date,announce,size,imgExt) 
 	          VALUES (
-			  'NULL',
 			  '".$db->escape($userid)."',
 			  '".$db->escape($hash)."',
 			  '".$db->escape($title)."',
