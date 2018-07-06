@@ -25,10 +25,8 @@ jQuery(document).ready(function($){
  
 $("[rel=tooltip]").tooltip();
 $("#categories").select2(); 
-
-//$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) { event.preventDefault(); $(this).ekkoLightbox(); }); 
-
- $('#formScrape').submit(function(e){
+ 
+$('#formScrape').submit(function(e){
         // On désactive le comportement par défaut du navigateur
         // (qui consiste à appeler la page action du formulaire)
         e.preventDefault();
@@ -112,8 +110,6 @@ $('[data-toggle="modal"]').click(function(e) {
 	 }
 });
  
-$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) { event.preventDefault(); $(this).ekkoLightbox(); }); 
-
     $(window).bind("load", function() {
     // IMAGE RESIZE
     $('#torrentimage img').each(function() {

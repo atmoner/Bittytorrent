@@ -30,10 +30,7 @@
  				<div class="title">{$lang.torrentDetail}</div> 
 					<div id="torrentimage" >
 					{if $imgExist eq 'true'}
-						<a data-title="{$lang.torrent}: {$getDetail.title}" data-toggle="lightbox" href="{$getConfigs.baseurl}/uploads/images/{$getDetail.imgUrl}">
 							<img class="img-rounded" src="{$getConfigs.baseurl}/uploads/images/{$getDetail.imgUrl}">
-						</a>
- 
 					{else}
 						<img src="{$getConfigs.baseurl}/themes/asset/img/no-photo.jpg" align="top" class="img-rounded " />
 					{/if}
