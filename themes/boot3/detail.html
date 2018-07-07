@@ -26,7 +26,7 @@
 	{else}
 	{foreach item=i from=$hooks->addblock|@sortby:"#prio"}
 		{if $i.id eq 'defaultUpload'}   
-      		 <div class="base-block">          
+      		 <div class="base-block table-responsive">          
  				<div class="title">{$lang.torrentDetail}</div> 
 					<div id="torrentimage" >
 					{if $imgExist eq 'true'}
