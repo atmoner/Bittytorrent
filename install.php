@@ -159,9 +159,7 @@ echo "</form>\n";
 }
 
     if (!empty($_GET["action"]) and $_GET["action"] == "w") {
-      if (is_writable($path."/libs/"))
-      
-         {
+ 
          $fd = fopen($path."/libs/db.php", "w+");
          $foutput = "<?php\n";
          $foutput.= "// Generate For Bittytorrent\n";
@@ -173,7 +171,7 @@ echo "</form>\n";
          $foutput.= "";
          fwrite($fd,$foutput);
          fclose($fd);
-         }
+
          // var_dump($path);
      // require($path.'/libs/startup.php');
 	 require($path.'/libs/db.php'); 
