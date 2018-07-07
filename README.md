@@ -6,9 +6,8 @@
 *   [What is BitTorrent?](#what-is-bittorrent "What is BitTorrent?")
 *   [What is BittyTorrent?](#what-is-bittytorrent "What is Bittytorrent?")
 *   [How to install Bittytorrent?](#how-to-install-bittytorrent "How to install Bittytorrent?")
-*   [All plugins Bittytorrent](http://forum.bittytorrent.pw/plugins-vf16.html "All plugins Bittytorrent")
-*   [All Themes Bittytorrent](http://forum.bittytorrent.pw/themes-vf13.html "All Themes Bittytorrent")
-*   [Help us on dev or try beta](http://git.bittytorrent.pw/atmoner/Bittytorrent "Help us on dev")  
+*   [All plugins Bittytorrent](http://forum.bittytorrent.com/viewforum.php?f=6 "All plugins Bittytorrent")
+*   [All Themes Bittytorrent](http://forum.bittytorrent.com/viewforum.php?f=7 "All Themes Bittytorrent")
 *   [Demonstration](#demonstration "Demonstration")
 
 
@@ -40,7 +39,7 @@ Once the installation is complete, you must delete the install.php file, libs/db
 
  
 
-[Demonstration](http://demo.bittytorrent.pw/ "Demonstration")
+[Demonstration](http://demo.bittytorrent.com/ "Demonstration")
 
  
 ### Script used ###
