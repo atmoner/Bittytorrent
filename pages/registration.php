@@ -122,7 +122,7 @@ if ($_POST['sendForm']) {
 						if ($startUp->addUser($_POST['username'],$_POST['email'],$_POST['password'],true,'NULL'))  
 							$smarty->assign('accountCreated',true);
 						else 
-							$smarty->assign('error','These identifiers (<b>'.$startUp->Fuckxss($_POST['username']).'</b> or <b>'.$_POST['email'].'</b>) are already used'); 
+							$smarty->assign('error','These identifiers (<b>'.$startUp->Fuckxss($_POST['username']).'</b> or <b>'.$startUp->Fuckxss($_POST['email']).'</b>) are already used'); 
 					} else
 						$smarty->assign('error',$lang["PAgree"]);					
 				} else
