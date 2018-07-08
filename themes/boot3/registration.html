@@ -22,22 +22,22 @@
 				<form method="post">
 					<div class="input-group col-xs-4">
 					  <label for="email">{$lang.Email}</label>  <span id="email-result"></span>
-					  <input type="text" name="email"  id="email" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.email|escape:'javascript'}"{/if}>
+					  <input type="text" name="email"  id="email" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.email|escape:'htmlall'}"{/if}>
 					</div>
 					<br />
 					<div class="input-group col-xs-4">
 					  <label for="username">{$lang.userName}</label>  <span id="user-result"></span>
-					  <input type="text" name="username" id="username" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.username|escape:'javascript'}"{/if}>
+					  <input type="text" name="username" id="username" class="form-control" {if isset($smarty.post.email)}value="{$smarty.post.username|escape:'htmlall'}"{/if}>
 					</div> 
 					<br />
 					<div class="input-group col-xs-4">
 					  <label for="password">{$lang.password}</label> <span id="pass-result"></span>
-					  <input type="password" id="password" name="password" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'javascript'}"{/if}>
+					  <input type="password" id="password" name="password" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'htmlall'}"{/if}>
 					</div>
 					<br />
 					<div class="input-group col-xs-4">
 					  <label for="repeatPassword">{$lang.repeatPassword}</label> <span id="repass-result"></span>
-					  <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'javascript'}"{/if}>
+					  <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" {if isset($smarty.post.password)}value="{$smarty.post.password|escape:'htmlall'}"{/if}>
 					</div>
 					<br />
 					<div class="input-group col-xs-4">  
