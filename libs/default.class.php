@@ -994,7 +994,7 @@ class Bittytorrent extends startUp {
             		$array[$obj->id]['download'] = $this->bytesToSize($obj->download);
             		$array[$obj->id]['gravatarS'] = $this->get_gravatar($obj->mail,'50');
             		$array[$obj->id]['gravatarL'] = $this->get_gravatar($obj->mail,'100');
-			$array[$obj->id]['unameUrl'] = $conf['baseurl'].'/'.$this->makeUrl(array('page'=>'user','act'=>$obj->name)).'/';
+			$array[$obj->id]['unameUrl'] = $conf['baseurl'].'/'.$this->makeUrl(array('page'=>'user','act'=>$this->Fuckxss($obj->name))).'/';
 	        }
 	       
  		return $array;
