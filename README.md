@@ -10,6 +10,7 @@
 *   [All Themes Bittytorrent](http://forum.bittytorrent.com/viewforum.php?f=7 "All Themes Bittytorrent")
 *   [Demonstration](#demonstration "Demonstration")
 
+*   [Hall of fame](#hall-of-fame "Hall of fame")
 
 ### What is BitTorrent? ###
 
@@ -53,9 +54,9 @@ Script used for the creation of Bittytorrent:
 *   Justgage (http://justgage.com/)  
 
 
+### Hall of fame ###
 
-
-
+[Bouneh](https://twitter.com/BugBouneh "Bouneh") (Stored Xss)
 
 
 
