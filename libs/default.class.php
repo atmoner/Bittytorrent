@@ -389,8 +389,8 @@ class StartUp {
 		       		$array['last_scrape'] = $obj->last_scrape;
 		       		$array['imgExt'] = $obj->imgExt;
 		       		$array['imgUrl'] = $obj->info_hash.$obj->imgExt;
-		       		$array['uname'] = $obj->name;
-		       		$array['uname_url'] = $conf['baseurl'].'/'.$this->makeUrl(array('page'=>'user','act'=>$obj->name)).'/';
+		       		$array['uname'] = $this->Fuckxss($obj->name);
+		       		$array['uname_url'] = $conf['baseurl'].'/'.$this->makeUrl(array('page'=>'user','act'=>$this->Fuckxss($obj->name))).'/';
 		       		$array['cat_url'] = $conf['baseurl'].'/'.$this->makeUrl(array('page'=>'torrents','ghost'=>'cat','catid'=>$this->Fuckxss($obj->c_name)));
 			    } 		 
 			return $array;
