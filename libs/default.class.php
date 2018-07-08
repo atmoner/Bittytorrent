@@ -377,7 +377,7 @@ class StartUp {
 		        	$array['url_title'] = $this->Fuckxss($obj->url_title);
 		        	$array['categorie'] = $this->Fuckxss($obj->categorie);
 		        	$array['c_name'] = $this->Fuckxss($obj->c_name);
-					$array['torrent_desc'] = $obj->torrent_desc;  
+				$array['torrent_desc'] = $this->Fuckxss($obj->torrent_desc);
 		       		$array['date'] = $obj->date;
 		       		$array['hits'] = $obj->hits;
 		       		$array['seeds'] = $obj->seeds;
