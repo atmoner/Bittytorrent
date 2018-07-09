@@ -199,7 +199,7 @@
           <form class="navbar-form navbar-right" method="POST">
 			<div class="input-group">
 			  <span class="input-group-addon"><i class="fa fa-search "></i></span>
-			  <input class="form-control" type="text" name="torrentSearch" placeholder="Torrents search" value="{if isset($smarty.get.search)}{$smarty.get.search}{/if}"> 
+			  <input class="form-control" type="text" name="torrentSearch" placeholder="Torrents search" value="{if isset($smarty.get.search)}{$smarty.get.search|escape:'htmlall'}{/if}"> 
 			</div>
           </form>
         </div>
