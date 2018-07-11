@@ -79,7 +79,7 @@ $smarty->assign('userDownload',$userData->download);
 
 
 if(!isset($_GET["catid"])) $_GET["catid"] ='NULL';
-$cat_id = $_GET["catid"];
+$cat_id = $startUp->Fuckxss($_GET["catid"]);
 $smarty->assign('getCategoriescollapsed',$startUp->Categories('getlistcollapsed',$cat_id));
 $smarty->assign('setError','false');
 
