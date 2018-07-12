@@ -55,14 +55,11 @@ Script used for the creation of Bittytorrent:
 
 ### Hall of fame ###
 
-[Bouneh](https://twitter.com/BugBouneh "Bouneh") (Stored Xss)
-[Memon Irshad](https://twitter.com/irshad9998 "Memon Irshad") (Xss)
-
-
-
-
-
-
+[Bouneh](https://twitter.com/BugBouneh "Bouneh") (Stored Xss)  
+[Memon Irshad](https://twitter.com/irshad9998 "Memon Irshad") (Xss)  
+[Taha Smily](https://twitter.com/TahakhanTaha "Taha Smily") (Xss)  
+ 
+ 
 
 
  
