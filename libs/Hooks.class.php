@@ -306,6 +306,16 @@ function remove_block($id) {
 	unset($this->addblock[$id]);
 }
 ###
+function add_footer($id, $content, $p=5) {
+				$this->addFooter[$id]['id'] = $id; 
+                $this->addFooter[$id]['content'] = $content;
+                $this->addFooter[$id]['prio'] = $p;	
+}
+###
+function remove_footer($id) {
+	unset($this->addFooter[$id]);
+}
+###
 function add_content($id, $content, $p=5) {
 				$this->addcontent[$id]['id'] = $id;
                 $this->addcontent[$id]['content'] = $content;

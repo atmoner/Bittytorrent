@@ -15,7 +15,9 @@
   </div>
 </div><!--/.fluid-container-->
  
-
+{foreach item=i from=$hooks->addFooter|@sortby:"#prio"}
+	{$i.content}
+{/foreach}
 
  
 {literal}
