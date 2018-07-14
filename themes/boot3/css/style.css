@@ -365,4 +365,12 @@ ol.simple_with_drop_right li.placeholder:before {
 	-moz-border-radius: 0 0 4px 4px;
 	border-radius: 0 0 4px 4px;
 }
- 
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(../img/home-banner-background.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    text-shadow: 0 2px 6px white; /* text reflet */
+}
