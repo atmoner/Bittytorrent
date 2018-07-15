@@ -47,7 +47,7 @@ INSERT INTO `categories` (`id`, `position`, `c_name`, `c_desc`, `c_icon`, `c_gro
 (2, '2>', 'Software', 'Software opensource', 'themes/asset/img/cat/7.gif', '0', 'software-opensource'),
 (3, '3>', 'Porn', 'Porn', 'themes/asset/img/cat/533.gif', '0', 'Porn'),
 (4, '1>4>', 'World', 'world', 'themes/asset/img/cat/4.gif', '0', 'world'),
-(5, '1>5>', 'Animals', 'animals', ' ', '0', 'animals');
+(5, '1>5>', 'Animals', 'animals', 'themes/asset/img/cat/4.gif', '0', 'animals');
 
 -- --------------------------------------------------------
 
