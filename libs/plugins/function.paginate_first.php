@@ -77,7 +77,7 @@ function smarty_function_paginate_first($params, &$smarty) {
 			$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'gost'=>'cat','catid'=>$cat_id,'next'=>'1')); 
 	} elseif ($_GET['page'] === "admincp") {
 	
-		$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'next'=>1)).'?tokenAdmin='.$_COOKIE['tokenAdmin'];
+		$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'next'=>1)).'?tokenAdmin='.$startUp->Fuckxss($_COOKIE['tokenAdmin']);
 		
 	} else {
 		if (!empty($_GET["sortedBy"]) || !empty($_GET["axis"])) {

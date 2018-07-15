@@ -168,12 +168,12 @@
 							<a class="btn btn-sm btn-warning" 
 							   data-toggle="tooltip"
                                data-original-title="Edit this user"
-							   href="?edit={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin}">
+							   href="?edit={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    <i class="glyphicon glyphicon-edit"></i></a> 
 		                    <a class="btn btn-sm btn-danger"
 		                       data-toggle="tooltip"
 		                       data-original-title="Remove this user"
-		                       href="?del={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                       href="?del={$info.id}&tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
                            		<i class="glyphicon glyphicon-remove"></i>
 		                    </a>
                         </span>
@@ -200,7 +200,7 @@
   <div class="base-block">
        <div class="title">All users</div>  
 
-    <form class="form-horizontal" method="post" action="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+    <form class="form-horizontal" method="post" action="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
         <div class="form-group">
             <label for="name" class="control-label col-xs-2">User name</label>
             <div class="col-xs-10">

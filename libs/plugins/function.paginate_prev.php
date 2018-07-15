@@ -83,7 +83,7 @@ if ($_show === true) {
 			$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'gost'=>'cat','catid'=>$cat_id,'next'=>$_item)); 
 	} elseif ($_GET['page'] === "admincp") {
 	
-		$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'next'=>$_item)).'?tokenAdmin='.$_COOKIE['tokenAdmin'];
+		$final_url = $startUp->makeUrl(array('page'=>$startUp->paginatePage,'next'=>$_item)).'?tokenAdmin='.$startUp->Fuckxss($_COOKIE['tokenAdmin']);
 		
 	} else {
 		if (!empty($_GET["sortedBy"]) || !empty($_GET["axis"])) {
