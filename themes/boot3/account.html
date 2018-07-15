@@ -12,7 +12,7 @@
 						<div class="col-md-2" align="center">
 								<img src='{$getGravatar}' class="img-rounded" /> 
 								<br /><br />
-								<a href="{$getConfigs.baseurl}/edit-account?token={$smarty.cookies.token}" class="btn btn-primary">{$lang.editProfile}</a>
+								<a href="{$getConfigs.baseurl}/edit-account?token={$smarty.cookies.token|escape:'htmlall'}" class="btn btn-primary">{$lang.editProfile}</a>
 						</div>
 						<div class="col-md-4">
 							<h5>{$lang.userInfo}</h5>
@@ -55,7 +55,7 @@
 					{$lang.categories}  
 				</th>
 				<th>
-					<a href="?sortedBy=title&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					<a href="?sortedBy=title&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token|escape:'htmlall'}">
 					{$lang.torrentName}  
 					{if $smarty.get.sortedBy eq 'title'}
 						{if $smarty.get.axis eq 'asc'}
@@ -67,7 +67,7 @@
 					</a>
 				</th>
 				<th>
-					<a href="?sortedBy=date&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					<a href="?sortedBy=date&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token|escape:'htmlall'}">
 					{$lang.torrentDate}  
 					{if $smarty.get.sortedBy eq 'date'}
 						{if $smarty.get.axis eq 'asc'}
@@ -81,7 +81,7 @@
 					</a>
 				</th>
 				<th>
-					<a href="?sortedBy=size&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					<a href="?sortedBy=size&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token|escape:'htmlall'}">
 					{$lang.torrentSize}
 					{if $smarty.get.sortedBy eq 'size'}
 						{if $smarty.get.axis eq 'asc'}
@@ -105,7 +105,7 @@
 					</a>
 				</th>
 				<th>
-					<a href="?sortedBy=leechers&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token}">
+					<a href="?sortedBy=leechers&axis={if empty($smarty.get.axis)}asc{elseif $smarty.get.axis eq 'asc'}desc{elseif $smarty.get.axis eq 'desc'}asc{/if}&token={$smarty.cookies.token|escape:'htmlall'}">
 					{$lang.torrentLeech}
 					{if $smarty.get.sortedBy eq 'leechers'}
 						{if $smarty.get.axis eq 'asc'}

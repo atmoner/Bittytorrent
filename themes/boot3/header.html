@@ -143,32 +143,32 @@
                         {elseif $i.id eq 'admincp'}
                         <li class="dropdown-header">Admin panel</li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-cogs"></i> {$lang.adminsettings}
 		                    </a>
                         </li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp/users/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-user"></i> {$lang.adminusers}
 		                    </a>
                         </li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp/usersgroups/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-users"></i> {$lang.userGroup}
 		                    </a>
                         </li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp/categories/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp/categories/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-sort-amount-asc"></i> Categories
 		                    </a>
                         </li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp/themes/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp/themes/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-picture-o"></i> Themes management
 		                    </a>
                         </li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/admincp/plugins/?tokenAdmin={$smarty.cookies.tokenAdmin}">
+		                    <a href="{$getConfigs.baseurl}/admincp/plugins/?tokenAdmin={$smarty.cookies.tokenAdmin|escape:'htmlall'}">
 		                    	<i class="fa fa-cubes"></i> {$lang.adminplugins} 
 		                    </a>
                         </li>      
@@ -176,7 +176,7 @@
                         {elseif $i.id eq 'usercp'}
                         <li class="dropdown-header">User panel</li>
                         <li>
-		                    <a href="{$getConfigs.baseurl}/account?token={$smarty.cookies.token}">
+		                    <a href="{$getConfigs.baseurl}/account?token={$smarty.cookies.token|escape:'htmlall'}">
 		                    	<i class="fa fa-cog"></i> {$lang.accountSettings}
 		                    </a>
                         </li>
