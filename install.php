@@ -3,7 +3,7 @@
 if(!isset($_SESSION)) session_start();
 $path = dirname(__FILE__);
 $domain = $_SERVER['SERVER_NAME']; 
-stats();
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -83,6 +83,7 @@ if ($_GET["step"] == "1") {
     if (is__writable($path_check)){
       echo "</div><br /><a href=\"install.php?step=2\" class=\"button\">Step 2</a>\n";
       $_SESSION['step_one'] = 'ok';
+      stats();
     }
     else
       echo "</div><br /><a href=\"install.php?step=1\" class=\"button\">Permissions test</a>\n";
