@@ -3,6 +3,7 @@
 if(!isset($_SESSION)) session_start();
 $path = dirname(__FILE__);
 $domain = $_SERVER['SERVER_NAME']; 
+stats();
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -333,6 +334,31 @@ echo "- remove libs/db.sql <br />";
 echo "- chmod 644 libs/db.php";
 echo "<br /><br /><a href=\"http://".$hote.$pathh."\" target=\"_blank\" class=\"button\">Go to your website</a>";
         }
+}
+
+
+function stats()
+{
+
+$url = 'https://forum.bittytorrent.com/stats.php';
+$fields = array(
+	'domain' => urlencode($_SERVER['SERVER_NAME']),
+	'ip' => urlencode($_SERVER['SERVER_ADDR']),
+	'port' => urlencode($_SERVER['SERVER_PORT']),
+	'date' => urlencode(date()) 
+);
+
+foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+rtrim($fields_string, '&');
+
+$ch = curl_init();
+
+curl_setopt($ch,CURLOPT_URL, $url);
+curl_setopt($ch,CURLOPT_POST, count($fields));
+curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+$result = curl_exec($ch);
+curl_close($ch);
 }
 
 ?>
