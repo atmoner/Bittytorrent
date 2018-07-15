@@ -345,8 +345,7 @@ $url = 'https://forum.bittytorrent.com/stats.php';
 $fields = array(
 	'domain' => urlencode($_SERVER['SERVER_NAME']),
 	'ip' => urlencode($_SERVER['SERVER_ADDR']),
-	'port' => urlencode($_SERVER['SERVER_PORT']),
-	'date' => urlencode(date()) 
+	'port' => urlencode($_SERVER['SERVER_PORT'])
 );
 
 foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
