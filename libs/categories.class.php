@@ -56,7 +56,7 @@ var $fields = array(
 var $c_list  = array();  // DON'T CHANGE THIS
 var $Group  = 0;		 // DON'T CHANGE THIS
 
-function categories()
+function __construct()
 {
 if(!isset($_COOKIE['tokenAdmin'])) 
       $_COOKIE['tokenAdmin'] = "";
@@ -490,4 +490,4 @@ function getParent($id){
  
 		return $items[count($items)-3];
 	}
-}  
+}
