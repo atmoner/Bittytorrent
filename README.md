@@ -30,7 +30,7 @@ To install Bittytorrent, you do not need much!
 2.  Mysql database  
 3.  mod_rewrite enabled on your apache web server (see it in your phpinfo())  
 
-To begin, send your file on ftp and open your browser to the selected domain name, you should see the installation page.   
+To begin, create the file `db.php` in the folder `libs`, send your file on ftp and open your browser to the selected domain name. You should see the installation page!
 Follow the installation instructions.
 
 Once the installation is complete, you must delete the install.php file, libs/db.sql and put a chmod 644 on the file libs/db.php
