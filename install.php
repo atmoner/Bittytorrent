@@ -73,7 +73,7 @@ header("location:".$location);
  
  
 
-if ($_GET["step"] == "1") {
+if (!empty($_GET["step"]) && $_GET["step"] == "1") {
     
     echo " <div class='section_box'>Check chmod:<br /><br />";
     $error = "1";
@@ -90,7 +90,7 @@ if ($_GET["step"] == "1") {
      
 }
 
-if ($_GET["step"] == "2") {
+if (!empty($_GET["step"]) && $_GET["step"] == "2") {
  
 if (empty($_GET["action"])) { ?>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>?step=2&action=test" id="mail" method="post">
@@ -188,7 +188,7 @@ echo "</form>\n";
        }
 }
 
-if ($_GET["step"] == "3") {
+if (!empty($_GET["step"]) && $_GET["step"] == "3") {
 if(empty($_SESSION['step_two']))
 header('Location: install.php?step=2');
 else {
@@ -259,7 +259,7 @@ include $path.'/libs/startup.php';
   }
 }
 
-if ($_GET["step"] == "4") {
+if (!empty($_GET["step"]) && $_GET["step"] == "4") {
 if(empty($_SESSION['step_tree']))
 header('Location: install.php?step=3');
 else {
@@ -322,7 +322,7 @@ include $path.'/libs/startup.php';
         }
 }
 
-if ($_GET["step"] == "5") {
+if (!empty($_GET["step"]) && $_GET["step"] == "5") {
 if(empty($_SESSION['step_four']))
 header('Location: install.php?step=4');
 else {
