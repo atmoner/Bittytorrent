@@ -43,11 +43,15 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 INSERT INTO `categories` (`id`, `position`, `c_name`, `c_desc`, `c_icon`, `c_group`, `url_strip`) VALUES
-(1, '1>', 'Documentary', 'Documentary opensource', 'themes/asset/img/cat/4.gif', '0', 'documentary-opensource'),
-(2, '2>', 'Software', 'Software opensource', 'themes/asset/img/cat/7.gif', '0', 'software-opensource'),
-(3, '3>', 'Porn', 'Porn', 'themes/asset/img/cat/533.gif', '0', 'Porn'),
-(4, '1>4>', 'World', 'world', 'themes/asset/img/cat/4.gif', '0', 'world'),
-(5, '1>5>', 'Animals', 'animals', 'themes/asset/img/cat/4.gif', '0', 'animals');
+(1, '1>', 'Audiobook', 'audiobook', 'themes/asset/img/cat/4.gif', '0', 'audiobook'),
+(2, '2>', 'Documentary', 'documentary', 'themes/asset/img/cat/7.gif', '0', 'documentary'),
+(6, '6>', 'DivX', '', 'themes/asset/img/cat/4.gif', '0', 'divx'),
+(7, '7>', 'Games', '', 'themes/asset/img/cat/4.gif', '0', 'games'),
+(8, '8>', 'Kids', '', 'themes/asset/img/cat/4.gif', '0', 'kids'),
+(9, '9>', 'Linux/Mac', '', 'themes/asset/img/cat/533.gif', '0', 'linux-mac'),
+(10, '10>', 'Mobile', '', 'themes/asset/img/cat/4.gif', '0', 'mobile'),
+(11, '11>', 'Porn XXX', '', 'themes/asset/img/cat/4.gif', '0', 'porn-xxx'),
+(12, '12>', 'Software', '', 'themes/asset/img/cat/4.gif', '0', 'software');
 
 -- --------------------------------------------------------
 
