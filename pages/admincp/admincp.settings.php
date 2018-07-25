@@ -42,6 +42,6 @@ $smarty->assign("getConfigs",$startUp->getConfigs());
 $smarty->assign("getThemes",$startUp->getThemes('themes')); 
  
 
-/* if ($hook->hook_exist('admin_settings_page'))  
-		$hook->execute_hook('admin_settings_page');
-*/
+if ($hook->hook_exist('admin_settings_page'))  
+	$hook->execute_hook('admin_settings_page');
+
