@@ -222,20 +222,25 @@ return ( $this->hooks [$tag] == "") ? false : true;
 * @return optional.
 */
 function execute_hook($tag, $args = '') {
-if (isset ( $this->hooks [$tag] )) {
-$these_hooks = $this->hooks [$tag];
-for($i = 0; $i <= 20; $i ++) {
-if (isset ( $these_hooks [$i] )) {
-foreach ( $these_hooks [$i] as $hook ) {
-// $args [] = $result;
-$result = call_user_func ( $hook, $args );
-}
-}
-}
-return $result;
-} else {
-die ( "There is no such place ($tag) for hooks." );
-}
+	if (isset ( $this->hooks [$tag] )) {
+	$these_hooks = $this->hooks [$tag];
+	for($i = 0; $i <= 20; $i ++) {
+		if (isset ( $these_hooks [$i] )) {
+			foreach ( $these_hooks [$i] as $hook ) {
+			// $args [] = $result;
+				$result = call_user_func ( $hook, $args );
+			}
+		}
+	}
+	//var_dump($these_hooks);
+	if (isset($result)) 
+		return $result;	    
+ 	else
+ 		return null;
+
+	} else {
+		die ( "There is no such place ($tag) for hooks." );
+	}
 }
 
 /**
