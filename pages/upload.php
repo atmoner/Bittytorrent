@@ -104,7 +104,7 @@ exit;
 }
 if (isset($_GET['form']))
 {
-	$data = array('success' => $lang["welldone"], 'formData' => $_POST);
+	$data = array('success' => $lang["welldone"], 'formData' => $startUp->Fuckxss($_POST));
 	echo json_encode($data);
 	exit;
  
