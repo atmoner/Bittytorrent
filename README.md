@@ -37,10 +37,7 @@ Once the installation is complete, you must delete the install.php file, libs/db
 
 ### Demonstration ###
 
- 
-
-[Demonstration](http://demo.bittytorrent.com/ "Demonstration")
-
+No demo, sorry
  
 ### Script used ###
 
