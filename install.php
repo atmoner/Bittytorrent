@@ -83,7 +83,7 @@ if (!empty($_GET["step"]) && $_GET["step"] == "1") {
     if (is__writable($path_check)){
       echo "</div><br /><a href=\"install.php?step=2\" class=\"button\">Step 2</a>\n";
       $_SESSION['step_one'] = 'ok';
-      stats();
+      //stats();
     }
     else
       echo "</div><br /><a href=\"install.php?step=1\" class=\"button\">Permissions test</a>\n";
