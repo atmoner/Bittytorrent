@@ -1,4 +1,4 @@
-# Nuxt Tracker
+# BittyTorrent
 
 ## Description
 
