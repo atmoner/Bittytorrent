@@ -29,7 +29,7 @@
       >
         © 2026 BittyTorrent —
         <a
-          href="#
+          href="#"
           class="text-gray-600 ml-1"
           rel="noopener noreferrer"
           target="_blank"
