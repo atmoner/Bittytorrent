@@ -124,6 +124,31 @@
           <p class="text-gray-600">Modifier les paramètres généraux du site</p>
         </NuxtLink>
 
+        <!-- Card: Gestion des plugins -->
+        <NuxtLink
+          to="/admin/plugins"
+          class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+        >
+          <div class="flex items-center mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-indigo-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold mb-2">Gestion des plugins</h2>
+          <p class="text-gray-600">Activer, désactiver et configurer les plugins du site</p>
+        </NuxtLink>
+
         <!-- Card: Système Anti-Triche -->
         <NuxtLink
           to="/admin/peer-sessions"
