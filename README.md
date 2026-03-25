@@ -1,63 +1,71 @@
-![Bittytorrent](https://i.imgur.com/pYv0Q9b.png) Bittytorrent
-=============
+# BittyTorrent
 
-* * *
+<img src="https://i.imgur.com/7tkb4xQ.png" width="45%"></img> <img src="https://i.imgur.com/nzBERFc.png" width="45%"></img> <img src="https://i.imgur.com/7ky0ySu.png" width="45%"></img> <img src="https://i.imgur.com/W1MIwuI.png" width="45%"></img>
 
-*   [What is BitTorrent?](#what-is-bittorrent "What is BitTorrent?")
-*   [What is BittyTorrent?](#what-is-bittytorrent "What is Bittytorrent?")
-*   [How to install Bittytorrent?](#how-to-install-bittytorrent "How to install Bittytorrent?")
-*   [All plugins Bittytorrent](http://forum.bittytorrent.com/viewforum.php?f=6 "All plugins Bittytorrent")
-*   [All Themes Bittytorrent](http://forum.bittytorrent.com/viewforum.php?f=7 "All Themes Bittytorrent")
-*   [Demonstration](#demonstration "Demonstration")
-*   [Hall of fame](#hall-of-fame "Hall of fame")
+## Description
 
-### What is BitTorrent? ###
+A modern BitTorrent tracker built with Nuxt 4. The application lets you manage torrents, scrape real-time statistics from external trackers, and includes a user authentication system.
 
-BitTorrent is file sharing software. You need four things to have BitTorrent work: a BitTorrent client, a BitTorrent tracker, a file to share, and a torrent file (made from the file to share.) The torrent file is placed where others can have access to it (i.e. a website.)  
+**Main features:**
 
-The clients use the torrent file to connect to the tracker, this allows the client to find other peers to get the file from. This is the simplest explanation
+- Torrent upload and management
+- Automatic scraping of stats from external trackers
+- Full administration interface
+- User authentication and management
+- MongoDB database
 
-### What is BittyTorrent? ###
+## Installation
 
-Bittytorrent is a bittorrent tracker, this is a script that allows you to deploy a website for sharing torrents.  
-Its bittorrent php tracker. 
+### Prerequisites
 
-### How to install Bittytorrent? ###
+- Node.js 18+
+- MongoDB (local or remote)
 
-To install Bittytorrent, you do not need much!  
+### Installation steps
 
-1.  Web server  
-2.  Mysql database  
-3.  mod_rewrite enabled on your apache web server (see it in your phpinfo())  
+1. **Install dependencies**
 
-To begin, create the file `db.php` in the folder `libs`, send your file on ftp and open your browser to the selected domain name. You should see the installation page!
-Follow the installation instructions.
+   ```bash
+   npm install
+   ```
 
-Once the installation is complete, you must delete the install.php file, libs/db.sql and put a chmod 644 on the file libs/db.php
+2. **Start the development server**
 
-### Demonstration ###
+   ```bash
+   npm run dev
+   ```
 
-No demo, sorry
- 
-### Script used ###
+3. **Initial setup**
 
-Script used for the creation of Bittytorrent:
+   Open `http://localhost:3000` in your browser. The application will redirect you to `/install` to configure:
+   - MongoDB connection
+   - Site information
+   - Initial administrator account
 
-*   Bootstrap (http://getbootstrap.com/)  
-*   Bootstrap-editable (http://vitalets.github.io/bootstrap-editable/)  
-*   Select2 (http://ivaynberg.github.io/select2/)  
-*   Lightbox (https://github.com/ashleydw/lightbox)  
-*   Justgage (http://justgage.com/)  
+4. **Usage**
 
+   Once installation is complete:
+   - Sign in with the created admin account
+   - Access the admin panel at `/admin`
+   - Start uploading and managing your torrents
 
-### Hall of fame ###
+## Plugin system
 
-[Bouneh](https://twitter.com/BugBouneh "Bouneh") (Stored Xss)  
-[Memon Irshad](https://twitter.com/irshad9998 "Memon Irshad") (Xss)  
-[Taha Smily](https://twitter.com/TahakhanTaha "Taha Smily") (Xss)  
- 
- 
+BittyTorrent provides a client-side plugin system based on hooks.
 
+### Full documentation
 
- 
+- French: [PLUGINS.md](PLUGINS.md)
+- English: [PLUGINS.en.md](PLUGINS.en.md)
 
+To avoid duplication across documents, plugin documentation is centralized in:
+
+- [PLUGINS.md](PLUGINS.md) (full reference in French)
+- [PLUGINS.en.md](PLUGINS.en.md) (complete English reference)
+
+You will find:
+
+- the full catalog of hooks and contexts
+- the system architecture and execution lifecycle
+- the `useHooks()` / `usePlugins()` APIs
+- a plugin creation guide (including third-party plugin use cases)

@@ -1,0 +1,35 @@
+{
+  "name": "bittytorrent",
+  "version": "3.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "build:prod": "./build-production.sh",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.2.0",
+    "bcryptjs": "^3.0.3",
+    "bencode": "^4.0.0",
+    "bittorrent-tracker": "^11.2.2",
+    "mongodb": "^7.0.0",
+    "nuxt": "^4.2.2",
+    "nuxt-auth-utils": "^0.5.26",
+    "parse-torrent": "^11.0.19",
+    "uuid": "^13.0.0",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/bencode": "^2.0.4",
+    "@types/mongodb": "^4.0.6",
+    "@types/node": "^25.0.3",
+    "@types/parse-torrent": "^5.8.8"
+  }
+}
