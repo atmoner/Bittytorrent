@@ -1,69 +1,71 @@
 # BittyTorrent
 
+<img src="https://i.imgur.com/7tkb4xQ.png" width="45%"></img> <img src="https://i.imgur.com/nzBERFc.png" width="45%"></img> <img src="https://i.imgur.com/7ky0ySu.png" width="45%"></img> <img src="https://i.imgur.com/W1MIwuI.png" width="45%"></img>
+
 ## Description
 
-Un tracker BitTorrent moderne construit avec Nuxt 4. L'application permet de gérer des torrents, effectuer du scraping en temps réel des trackers externes, et inclut un système d'authentification utilisateur.
+A modern BitTorrent tracker built with Nuxt 4. The application lets you manage torrents, scrape real-time statistics from external trackers, and includes a user authentication system.
 
-**Fonctionnalités principales :**
+**Main features:**
 
-- Upload et gestion de torrents
-- Scraping automatique des stats depuis les trackers externes
-- Interface d'administration complète
-- Authentification et gestion d'utilisateurs
-- Base de données MongoDB
+- Torrent upload and management
+- Automatic scraping of stats from external trackers
+- Full administration interface
+- User authentication and management
+- MongoDB database
 
 ## Installation
 
-### Pré-requis
+### Prerequisites
 
 - Node.js 18+
-- MongoDB (local ou distant)
+- MongoDB (local or remote)
 
-### Étapes d'installation
+### Installation steps
 
-1. **Installer les dépendances**
+1. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. **Lancer le serveur de développement**
+2. **Start the development server**
 
    ```bash
    npm run dev
    ```
 
-3. **Configuration initiale**
+3. **Initial setup**
 
-   Ouvrez `http://localhost:3000` dans votre navigateur. L'application vous redirigera vers `/install` pour configurer :
-   - La connexion MongoDB
-   - Les informations du site
-   - Le compte administrateur initial
+   Open `http://localhost:3000` in your browser. The application will redirect you to `/install` to configure:
+   - MongoDB connection
+   - Site information
+   - Initial administrator account
 
-4. **Utilisation**
+4. **Usage**
 
-   Une fois l'installation terminée :
-   - Connectez-vous avec le compte admin créé
-   - Accédez au panel admin via `/admin`
-   - Commencez à uploader et gérer vos torrents
+   Once installation is complete:
+   - Sign in with the created admin account
+   - Access the admin panel at `/admin`
+   - Start uploading and managing your torrents
 
-## Système de plugins
+## Plugin system
 
-BittyTorrent expose un système de plugins côté client basé sur des hooks.
+BittyTorrent provides a client-side plugin system based on hooks.
 
-### Documentation complète
+### Full documentation
 
-- Français : [PLUGINS.md](PLUGINS.md)
+- French: [PLUGINS.md](PLUGINS.md)
 - English: [PLUGINS.en.md](PLUGINS.en.md)
 
-Pour éviter les duplications entre documents, la documentation plugins est centralisée dans :
+To avoid duplication across documents, plugin documentation is centralized in:
 
-- [PLUGINS.md](PLUGINS.md) (référence complète en français)
+- [PLUGINS.md](PLUGINS.md) (full reference in French)
 - [PLUGINS.en.md](PLUGINS.en.md) (complete English reference)
 
-Vous y trouverez :
+You will find:
 
-- le catalogue complet des hooks et contextes
-- l’architecture du système et son cycle d’exécution
-- les APIs `useHooks()` / `usePlugins()`
-- un guide de création de plugin (incluant le cas plugin tiers)
+- the full catalog of hooks and contexts
+- the system architecture and execution lifecycle
+- the `useHooks()` / `usePlugins()` APIs
+- a plugin creation guide (including third-party plugin use cases)
