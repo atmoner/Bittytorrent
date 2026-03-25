@@ -166,6 +166,27 @@
           Ajouter un torrent
         </NuxtLink>
 
+        <template v-for="item in visibleMenuItems" :key="item.id">
+          <a
+            v-if="item.external"
+            :href="item.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            @click="closeMenu"
+          >
+            {{ item.label }}
+          </a>
+          <NuxtLink
+            v-else
+            :to="item.url"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            @click="closeMenu"
+          >
+            {{ item.label }}
+          </NuxtLink>
+        </template>
+
         <hr class="my-3 border-gray-200" />
 
         <!-- Menu utilisateur connecté -->
@@ -212,6 +233,8 @@
 <script setup lang="ts">
   import { ref, computed, onMounted, watch } from "vue"
   import type { Category } from "~/models"
+  import type { PluginMenuItem } from "~/types/plugin"
+  import { usePlugins } from "~/composables/usePlugins"
 
   // Props
   interface Props {
@@ -220,6 +243,11 @@
   }
 
   const props = defineProps<Props>()
+  const { getMenuItems } = usePlugins()
+  const menuItems = computed<PluginMenuItem[]>(() => getMenuItems())
+  const visibleMenuItems = computed<PluginMenuItem[]>(() =>
+    menuItems.value.filter((item) => !item.requiresAuth || props.loggedInApp),
+  )
 
   // State
   const isOpen = ref(false)

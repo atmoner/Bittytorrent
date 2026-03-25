@@ -218,6 +218,7 @@
   import type { Config } from "~/models"
 
   const session = useUserSession()
+  const { executeHook } = useHooks()
 
   const form = ref<Omit<Config, "_id" | "createdAt" | "updatedAt">>({
     siteName: "",
@@ -246,6 +247,13 @@
       navigateTo("/")
       return
     }
+    await executeHook("admin:page", {
+      page: "admin-config",
+    })
+    await executeHook("admin:settings", {
+      page: "admin-config",
+      form: form.value,
+    })
     await loadConfig()
   })
 

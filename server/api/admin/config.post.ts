@@ -2,6 +2,8 @@ import { connectToDatabase } from "../../utils/mongodb"
 import { H3Event, sendError, createError, eventHandler } from "h3"
 import type { Config } from "~/models"
 
+const THEME_FILE_REGEX = /^[a-zA-Z0-9._-]+\.css$/
+
 export default eventHandler(async (event: H3Event) => {
   const session = await getUserSession(event)
   if (!session || !session.user) {
@@ -36,10 +38,23 @@ export default eventHandler(async (event: H3Event) => {
       maxUploadSize,
       allowRegistration,
       registrationClosedMessage,
+      themeCssFile,
       privateTracker,
       privateTrackerUrl,
       privateTrackerRatio,
     } = body
+
+    if (themeCssFile !== undefined) {
+      if (themeCssFile !== "" && !THEME_FILE_REGEX.test(themeCssFile)) {
+        return sendError(
+          event,
+          createError({
+            statusCode: 400,
+            statusMessage: "Le fichier de thème est invalide.",
+          }),
+        )
+      }
+    }
 
     const updateData: any = {
       updatedAt: new Date(),
@@ -54,6 +69,7 @@ export default eventHandler(async (event: H3Event) => {
       updateData.allowRegistration = allowRegistration
     if (registrationClosedMessage !== undefined)
       updateData.registrationClosedMessage = registrationClosedMessage
+    if (themeCssFile !== undefined) updateData.themeCssFile = themeCssFile
     if (privateTracker !== undefined) updateData.privateTracker = privateTracker
     if (privateTrackerUrl !== undefined)
       updateData.privateTrackerUrl = privateTrackerUrl
@@ -74,6 +90,7 @@ export default eventHandler(async (event: H3Event) => {
         allowRegistration:
           allowRegistration !== undefined ? allowRegistration : true,
         registrationClosedMessage: registrationClosedMessage || "",
+        themeCssFile: themeCssFile || "",
         createdAt: new Date(),
         updatedAt: new Date(),
         privateTracker: false,

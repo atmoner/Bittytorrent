@@ -1,6 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
     <div class="max-w-2xl w-full">
+      <div v-if="blocksAbove.length > 0" class="space-y-4 mb-6">
+        <component
+          v-for="block in blocksAbove"
+          :key="block.id"
+          :is="block.componentDef ?? block.component"
+        />
+      </div>
+
       <div class="bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-3xl font-bold text-center text-gray-900 mb-2">
           Installation - Nuxt Tracker
@@ -242,6 +250,14 @@
           </NuxtLink>
         </div>
       </div>
+
+      <div v-if="blocksBelow.length > 0" class="space-y-4 mt-6">
+        <component
+          v-for="block in blocksBelow"
+          :key="block.id"
+          :is="block.componentDef ?? block.component"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -250,6 +266,8 @@
   definePageMeta({
     auth: false,
   })
+
+  const { executeHook } = useHooks()
 
   const form = ref({
     mongoUri: "mongodb://localhost:27017",
@@ -269,8 +287,44 @@
   const connectionTested = ref(false)
   const isInstalled = ref(false)
 
+  type InstallPageBlock = {
+    id: string
+    component?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentDef?: any
+    priority?: number
+  }
+
+  const pageBlocks = ref<InstallPageBlock[]>([])
+
+  const blocksAbove = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) < 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const blocksBelow = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) >= 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const registerBlock = (block: InstallPageBlock) => {
+    if (pageBlocks.value.find((item) => item.id === block.id)) return
+    pageBlocks.value.push({
+      ...block,
+      priority: block.priority ?? 10,
+    })
+  }
+
   // Vérifier si l'application est déjà installée
   onMounted(async () => {
+    pageBlocks.value = []
+    await executeHook("page:install", {
+      page: "install",
+      registerBlock,
+    })
+
     try {
       const response = await $fetch("/api/install/check")
       isInstalled.value = response.installed

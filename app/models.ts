@@ -7,7 +7,7 @@ export interface User {
   createdAt?: Date
   app_id?: string
   pid?: string
-  role?: "admin" | "user"
+  role?: "admin" | "user" | "banned" | "premium"
   uploaded: number
   downloaded: number
   lastActivity?: Date
@@ -23,6 +23,7 @@ export interface Config {
   maxUploadSize: number
   allowRegistration: boolean
   registrationClosedMessage?: string
+  themeCssFile?: string
   privateTracker: boolean
   privateTrackerUrl: string
   createdAt?: Date

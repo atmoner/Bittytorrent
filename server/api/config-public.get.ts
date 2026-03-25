@@ -14,6 +14,7 @@ export default eventHandler(async (event: H3Event) => {
           siteName: "Nuxt Tracker",
           siteDescription: "Un tracker BitTorrent moderne",
           allowRegistration: true,
+          themeCssFile: "",
         },
       }
     }
@@ -26,6 +27,7 @@ export default eventHandler(async (event: H3Event) => {
         siteDescription: config.siteDescription,
         allowRegistration: config.allowRegistration,
         registrationClosedMessage: config.registrationClosedMessage || "",
+        themeCssFile: config.themeCssFile || "",
       },
     }
   } catch (e: any) {
@@ -34,7 +36,7 @@ export default eventHandler(async (event: H3Event) => {
       createError({
         statusCode: 500,
         statusMessage: e.message || "Erreur serveur",
-      })
+      }),
     )
   }
 })

@@ -46,3 +46,24 @@ Un tracker BitTorrent moderne construit avec Nuxt 4. L'application permet de gé
    - Connectez-vous avec le compte admin créé
    - Accédez au panel admin via `/admin`
    - Commencez à uploader et gérer vos torrents
+
+## Système de plugins
+
+BittyTorrent expose un système de plugins côté client basé sur des hooks.
+
+### Documentation complète
+
+- Français : [PLUGINS.md](PLUGINS.md)
+- English: [PLUGINS.en.md](PLUGINS.en.md)
+
+Pour éviter les duplications entre documents, la documentation plugins est centralisée dans :
+
+- [PLUGINS.md](PLUGINS.md) (référence complète en français)
+- [PLUGINS.en.md](PLUGINS.en.md) (complete English reference)
+
+Vous y trouverez :
+
+- le catalogue complet des hooks et contextes
+- l’architecture du système et son cycle d’exécution
+- les APIs `useHooks()` / `usePlugins()`
+- un guide de création de plugin (incluant le cas plugin tiers)

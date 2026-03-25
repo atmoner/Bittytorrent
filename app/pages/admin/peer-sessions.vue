@@ -245,6 +245,9 @@
   import Chip from "~/components/bittyUi/Chip.vue"
   import { formatDate } from "~/utils/dateFormat"
 
+  const { executeHook } = useHooks()
+  const { showConfirm } = useModal()
+
   definePageMeta({
     middleware: "admin",
   })
@@ -296,9 +299,9 @@
   // Vider les sessions
   async function clearPeerSessions() {
     if (
-      !confirm(
+      !(await showConfirm(
         "Êtes-vous sûr de vouloir supprimer toutes les sessions actives ?",
-      )
+      ))
     ) {
       return
     }
@@ -344,7 +347,10 @@
   }
 
   // Charger les données au montage
-  onMounted(() => {
+  onMounted(async () => {
+    await executeHook("admin:page", {
+      page: "admin-peer-sessions",
+    })
     refreshData()
   })
 </script>
