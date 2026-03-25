@@ -1,4 +1,10 @@
-import type { HookName, HookCallback, HookEntry, HookPriority } from '~/types/plugin'
+import type {
+  HookName,
+  HookCallback,
+  HookEntry,
+  HookPriority,
+  HookContext,
+} from "../../types/plugin"
 
 type HookStore = Map<HookName, HookEntry[]>
 
@@ -6,6 +12,36 @@ type HookStore = Map<HookName, HookEntry[]>
 const _hooks: HookStore = new Map()
 
 export const useHooks = () => {
+  const buildHookContext = <T = unknown>(
+    name: HookName,
+    context?: T,
+  ): HookContext => {
+    const base: HookContext = {
+      hook: name,
+      timestamp: new Date().toISOString(),
+      path: process.client ? window.location.pathname : undefined,
+    }
+
+    if (typeof context === "undefined") {
+      return base
+    }
+
+    if (
+      context !== null &&
+      typeof context === "object" &&
+      !Array.isArray(context)
+    ) {
+      return {
+        ...base,
+        ...(context as Record<string, unknown>),
+      }
+    }
+
+    return {
+      ...base,
+      payload: context as unknown,
+    }
+  }
 
   /**
    * Enregistre un callback sur un hook donné.
@@ -15,7 +51,7 @@ export const useHooks = () => {
     name: HookName,
     callback: HookCallback<T>,
     priority: HookPriority = 5,
-    pluginId?: string
+    pluginId?: string,
   ): void => {
     if (!_hooks.has(name)) {
       _hooks.set(name, [])
@@ -35,7 +71,7 @@ export const useHooks = () => {
   const removeHook = (name: HookName, callback: HookCallback): void => {
     const entries = _hooks.get(name)
     if (!entries) return
-    const index = entries.findIndex(e => e.callback === callback)
+    const index = entries.findIndex((e) => e.callback === callback)
     if (index !== -1) entries.splice(index, 1)
   }
 
@@ -44,7 +80,7 @@ export const useHooks = () => {
    */
   const removePluginHooks = (pluginId: string): void => {
     for (const [name, entries] of _hooks.entries()) {
-      const filtered = entries.filter(e => e.pluginId !== pluginId)
+      const filtered = entries.filter((e) => e.pluginId !== pluginId)
       _hooks.set(name, filtered)
     }
   }
@@ -55,12 +91,13 @@ export const useHooks = () => {
    */
   const executeHook = async <T = unknown>(
     name: HookName,
-    context?: T
+    context?: T,
   ): Promise<void> => {
     const entries = _hooks.get(name)
     if (!entries || entries.length === 0) return
+    const normalizedContext = buildHookContext(name, context)
     for (const entry of entries) {
-      await entry.callback(context)
+      await entry.callback(normalizedContext)
     }
   }
 
@@ -94,6 +131,7 @@ export const useHooks = () => {
     addHook,
     removeHook,
     removePluginHooks,
+    buildHookContext,
     executeHook,
     hookExists,
     getHookEntries,

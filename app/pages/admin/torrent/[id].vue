@@ -250,6 +250,8 @@
 
   const route = useRoute()
   const session = useUserSession()
+  const { executeHook } = useHooks()
+  const { showAlert, showConfirm } = useModal()
 
   const torrent = ref<Torrent | null>(null)
   const categories = ref<Category[]>([])
@@ -278,6 +280,10 @@
       navigateTo("/")
       return
     }
+    await executeHook("admin:page", {
+      page: "admin-torrent-detail",
+      torrentId: route.params.id,
+    })
     await Promise.all([loadTorrent(), loadCategories()])
   })
 
@@ -356,8 +362,8 @@
       // Recharger le torrent pour afficher les nouvelles données
       await loadTorrent()
 
-      // Message de succès (vous pouvez utiliser un toast ou une notification)
-      alert("Torrent mis à jour avec succès")
+      // Message de succès
+      await showAlert("Torrent mis à jour avec succès", "success")
     } catch (e: any) {
       error.value = e.data?.statusMessage || "Erreur lors de la sauvegarde"
     } finally {
@@ -369,9 +375,9 @@
     if (!torrent.value?._id) return
 
     if (
-      !confirm(
+      !(await showConfirm(
         "Êtes-vous sûr de vouloir supprimer ce torrent ? Cette action est irréversible.",
-      )
+      ))
     ) {
       return
     }

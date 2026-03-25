@@ -1,5 +1,13 @@
 <template>
   <div class="container">
+    <div v-if="blocksAbove.length > 0" class="space-y-4 mb-6">
+      <component
+        v-for="block in blocksAbove"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
+
     <!-- Étape 1: Upload du fichier -->
     <form v-if="step === 1" @submit.prevent="uploadTorrent">
       <h2 class="text-2xl font-bold mb-6">Ajouter un torrent</h2>
@@ -260,12 +268,21 @@
         </NuxtLink>
       </div>
     </div>
+
+    <div v-if="blocksBelow.length > 0" class="space-y-4 mt-6">
+      <component
+        v-for="block in blocksBelow"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
   import { ref } from "vue"
   import { formatBytes } from "~/utils/byteFormat"
 
+  const { executeHook } = useHooks()
   const step = ref(1)
   const name = ref("")
   const description = ref("")
@@ -280,6 +297,36 @@
   const selectedCategoryId = ref("")
   const categories = ref()
 
+  type UploadPageBlock = {
+    id: string
+    component?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentDef?: any
+    priority?: number
+  }
+
+  const pageBlocks = ref<UploadPageBlock[]>([])
+
+  const blocksAbove = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) < 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const blocksBelow = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) >= 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const registerBlock = (block: UploadPageBlock) => {
+    if (pageBlocks.value.find((item) => item.id === block.id)) return
+    pageBlocks.value.push({
+      ...block,
+      priority: block.priority ?? 10,
+    })
+  }
+
   // Charger les catégories au montage du composant
   const loadCategories = async () => {
     try {
@@ -290,8 +337,13 @@
     }
   }
 
-  onMounted(() => {
-    loadCategories()
+  onMounted(async () => {
+    await loadCategories()
+    pageBlocks.value = []
+    await executeHook("page:upload", {
+      page: "upload",
+      registerBlock,
+    })
   })
 
   const onFileChange = (e: Event) => {
@@ -308,6 +360,11 @@
 
     isUploading.value = true
     try {
+      await executeHook("torrent:before-upload", {
+        fileName: torrentFile.value.name,
+        categoryId: selectedCategoryId.value || null,
+      })
+
       const formData = new FormData()
       formData.append("torrent", torrentFile.value)
 
@@ -328,6 +385,10 @@
       }
       // Stocker les détails du torrent
       torrentDetails.value = uploadData.detailTorrent
+
+      await executeHook("torrent:after-upload", {
+        torrent: torrentDetails.value,
+      })
 
       // Pré-remplir les champs éditables
       name.value = uploadData.detailTorrent.name || ""

@@ -1,6 +1,15 @@
-import type { PluginMeta, RegisteredPlugin, PluginAdminPage, PluginSidebarBlock, PluginMenuItem } from '~/types/plugin'
-import type { HookName } from '~/types/plugin'
-import { useHooks } from './useHooks'
+import type {
+  PluginMeta,
+  RegisteredPlugin,
+  PluginAdminPage,
+  PluginSidebarBlock,
+  PluginFooterBlock,
+  PluginMenuItem,
+  PluginTopbarIcon,
+  PluginPage,
+} from "../../types/plugin"
+import type { HookName } from "../../types/plugin"
+import { useHooks } from "./useHooks"
 
 // Singleton partagé côté client
 const _plugins: RegisteredPlugin[] = reactive([])
@@ -12,7 +21,7 @@ export const usePlugins = () => {
    * Enregistre un plugin et attache automatiquement ses hooks.
    */
   const registerPlugin = (meta: PluginMeta, active = true): void => {
-    if (_plugins.find(p => p.id === meta.id)) {
+    if (_plugins.find((p) => p.id === meta.id)) {
       console.warn(`[Plugins] Plugin "${meta.id}" already registered.`)
       return
     }
@@ -33,14 +42,16 @@ export const usePlugins = () => {
       }
     }
 
-    console.info(`[Plugins] "${meta.name}" v${meta.version} ${active ? 'activé' : 'désactivé'}.`)
+    console.info(
+      `[Plugins] "${meta.name}" v${meta.version} ${active ? "activé" : "désactivé"}.`,
+    )
   }
 
   /**
    * Active un plugin et re-branche ses hooks.
    */
   const activatePlugin = (id: string): void => {
-    const plugin = _plugins.find(p => p.id === id)
+    const plugin = _plugins.find((p) => p.id === id)
     if (!plugin) return
     plugin.active = true
     if (plugin.hooks) {
@@ -56,7 +67,7 @@ export const usePlugins = () => {
    * Désactive un plugin et retire ses hooks.
    */
   const deactivatePlugin = (id: string): void => {
-    const plugin = _plugins.find(p => p.id === id)
+    const plugin = _plugins.find((p) => p.id === id)
     if (!plugin) return
     plugin.active = false
     removePluginHooks(id)
@@ -66,7 +77,7 @@ export const usePlugins = () => {
    * Toggle l'état actif/inactif d'un plugin.
    */
   const togglePlugin = (id: string): void => {
-    const plugin = _plugins.find(p => p.id === id)
+    const plugin = _plugins.find((p) => p.id === id)
     if (!plugin) return
     if (plugin.active) {
       deactivatePlugin(id)
@@ -76,18 +87,19 @@ export const usePlugins = () => {
   }
 
   const getPlugin = (id: string): RegisteredPlugin | undefined => {
-    return _plugins.find(p => p.id === id)
+    return _plugins.find((p) => p.id === id)
   }
 
   const getAllPlugins = (): RegisteredPlugin[] => _plugins
 
-  const getActivePlugins = (): RegisteredPlugin[] => _plugins.filter(p => p.active)
+  const getActivePlugins = (): RegisteredPlugin[] =>
+    _plugins.filter((p) => p.active)
 
   /**
    * Collecte et fusionne tous les adminPages des plugins actifs.
    */
   const getAdminPages = (): PluginAdminPage[] => {
-    return getActivePlugins().flatMap(p => p.adminPages ?? [])
+    return getActivePlugins().flatMap((p) => p.adminPages ?? [])
   }
 
   /**
@@ -96,7 +108,17 @@ export const usePlugins = () => {
    */
   const getSidebarBlocks = (): PluginSidebarBlock[] => {
     return getActivePlugins()
-      .flatMap(p => p.sidebarBlocks ?? [])
+      .flatMap((p) => p.sidebarBlocks ?? [])
+      .sort((a, b) => (a.priority ?? 5) - (b.priority ?? 5))
+  }
+
+  /**
+   * Collecte et fusionne tous les blocs footer des plugins actifs,
+   * triés par priorité.
+   */
+  const getFooterBlocks = (): PluginFooterBlock[] => {
+    return getActivePlugins()
+      .flatMap((p) => p.footerBlocks ?? [])
       .sort((a, b) => (a.priority ?? 5) - (b.priority ?? 5))
   }
 
@@ -106,7 +128,27 @@ export const usePlugins = () => {
    */
   const getMenuItems = (): PluginMenuItem[] => {
     return getActivePlugins()
-      .flatMap(p => p.menuItems ?? [])
+      .flatMap((p) => p.menuItems ?? [])
+      .sort((a, b) => (a.priority ?? 5) - (b.priority ?? 5))
+  }
+
+  /**
+   * Collecte et fusionne toutes les icônes topbar des plugins actifs,
+   * triées par priorité.
+   */
+  const getTopbarIcons = (): PluginTopbarIcon[] => {
+    return getActivePlugins()
+      .flatMap((p) => p.topbarIcons ?? [])
+      .sort((a, b) => (a.priority ?? 5) - (b.priority ?? 5))
+  }
+
+  /**
+   * Collecte et fusionne toutes les pages plugins actives,
+   * triées par priorité.
+   */
+  const getPluginPages = (): PluginPage[] => {
+    return getActivePlugins()
+      .flatMap((p) => p.pluginPages ?? [])
       .sort((a, b) => (a.priority ?? 5) - (b.priority ?? 5))
   }
 
@@ -120,7 +162,10 @@ export const usePlugins = () => {
     getActivePlugins,
     getAdminPages,
     getSidebarBlocks,
+    getFooterBlocks,
     getMenuItems,
+    getTopbarIcons,
+    getPluginPages,
     plugins: _plugins,
   }
 }

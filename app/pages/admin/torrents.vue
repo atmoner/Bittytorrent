@@ -115,6 +115,8 @@
   import { formatDate } from "~/utils/dateFormat"
 
   const session = useUserSession()
+  const { executeHook } = useHooks()
+  const { showAlert, showConfirm } = useModal()
 
   const torrents = ref<Torrent[]>([])
   const loading = ref(true)
@@ -130,6 +132,9 @@
       navigateTo("/")
       return
     }
+    await executeHook("admin:page", {
+      page: "admin-torrents",
+    })
     await loadTorrents()
   })
 
@@ -147,7 +152,9 @@
   }
 
   async function deleteTorrent(torrentId: string) {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer ce torrent ?")) {
+    if (
+      !(await showConfirm("Êtes-vous sûr de vouloir supprimer ce torrent ?"))
+    ) {
       return
     }
 
@@ -158,7 +165,10 @@
       })
       await loadTorrents()
     } catch (e: any) {
-      alert(e.data?.statusMessage || "Erreur lors de la suppression")
+      await showAlert(
+        e.data?.statusMessage || "Erreur lors de la suppression",
+        "error",
+      )
     }
   }
 

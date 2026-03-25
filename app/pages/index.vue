@@ -1,5 +1,16 @@
 <template>
   <section class="text-gray-600 body-font">
+    <div
+      v-if="blocksAbove.length > 0"
+      class="container mx-auto px-5 pt-8 space-y-4"
+    >
+      <component
+        v-for="block in blocksAbove"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
+
     <!-- Loading state -->
     <div
       v-if="configLoading"
@@ -45,13 +56,63 @@
     <div class="container mx-auto px-5 py-12">
       <TorrentsList />
     </div>
+
+    <div
+      v-if="blocksBelow.length > 0"
+      class="container mx-auto px-5 pb-8 space-y-4"
+    >
+      <component
+        v-for="block in blocksBelow"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
   </section>
 </template>
 <script setup lang="ts">
   import LoginForm from "~/components/LoginForm.vue"
   import TorrentsList from "~/components/TorrentsList.vue"
 
+  const { executeHook } = useHooks()
   const { config, configLoading } = useConfig()
 
+  type HomePageBlock = {
+    id: string
+    component?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentDef?: any
+    priority?: number
+  }
+
+  const pageBlocks = ref<HomePageBlock[]>([])
+
+  const blocksAbove = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) < 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const blocksBelow = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) >= 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const registerBlock = (block: HomePageBlock) => {
+    if (pageBlocks.value.find((item) => item.id === block.id)) return
+    pageBlocks.value.push({
+      ...block,
+      priority: block.priority ?? 10,
+    })
+  }
+
   const siteName = computed(() => config.value?.siteName)
+
+  onMounted(async () => {
+    pageBlocks.value = []
+    await executeHook("page:home", {
+      page: "home",
+      registerBlock,
+    })
+  })
 </script>

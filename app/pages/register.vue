@@ -1,5 +1,13 @@
 <template>
   <div class="flex flex-col items-center justify-center">
+    <div v-if="blocksAbove.length > 0" class="w-full max-w-md space-y-4 mb-6">
+      <component
+        v-for="block in blocksAbove"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
+
     <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
       <h2 class="text-2xl font-bold mb-6 text-center">Inscription</h2>
 
@@ -59,6 +67,14 @@
       </p>
       <div v-if="error" class="text-red-600 mt-2 text-center">{{ error }}</div>
     </div>
+
+    <div v-if="blocksBelow.length > 0" class="w-full max-w-md space-y-4 mt-6">
+      <component
+        v-for="block in blocksBelow"
+        :key="block.id"
+        :is="block.componentDef ?? block.component"
+      />
+    </div>
   </div>
 </template>
 
@@ -72,7 +88,47 @@
   const allowRegistration = ref(true)
   const registrationClosedMessage = ref("")
 
+  type RegisterPageBlock = {
+    id: string
+    component?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentDef?: any
+    priority?: number
+  }
+
+  const pageBlocks = ref<RegisterPageBlock[]>([])
+
+  const blocksAbove = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) < 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const blocksBelow = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) >= 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const registerBlock = (block: RegisterPageBlock) => {
+    if (pageBlocks.value.find((item) => item.id === block.id)) return
+    pageBlocks.value.push({
+      ...block,
+      priority: block.priority ?? 10,
+    })
+  }
+
   const { config } = useConfig()
+  const { executeHook } = useHooks()
+
+  onMounted(async () => {
+    pageBlocks.value = []
+    await executeHook("page:register", {
+      page: "register",
+      registrationEnabled: !!config.value?.allowRegistration,
+      registerBlock,
+    })
+  })
 
   const register = async () => {
     try {
@@ -90,6 +146,10 @@
         error.value = data.error || "Erreur d'inscription"
         return
       }
+      await executeHook("user:register", {
+        username: username.value,
+        email: email.value,
+      })
       // Redirige vers la page de login après inscription réussie
       window.location.href = "/login"
     } catch (e: any) {

@@ -1,8 +1,14 @@
 <template>
-  <div
-    class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-8 px-4"
-  >
+  <div class="min-h-screen py-8 px-4">
     <div class="max-w-7xl mx-auto">
+      <div v-if="blocksAbove.length > 0" class="space-y-4 mb-8">
+        <component
+          v-for="block in blocksAbove"
+          :key="block.id"
+          :is="block.componentDef ?? block.component"
+        />
+      </div>
+
       <!-- Header -->
       <div class="text-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">
@@ -429,6 +435,14 @@
           </NuxtLink>
         </div>
       </div>
+
+      <div v-if="blocksBelow.length > 0" class="space-y-4 mt-8">
+        <component
+          v-for="block in blocksBelow"
+          :key="block.id"
+          :is="block.componentDef ?? block.component"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -437,6 +451,7 @@
   import { ref, onMounted } from "vue"
   import { formatDate } from "~/utils/dateFormat"
   import { formatBytes } from "~/utils/byteFormat"
+  const { executeHook } = useHooks()
 
   interface Stats {
     torrents: {
@@ -460,6 +475,36 @@
   const stats = ref<Stats | null>(null)
   const loading = ref(true)
   const error = ref<string | null>(null)
+
+  type StatsPageBlock = {
+    id: string
+    component?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    componentDef?: any
+    priority?: number
+  }
+
+  const pageBlocks = ref<StatsPageBlock[]>([])
+
+  const blocksAbove = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) < 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const blocksBelow = computed(() =>
+    pageBlocks.value
+      .filter((block) => (block.priority ?? 10) >= 10)
+      .sort((a, b) => (a.priority ?? 10) - (b.priority ?? 10)),
+  )
+
+  const registerBlock = (block: StatsPageBlock) => {
+    if (pageBlocks.value.find((item) => item.id === block.id)) return
+    pageBlocks.value.push({
+      ...block,
+      priority: block.priority ?? 10,
+    })
+  }
 
   const formatSize = (bytes: number): string => {
     return formatBytes(bytes)
@@ -493,5 +538,12 @@
     }
   }
 
-  onMounted(fetchStats)
+  onMounted(async () => {
+    pageBlocks.value = []
+    await executeHook("page:stats", {
+      page: "stats",
+      registerBlock,
+    })
+    await fetchStats()
+  })
 </script>

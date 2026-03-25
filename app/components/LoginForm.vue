@@ -38,14 +38,13 @@
 
 <script setup lang="ts">
   import { ref } from "vue"
-  import { useRouter } from "vue-router"
-  const { loggedIn, user, fetch: _fetch, session } = useUserSession()
+  const { loggedIn, fetch: _fetch } = useUserSession()
+  const { executeHook } = useHooks()
 
   const emit = defineEmits(["login-success"])
   const email = ref("contact.atmoner@gmail.com")
   const password = ref("azerty")
   const error = ref("")
-  const router = useRouter()
 
   onMounted(async () => {
     // Si déjà connecté, émettre l'événement de succès de connexion
@@ -69,8 +68,10 @@
         return
       }
 
-      //router.push("/torrents")
       _fetch() // Met à jour le state de la session utilisateur côté client
+      await executeHook("user:login", {
+        email: email.value,
+      })
       await navigateTo("/account")
       emit("login-success")
     } catch (e: any) {

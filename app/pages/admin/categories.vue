@@ -198,6 +198,8 @@
 
 <script setup>
   import { formatDate } from "~/utils/dateFormat"
+  const { executeHook } = useHooks()
+  const { showAlert, showConfirm } = useModal()
 
   definePageMeta({
     middleware: "admin",
@@ -244,7 +246,7 @@
       cancelEdit()
     } catch (error) {
       console.error("Erreur:", error)
-      alert(error.data?.message || "Une erreur est survenue")
+      await showAlert(error.data?.message || "Une erreur est survenue", "error")
     } finally {
       loading.value = false
     }
@@ -272,9 +274,9 @@
 
   const deleteCategory = async (categoryId, categoryName) => {
     if (
-      !confirm(
+      !(await showConfirm(
         `Êtes-vous sûr de vouloir supprimer la catégorie "${categoryName}" ?`,
-      )
+      ))
     ) {
       return
     }
@@ -286,11 +288,14 @@
       await loadCategories()
     } catch (error) {
       console.error("Erreur:", error)
-      alert(error.data?.message || "Une erreur est survenue")
+      await showAlert(error.data?.message || "Une erreur est survenue", "error")
     }
   }
 
-  onMounted(() => {
+  onMounted(async () => {
+    await executeHook("admin:page", {
+      page: "admin-categories",
+    })
     loadCategories()
   })
 </script>

@@ -114,6 +114,40 @@
         </NuxtLink>
       </nav>
 
+      <!-- Icônes plugins topbar -->
+      <div class="hidden md:flex items-center space-x-2 mr-4">
+        <button
+          v-for="icon in topbarIcons"
+          :key="icon.id"
+          :title="icon.title"
+          class="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-indigo-600 transition-colors"
+          @click="handleTopbarIconClick(icon)"
+        >
+          <!-- <BittyUiIcon :name="icon.icon" :size="22" /> -->{{ icon.title }}
+        </button>
+      </div>
+
+      <!-- Liens menu plugins -->
+      <div
+        v-if="visibleMenuItems.length"
+        class="hidden md:flex items-center space-x-4"
+      >
+        <template v-for="item in visibleMenuItems" :key="item.id">
+          <a
+            v-if="item.external"
+            :href="item.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mr-5 hover:text-gray-900"
+          >
+            {{ item.label }}
+          </a>
+          <NuxtLink v-else :to="item.url" class="mr-5 hover:text-gray-900">
+            {{ item.label }}
+          </NuxtLink>
+        </template>
+      </div>
+
       <!-- Desktop User Menu -->
       <div v-if="loggedInApp" class="hidden md:flex items-center space-x-4">
         <NuxtLink to="/account" class="mr-5 hover:text-gray-900">
@@ -149,10 +183,37 @@
 <script setup lang="ts">
   import { computed, ref, onMounted } from "vue"
   import type { Category } from "~/models"
+  import type { PluginTopbarIcon, PluginMenuItem } from "../../types/plugin"
+  import { usePlugins } from "~/composables/usePlugins"
+  import { useSidebar } from "~/composables/useSidebar"
 
-  const { loggedIn: _loggedIn, user, session } = useUserSession()
+  type SessionUser = {
+    role?: "admin" | "user"
+  }
+
+  const { executeHook } = useHooks()
+  const { getTopbarIcons, getMenuItems } = usePlugins()
+  const { toggleSidebar } = useSidebar()
+
+  const handleTopbarIconClick = (icon: PluginTopbarIcon) => {
+    if (icon.action === "toggle-sidebar") {
+      toggleSidebar()
+    } else if (icon.action === "open-url" && icon.url) {
+      window.open(icon.url, "_blank")
+    }
+  }
+
+  const { loggedIn: _loggedIn, user } = useUserSession()
   const loggedInApp = computed(() => _loggedIn.value)
-  const isAdmin = computed(() => session.value?.user?.role === "admin")
+  const sessionUser = computed<SessionUser | null>(
+    () => (user.value as SessionUser | null) ?? null,
+  )
+  const isAdmin = computed(() => sessionUser.value?.role === "admin")
+  const topbarIcons = computed(() => getTopbarIcons())
+  const menuItems = computed<PluginMenuItem[]>(() => getMenuItems())
+  const visibleMenuItems = computed<PluginMenuItem[]>(() =>
+    menuItems.value.filter((item) => !item.requiresAuth || loggedInApp.value),
+  )
 
   // Gestion des catégories
   const categories = ref<Category[]>([])
@@ -173,7 +234,20 @@
     }
   }
 
-  onMounted(() => {
+  onMounted(async () => {
     loadCategories()
+    await executeHook("menu:main", {
+      loggedIn: loggedInApp.value,
+      isAdmin: isAdmin.value,
+    })
+    await executeHook("menu:user", {
+      loggedIn: loggedInApp.value,
+      isAdmin: isAdmin.value,
+    })
+    if (isAdmin.value) {
+      await executeHook("admin:menu", {
+        page: "header-menu",
+      })
+    }
   })
 </script>

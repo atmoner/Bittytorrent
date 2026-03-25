@@ -6,7 +6,7 @@ export default eventHandler(async (event: H3Event) => {
   if (!session || !session.user) {
     return sendError(
       event,
-      createError({ statusCode: 401, statusMessage: "Non autorisé." })
+      createError({ statusCode: 401, statusMessage: "Non autorisé." }),
     )
   }
 
@@ -22,7 +22,7 @@ export default eventHandler(async (event: H3Event) => {
       createError({
         statusCode: 403,
         statusMessage: "Accès interdit - Admin requis.",
-      })
+      }),
     )
   }
 
@@ -37,6 +37,7 @@ export default eventHandler(async (event: H3Event) => {
         contactEmail: "admin@example.com",
         maxUploadSize: 10485760, // 10 MB
         allowRegistration: true,
+        themeCssFile: "",
         createdAt: new Date(),
         updatedAt: new Date(),
       }
@@ -51,7 +52,7 @@ export default eventHandler(async (event: H3Event) => {
       createError({
         statusCode: 500,
         statusMessage: e.message || "Erreur serveur",
-      })
+      }),
     )
   }
 })

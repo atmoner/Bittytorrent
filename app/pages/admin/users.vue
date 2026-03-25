@@ -81,6 +81,8 @@
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
+                  <option value="banned">Banned</option>
+                  <option value="premium">Premium</option>
                 </select>
                 <span
                   v-else
@@ -139,6 +141,8 @@
   import { formatDate } from "~/utils/dateFormat"
 
   const session = useUserSession()
+  const { executeHook } = useHooks()
+  const { showAlert, showConfirm } = useModal()
 
   const users = ref<User[]>([])
   const loading = ref(true)
@@ -147,7 +151,8 @@
   const editForm = ref({
     username: "",
     email: "",
-    role: "user" as "admin" | "user",
+    //role: "user" as "admin" | "user",
+    role: "user" as User["role"],
   })
 
   // Redirection si non admin
@@ -156,6 +161,10 @@
       navigateTo("/login")
       return
     }
+
+    await executeHook("admin:page", {
+      page: "admin-users",
+    })
 
     await loadUsers()
   })
@@ -203,12 +212,19 @@
       await loadUsers()
       cancelEdit()
     } catch (e: any) {
-      alert(e.data?.statusMessage || "Erreur lors de la mise à jour")
+      await showAlert(
+        e.data?.statusMessage || "Erreur lors de la mise à jour",
+        "error",
+      )
     }
   }
 
   async function deleteUser(userId: string) {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+    if (
+      !(await showConfirm(
+        "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+      ))
+    ) {
       return
     }
 
@@ -219,7 +235,10 @@
       })
       await loadUsers()
     } catch (e: any) {
-      alert(e.data?.statusMessage || "Erreur lors de la suppression")
+      await showAlert(
+        e.data?.statusMessage || "Erreur lors de la suppression",
+        "error",
+      )
     }
   }
 </script>

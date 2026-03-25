@@ -1,6 +1,6 @@
 import { connectToDatabase } from "../../utils/mongodb"
 import { defineEventHandler } from "h3"
-import type { PluginState } from "~/types/plugin"
+import type { PluginState } from "../../../types/plugin"
 
 /**
  * GET /api/plugins
@@ -10,10 +10,13 @@ import type { PluginState } from "~/types/plugin"
 export default defineEventHandler(async (): Promise<PluginState[]> => {
   try {
     const db = await connectToDatabase()
-    const states = await db.collection<PluginState>('plugin_states').find({}).toArray()
-    return states.map(s => ({ id: s.id, active: s.active }))
+    const states = await db
+      .collection<PluginState>("plugin_states")
+      .find({})
+      .toArray()
+    return states.map((s) => ({ id: s.id, active: s.active }))
   } catch (e) {
-    console.error('[API /api/plugins] Erreur MongoDB :', e)
+    console.error("[API /api/plugins] Erreur MongoDB :", e)
     return []
   }
 })

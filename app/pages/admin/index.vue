@@ -124,6 +124,33 @@
           <p class="text-gray-600">Modifier les paramètres généraux du site</p>
         </NuxtLink>
 
+        <!-- Card: Gestion du thème -->
+        <NuxtLink
+          to="/admin/themes"
+          class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+        >
+          <div class="flex items-center mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-pink-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3-3 3 3"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold mb-2">Thème du site</h2>
+          <p class="text-gray-600">
+            Choisir un fichier CSS de thème pour personnaliser l'interface
+          </p>
+        </NuxtLink>
+
         <!-- Card: Gestion des plugins -->
         <NuxtLink
           to="/admin/plugins"
@@ -146,7 +173,9 @@
             </svg>
           </div>
           <h2 class="text-xl font-semibold mb-2">Gestion des plugins</h2>
-          <p class="text-gray-600">Activer, désactiver et configurer les plugins du site</p>
+          <p class="text-gray-600">
+            Activer, désactiver et configurer les plugins du site
+          </p>
         </NuxtLink>
 
         <!-- Card: Système Anti-Triche -->
@@ -182,17 +211,31 @@
 
 <script setup lang="ts">
   const session = useUserSession()
+  const { executeHook } = useHooks()
+
+  type SessionUser = {
+    role?: "admin" | "user"
+  }
+
+  const sessionUser = computed<SessionUser | null>(
+    () => (session.user.value as SessionUser | null) ?? null,
+  )
 
   const isAdmin = computed(() => {
-    return session.user.value?.role === "admin"
+    return sessionUser.value?.role === "admin"
   })
 
   // Redirection si non connecté
-  onMounted(() => {
+  onMounted(async () => {
     console.log("isAdmin:", session.user.value)
 
     if (!session.user.value) {
       navigateTo("/login")
+      return
     }
+
+    await executeHook("admin:page", {
+      page: "admin-index",
+    })
   })
 </script>
